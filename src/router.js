@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DashboardLayout from '@/layout/DashboardLayout'
+// import DashboardLayout from '@/layout/DashboardLayout'
+import ApkAdmin from '@/views/ApkAdmin/ApkAdmin'
 import AuthLayout from '@/layout/AuthLayout'
 Vue.use(Router)
 
@@ -10,38 +11,72 @@ export default new Router({
     {
       path: '/',
       redirect: 'dashboard',
-      component: DashboardLayout,
+      component: ApkAdmin,
       children: [
         {
           path: '/dashboard',
           name: 'dashboard',
-          // route level code-splitting
-          // this generates a separate chunk (about.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
-          component: () => import(/* webpackChunkName: "demo" */ './views/Dashboard.vue')
+          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Dashboard.vue')
         },
         {
-          path: '/icons',
-          name: 'icons',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Icons.vue')
+          path: '/vouchers',
+          name: 'vouchers',
+          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/Vouchers.vue'),
         },
         {
-          path: '/profile',
-          name: 'profile',
-          component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
+          path: '/leads',
+          name: 'leads',
+          component: () => import(/* webpackChunkName: "leads" */ '@/views/ApkAdmin/components/Leads.vue')
         },
         {
-          path: '/maps',
-          name: 'maps',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Maps.vue')
+          path: '/careers',
+          name: 'careers',
+          component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue')
         },
         {
-          path: '/tables',
-          name: 'tables',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Tables.vue')
+          path: '/institutions',
+          name: 'institutions',
+          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Institutions.vue')
+        },
+        {
+          path: '/programs',
+          name: 'programs',
+          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Programs.vue')
         }
       ]
     },
+    // {
+    //   path: '/',
+    //   redirect: 'dashboard',
+    //   component: DashboardLayout,
+    //   children: [
+    //     {
+    //       path: '/dashboard',
+    //       name: 'dashboard',
+    //       component: () => import(/* webpackChunkName: "demo" */ './views/Dashboard.vue')
+    //     },
+    //     {
+    //       path: '/icons',
+    //       name: 'icons',
+    //       component: () => import(/* webpackChunkName: "demo" */ './views/Icons.vue')
+    //     },
+    //     {
+    //       path: '/profile',
+    //       name: 'profile',
+    //       component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
+    //     },
+    //     {
+    //       path: '/maps',
+    //       name: 'maps',
+    //       component: () => import(/* webpackChunkName: "demo" */ './views/Maps.vue')
+    //     },
+    //     {
+    //       path: '/tables',
+    //       name: 'tables',
+    //       component: () => import(/* webpackChunkName: "demo" */ './views/Tables.vue')
+    //     }
+    //   ]
+    // },
     {
       path: '/',
       redirect: 'login',

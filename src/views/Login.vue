@@ -37,7 +37,11 @@
                                 <span class="text-muted">Remember me</span>
                             </base-checkbox>
                             <div class="text-center">
-                                <base-button type="primary" class="my-4">Sign in</base-button>
+                                <base-button 
+                                    type="primary"
+                                    class="my-4"
+                                    @click="login"
+                                >Sign in</base-button>
                             </div>
                         </form>
                     </div>
@@ -50,19 +54,40 @@
                         <router-link to="/register" class="text-light"><small>Create new account</small></router-link>
                     </div>
                 </div>
+                 <base-button 
+                                    type="primary"
+                                    class="my-4"
+                                    @click="buscar"
+                                >buscar</base-button>
             </div>
         </div>
 </template>
 <script>
+  import * as auth from '@/api/auth';
+
   export default {
     name: 'login',
     data() {
       return {
         model: {
-          email: '',
-          password: ''
+          email: 'apk@admin.com',
+          password: 'APK2021ADMIN'
         }
       }
+    },
+    methods: {
+        login () {
+            auth.login(this.model.email, this.model.password)
+                .then(res => {
+                    console.log(res)
+                })
+                .catch( err => {
+                    console.log(err.response)
+                })
+        },
+        buscar () {
+        
+        }
     }
   }
 </script>
