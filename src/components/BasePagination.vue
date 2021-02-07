@@ -51,7 +51,7 @@ export default {
     },
     align: {
       type: String,
-      default: "",
+      default: "center",
       description: "Pagination alignment (e.g center|start|end)"
     }
   },

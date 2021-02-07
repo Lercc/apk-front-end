@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow"
+  <div class="card shadow-sm"
        :class="type === 'dark' ? 'bg-default': ''">
     <div class="card-header border-0"
          :class="type === 'dark' ? 'bg-transparent': ''">
@@ -9,101 +9,55 @@
             {{title}}
           </h3>
         </div>
-        <div class="col text-right">
-          <base-button type="primary" size="sm">See all</base-button>
-        </div>
       </div>
     </div>
 
-    <div class="table-responsive">
+    <!-- LOADER -->
+    <div class="bg-secondary d-flex justify-content-center py-9" v-show="dataTableLoading">
+    <!-- <div v-show="dataTableLoading"> -->
+      <hash-loader :loading="dataTableLoading" :size = "120"  :color="'#2B2D64'"/>
+    </div>
+    <!-- END LOADER -->
+
+    <div class="table-responsive" v-show="!dataTableLoading">
       <base-table class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
                   tbody-classes="list"
                   :data="tableData">
         <template slot="columns">
-          <th>Project</th>
-          <th>Budget</th>
-          <th>Status</th>
-          <th>Users</th>
-          <th>Completion</th>
-          <th>
-            <div class="btn btn-primary" @click="cargardatos" >eng</div>
-          </th>
+          <th>id</th>
+          <th>dni</th>
+          <th>cliente</th>
+          <th>celular</th>
+          <th>correo</th>
+          <th>&nbsp;</th>
         </template>
 
+
         <template slot-scope="{row}">
+          <th scope="row">{{row.id}}</th>
+          <th scope="row">{{row.dni}}</th>
+          <th scope="row">{{row.name}} {{row.surnames}}</th>
+          <th scope="row">{{row.mobile}}</th>
+          <th scope="row">{{row.email}}</th>
           <th scope="row">
-            <div class="media align-items-center">
-              <a href="#" class="avatar rounded-circle mr-3">
-                <img alt="Image placeholder" :src="row.img">
-              </a>
-              <div class="media-body">
-                <span class="name mb-0 text-sm">{{row.title}}</span>
-              </div>
-            </div>
+            <div class="btn btn-sm btn-primary">VER PAGOS</div>
           </th>
-          <td class="budget">
-            {{row.budget}}
-          </td>
-          <td>
-            <badge class="badge-dot mr-4" :type="row.statusType">
-              <i :class="`bg-${row.statusType}`"></i>
-              <span class="status">{{row.status}}</span>
-            </badge>
-          </td>
-          <td>
-            <div class="avatar-group">
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
-              </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Romina Hadid">
-                <img alt="Image placeholder" src="img/theme/team-2-800x800.jpg">
-              </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Alexander Smith">
-                <img alt="Image placeholder" src="img/theme/team-3-800x800.jpg">
-              </a>
-              <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
-                <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
-              </a>
-            </div>
-          </td>
-
-          <td>
-            <div class="d-flex align-items-center">
-              <span class="completion mr-2">{{row.completion}}%</span>
-              <div>
-                <base-progress :type="row.statusType"
-                               :show-percentage="false"
-                               class="pt-0"
-                               :value="row.completion"/>
-              </div>
-            </div>
-          </td>
-
-          <td class="text-right">
-            <base-dropdown class="dropdown"
-                           position="right">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-
-              <template>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </template>
-            </base-dropdown>
-          </td>
-
         </template>
 
       </base-table>
     </div>
 
     <div class="card-footer d-flex justify-content-end"
-         :class="type === 'dark' ? 'bg-transparent': ''">
-      <base-pagination total="30"></base-pagination>
+         :class="type === 'dark' ? 'bg-transparent': ''"
+         v-show="!dataTableLoading">
+      <base-pagination 
+        :pageCount="meta.last_page" 
+        :perPage="meta.per_page"
+        :value="meta.current_page"
+        @input="cargardatos"
+      ></base-pagination>
     </div>
 
   </div>
@@ -125,63 +79,37 @@
         data: [] ,
         links: [] ,
         meta: [] ,
-        tableData: [
-          {
-            img: 'img/theme/bootstrap.jpg',
-            title: 'Arr',
-            budget: '$2500 USD',
-            status: 'pending',
-            statusType: 'warning',
-            completion: 60
-          },
-          {
-            img: 'img/theme/angular.jpg',
-            title: 'Angular Now UI Kit PRO',
-            budget: '$1800 USD',
-            status: 'completed',
-            statusType: 'success',
-            completion: 100
-          },
-          {
-            img: 'img/theme/sketch.jpg',
-            title: 'Black Dashboard',
-            budget: '$3150 USD',
-            status: 'delayed',
-            statusType: 'danger',
-            completion: 72
-          },
-          {
-            img: 'img/theme/react.jpg',
-            title: 'React Material Dashboard',
-            budget: '$4400 USD',
-            status: 'on schedule',
-            statusType: 'info',
-            completion: 90
-          },
-          {
-            img: 'img/theme/vue.jpg',
-            title: 'Vue Paper UI Kit PRO',
-            budget: '$2200 USD',
-            status: 'completed',
-            statusType: 'success',
-            completion: 100
-          }
-        ]
+        status:'',
+        //
+        tableData: [],
+        //
+        dataTableLoading: true,
       }
     },
-   methods: {
-     cargardatos () {
-     
-      getClients()
-        .then( res => {
-         if (res.status == 200) {
-          this.data = res.data.data
-          this.links = res.data.links
-          this.meta = res.data.meta
-          console.log(res.data)
-         }
-        })
-     }
+    beforeMount() {
+      this.cargardatos()
+    },
+    methods: {
+      cargardatos (pPage) {
+        getClients(pPage)
+          .then( res => {
+            if (res.status == 200) {
+              this.status = 200
+              this.data = res.data.data
+              this.links = res.data.links
+              this.meta = res.data.meta
+
+              this.tableData = res.data.data.map( m => m.attributes )
+            }
+          }).catch( err => {
+            if(err.response){
+              console.log(err.response.status)
+              this.status = err.response.status
+            }
+          }).finally( () => {
+            console.log(this.status)
+          }) 
+      },
    }
   }
 </script>
