@@ -9,7 +9,7 @@ Vue.use(Vuex);
 // IMPORTAR MODULOS:
 import api from './modules/api';
 import token from './modules/token';
-// import areas from './modules/areas';
+import client from './modules/client';
 // import carreras from './modules/carreras';
 // import ciclos from './modules/ciclos';
 // import estudiante from './modules/estudiante';
@@ -22,7 +22,7 @@ export default new Vuex.Store({
   modules: {
     api,
     token,
-    // areas,
+    client,
     // carreras,
     // ciclos,
     // estudiante,

@@ -19,9 +19,9 @@ export default new Router({
           component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Dashboard.vue')
         },
         {
-          path: '/vouchers',
-          name: 'vouchers',
-          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/Vouchers.vue'),
+          path: '/gestion-voucher',
+          name: 'gestion de voucher',
+          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/GestionVoucher.vue'),
         },
         {
           path: '/leads',

@@ -79,6 +79,17 @@ $green:   #2dce89 !default;
 $teal:    #11cdef !default;
 $cyan:    #2bffc6 !default;
 
+/*
+** apk variables
+*/
+$apkclielo: rgb(64,182,230);
+$apkvioleta: rgb(104,91,199);
+$apknaranja: rgb(255,173,0);
+$apkfuccia: rgb(239,74,129);
+$apkclielov2: rgb(100,204,201);
+/*
+** end apk variables
+*/
 $colors: () !default;
 $colors: map-merge((
   "blue":       $blue,

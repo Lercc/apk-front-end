@@ -4,7 +4,7 @@ import store from '@/store'
 const API_URL = store.state.api.url;
 const TOKEN = store.state.token.token
 
-function getClients(pPage=null) {
+function getClients(pPage=1) {
     const REQUEST = `api/clients?page=${pPage}`
     const headers = { Authorization : `Bearer ${TOKEN}`}
     return axios.get(`${API_URL}/${REQUEST}`, { headers })

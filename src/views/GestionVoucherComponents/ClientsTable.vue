@@ -6,16 +6,21 @@
       <div class="row align-items-center">
         <div class="col">
           <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''">
-            {{title}}
+            Tabla de Clientes
           </h3>
+        </div>
+        <div class="col d-flex justify-content-end" >
+          <base-button type="success" size="sm" class="d-flex">
+            <b-icon icon="person-plus-fill" font-scale="2" />
+            <span class="align-self-center">NUEVO</span>
+          </base-button>
         </div>
       </div>
     </div>
 
     <!-- LOADER -->
-    <div class="bg-secondary d-flex justify-content-center py-9" v-show="dataTableLoading">
-    <!-- <div v-show="dataTableLoading"> -->
-      <hash-loader :loading="dataTableLoading" :size = "120"  :color="'#2B2D64'"/>
+    <div class="bg-secondary d-flex justify-content-center  py-8" v-if="dataTableLoading">
+      <pulse-loader :loading="dataTableLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
     </div>
     <!-- END LOADER -->
 
@@ -42,7 +47,13 @@
           <th scope="row">{{row.mobile}}</th>
           <th scope="row">{{row.email}}</th>
           <th scope="row">
-            <div class="btn btn-sm btn-primary">VER PAGOS</div>
+            <b-button variant="outline-primary" size="sm"
+                      @click="clientDetails(row)"
+            >
+              <b-icon icon="list-task
+" ></b-icon>
+              <a>VER DETALLES</a>
+            </b-button>
           </th>
         </template>
 
@@ -51,7 +62,8 @@
 
     <div class="card-footer d-flex justify-content-end"
          :class="type === 'dark' ? 'bg-transparent': ''"
-         v-show="!dataTableLoading">
+          v-if="!dataTableLoading"
+         >
       <base-pagination 
         :pageCount="meta.last_page" 
         :perPage="meta.per_page"
@@ -64,10 +76,13 @@
 </template>
 <script>
   // import axios from 'axios';
-  import {getClients} from '@/api/clients'
+  import { getClients } from '@/api/clients'
+  import swal from 'sweetalert';
+  import { mapMutations } from 'vuex';
+  // import store from '@/store';
 
   export default {
-    name: 'projects-table',
+    name: 'client-table',
     props: {
       type: {
         type: String
@@ -83,14 +98,17 @@
         //
         tableData: [],
         //
-        dataTableLoading: true,
+        dataTableLoading: false,
       }
     },
     beforeMount() {
       this.cargardatos()
     },
     methods: {
+      ...mapMutations('client',['setClientStoreData']),
+
       cargardatos (pPage) {
+        this.dataTableLoading = true
         getClients(pPage)
           .then( res => {
             if (res.status == 200) {
@@ -102,15 +120,26 @@
               this.tableData = res.data.data.map( m => m.attributes )
             }
           }).catch( err => {
-            if(err.response){
-              console.log(err.response.status)
+            if(err){
               this.status = err.response.status
             }
           }).finally( () => {
+            this.dataTableLoading = false
             console.log(this.status)
-          }) 
+
+            if(this.status == 200) {
+              swal({title:this.status, text:'Datos recuperados', icon:'success'})
+            } else {
+              swal({title:this.status, text:'Algo salio mal, intende despues',icon:'error'})
+            }
+          })
       },
-   }
+
+      clientDetails(row) {
+        this.setClientStoreData(row)
+        this.$emit('child-event', 'client-details')
+      }
+    }
   }
 </script>
 <style>
