@@ -10,7 +10,13 @@ function getClients(pPage=1) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-export { getClients }
+function getClientProgramsData(pClientId) {
+    const REQUEST = `api/clients/${pClientId}/clientPrograms`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+export { getClients, getClientProgramsData }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy

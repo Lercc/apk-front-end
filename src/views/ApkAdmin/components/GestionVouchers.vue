@@ -30,12 +30,21 @@
                     <!-- <clients-table title="Light Table"></clients-table> -->
                 </div>
             </div>
-            <!-- <div class="row">
-                 <div class="col">
-                    <client-details></client-details>
-                </di4v>
-            </div> -->
         </div>
+
+        <b-container fluid>
+            <b-row class="d-flex justify-content-start" >
+                <b-col cols="12" sm="auto" class="d-flex justify-content-center mb-2 mt-5">
+                    <b-button variant="primary" size="sm" class="px-3 py-2" 
+                        v-show="currentComponent == 'client-details'"
+                        @click="changeView('clients-table')"
+                    >
+                        <b-icon icon="arrow-left-square-fill" ></b-icon>
+                        <a>TABLA DE CLIENTES</a>
+                    </b-button>
+                </b-col>
+            </b-row>
+        </b-container>
 
     </div>
 </template>
@@ -44,7 +53,7 @@
   import ClientDetails from '@/views/GestionVoucherComponents/ClientDetails';
 
   export default {
-    name: 'vouchers',
+    name: 'gestionVouchers',
     components: {
       ClientsTable,
       ClientDetails
@@ -66,4 +75,8 @@
     }
   };
 </script>
-<style></style>
+<style scoped>
+.apk-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.16);
+}
+</style>

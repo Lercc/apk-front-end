@@ -6,6 +6,7 @@ import AuthLayout from '@/layout/AuthLayout'
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',
   linkExactActiveClass: 'active',
   routes: [
     {
@@ -19,9 +20,9 @@ export default new Router({
           component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Dashboard.vue')
         },
         {
-          path: '/gestion-voucher',
-          name: 'gestion de voucher',
-          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/GestionVoucher.vue'),
+          path: '/gestion-vouchers',
+          name: 'gestionDeVouchers',
+          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/GestionVouchers.vue'),
         },
         {
           path: '/leads',

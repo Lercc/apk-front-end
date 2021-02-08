@@ -1,6 +1,7 @@
 <template>
-  <div class="card shadow-sm"
-       :class="type === 'dark' ? 'bg-default': ''">
+  <div class="card apk-shadow"
+    :class="type === 'dark' ? 'bg-default': ''"
+  >
     <div class="card-header border-0"
          :class="type === 'dark' ? 'bg-transparent': ''">
       <div class="row align-items-center">
@@ -10,15 +11,24 @@
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
-          <base-button type="success" size="sm" class="d-flex">
+          <!-- <base-button type="success" size="sm" class="d-flex">
             <span class="align-self-center">NUEVO</span>
             <b-icon icon="person-plus-fill" font-scale="1" />
           </base-button>
           <base-button type="success" size="sm" class="d-flex">
             <b-icon icon="arrow-counterclockwise" font-scale="1.5" />
-          </base-button>
+          </base-button> -->
+            <b-button variant="success" size="sm">
+              <b-icon icon="person-plus-fill" ></b-icon>
+              <span>NUEVO</span>
+            </b-button>
+
+            <b-button variant="success" size="sm">
+              <b-icon icon="arrow-counterclockwise" ></b-icon>
+            </b-button>
         </div>
       </div>
+
     </div>
 
     <!-- LOADER -->
@@ -50,12 +60,9 @@
           <th scope="row">{{row.mobile}}</th>
           <th scope="row">{{row.email}}</th>
           <th scope="row">
-            <b-button variant="outline-primary" size="sm"
-                      @click="clientDetails(row)"
-            >
-              <b-icon icon="list-task
-" ></b-icon>
-              <a>VER DETALLES</a>
+            <b-button variant="outline-primary" size="sm" @click="clientDetails(row)">
+              <b-icon icon="list-task" ></b-icon>
+              <span>VER DETALLES</span>
             </b-button>
           </th>
         </template>
@@ -63,16 +70,18 @@
       </base-table>
     </div>
 
-    <div class="card-footer d-flex justify-content-end"
-         :class="type === 'dark' ? 'bg-transparent': ''"
-          v-if="!dataTableLoading"
-         >
+    <div 
+      class="card-footer d-flex justify-content-end"
+      :class="type === 'dark' ? 'bg-transparent': ''"
+      v-if="!dataTableLoading"
+    >
       <base-pagination 
         :pageCount="meta.last_page" 
         :perPage="meta.per_page"
         :value="meta.current_page"
         @input="cargardatos"
-      ></base-pagination>
+      >
+      </base-pagination>
     </div>
 
   </div>
@@ -80,7 +89,7 @@
 <script>
   // import axios from 'axios';
   import { getClients } from '@/api/clients'
-  import swal from 'sweetalert';
+  // import swal from 'sweetalert';
   import { mapMutations } from 'vuex';
   // import store from '@/store';
 
@@ -123,17 +132,26 @@
               this.tableData = res.data.data.map( m => m.attributes )
             }
           }).catch( err => {
-            if(err){
+            if(err.response){
               this.status = err.response.status
+            } else {
+              this.$notify({
+                type: 'danger',
+                title: err.message
+              })
             }
           }).finally( () => {
             this.dataTableLoading = false
-            console.log(this.status)
-
             if(this.status == 200) {
-              swal({title:this.status, text:'Datos recuperados', icon:'success'})
+              this.$notify({
+                type: 'success',
+                title: `${this.status}: Datos recuperados`
+              })
             } else {
-              swal({title:this.status, text:'Algo salio mal, intende despues',icon:'error'})
+              this.$notify({
+                type: 'danger',
+                title: `${this.status}: Algo salio mal`
+              })
             }
           })
       },
@@ -145,5 +163,8 @@
     }
   }
 </script>
-<style>
+<style scoped>
+.apk-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.16);
+}
 </style>
