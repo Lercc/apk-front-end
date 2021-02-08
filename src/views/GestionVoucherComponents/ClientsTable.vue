@@ -5,14 +5,17 @@
          :class="type === 'dark' ? 'bg-transparent': ''">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''">
+          <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''" c>
             Tabla de Clientes
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
           <base-button type="success" size="sm" class="d-flex">
-            <b-icon icon="person-plus-fill" font-scale="2" />
             <span class="align-self-center">NUEVO</span>
+            <b-icon icon="person-plus-fill" font-scale="1" />
+          </base-button>
+          <base-button type="success" size="sm" class="d-flex">
+            <b-icon icon="arrow-counterclockwise" font-scale="1.5" />
           </base-button>
         </div>
       </div>

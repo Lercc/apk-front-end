@@ -12,7 +12,7 @@
                         <a>TABLA DE CLIENTES</a>
                     </b-button>
                 </b-col>
-    
+                
                 <b-col cols="12" sm="auto" class="d-flex justify-content-center justify-content-sm-end mb-2">
                     <b-button variant="primary" size="sm" class="px-3 py-2">
                         <b-icon icon="search" ></b-icon>
@@ -33,7 +33,7 @@
             <!-- <div class="row">
                  <div class="col">
                     <client-details></client-details>
-                </div>
+                </di4v>
             </div> -->
         </div>
 
