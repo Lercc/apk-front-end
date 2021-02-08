@@ -115,6 +115,7 @@
     },
     beforeMount() {
       this.cargardatos()
+
     },
     methods: {
       ...mapMutations('client',['setClientStoreData']),
@@ -154,11 +155,17 @@
               })
             }
           })
+        
       },
 
       clientDetails(row) {
         this.setClientStoreData(row)
-        this.$emit('child-event', 'client-details')
+        this.$router.push({
+          name: 'detalles-Cliente',
+          params: {
+            id: row.id
+          }
+        })
       }
     }
   }

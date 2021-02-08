@@ -11,6 +11,7 @@ import { VueSpinners } from '@saeris/vue-spinners'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Vuelidate from 'vuelidate'
 
 
 import './registerServiceWorker'
@@ -23,6 +24,7 @@ Vue.use(ArgonDashboard)
 Vue.use(VueSpinners)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)// Optionally install the BootstrapVue
+Vue.use(Vuelidate)
 
 new Vue({
   router,

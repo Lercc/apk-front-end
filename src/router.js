@@ -3,6 +3,10 @@ import Router from 'vue-router'
 // import DashboardLayout from '@/layout/DashboardLayout'
 import ApkAdmin from '@/views/ApkAdmin/ApkAdmin'
 import AuthLayout from '@/layout/AuthLayout'
+
+// import GestionVouchers from '@/views/ApkAdmin/components/GestionVouchers.vue'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -21,13 +25,31 @@ export default new Router({
         },
         {
           path: '/gestion-vouchers',
-          name: 'gestionDeVouchers',
+          redirect:'/gestion-vouchers/listaClientes',
+          name: 'gestion-de-vouchers',
           component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/GestionVouchers.vue'),
+          children: [
+            {
+              path: '/gestion-vouchers/listaClientes',
+              name: 'lista-Clientes',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
+            },
+            {
+              path: '/gestion-vouchers/detalles-cliente/:id',
+              name: 'detalles-Cliente',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
+            },
+            {
+              path: '/gestion-vouchers/crear-voucher/:id/:clienteId',
+              name: 'crear-voucher',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
+            },
+          ]
         },
         {
           path: '/leads',
           name: 'leads',
-          component: () => import(/* webpackChunkName: "leads" */ '@/views/ApkAdmin/components/Leads.vue')
+          component: () => import(/* webpackChunkName: "leads" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
         },
         {
           path: '/careers',

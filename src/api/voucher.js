@@ -1,15 +1,16 @@
-// import axios from 'axios';
-// import store from '@/store'
+import axios from 'axios';
 
-// const API_URL = store.state.api.url;
-// const TOKEN = store.state.token.token
+import store from '@/store'
 
-// function getVouchers(pPage) {
-//     const REQUEST = `api/clients?page=${pPage}`
-//     const headers = { Authorization : `Bearer ${TOKEN}`}
-//     return axios.get(`${API_URL}/${REQUEST}`, { headers })
-// }
+const API_URL = store.state.api.url;
+const TOKEN = store.state.token.token
+
+function storeVoucherClientProgram(pFormData) {
+    const REQUEST = `api/vouchers`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
+}
 
 
 
-// export { getClients, getClientProgramsData }
+export { storeVoucherClientProgram }

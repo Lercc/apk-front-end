@@ -6,6 +6,47 @@
                 <pulse-loader :loading="dataClientProgramsLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
             </div>
             <!-- END LOADER -->
+            <b-card
+                no-body
+                class="mb-2 apk-shadow"
+                v-if="!dataClientProgramsLoading"
+
+            >
+                <b-card-header class="my-0 ">
+                    <b-row class="d-flex justify-content-around">
+                        <span class="d-flex justify-content-center ">
+                            <select v-model="newProgramData.program_id" class="apk-select">
+                                <option 
+                                    v-for="(apkProgram, index) in apkPrograms"
+                                    :key="`${index}-${apkProgram.text}`"
+                                    :value="apkProgram.value"
+                                    class="apk-select-option"
+                                >{{apkProgram.text}}</option>
+                            </select>
+                        </span>
+
+                        <span class="d-flex justify-content-center">
+                            <select v-model="newProgramData.season" class="apk-select">
+                                <option 
+                                    v-for="(year, index) in years"
+                                    :key="`${index}-${year}`"
+                                    :value="year"
+                                    class="apk-select-option"
+                                >{{year}}</option>
+                            </select>
+                        </span>
+
+                        <span class="d-flex justify-content-center md-2">
+                            <b-button variant="primary" size="sm" class="apk-select  bg-gray" >
+                                CREAR
+                            </b-button>
+                        </span>
+                    </b-row>
+                    
+                </b-card-header>
+
+            </b-card>
+
             <div class="accordion">
                 <b-card 
                     no-body 
@@ -13,11 +54,12 @@
                     v-for="(program, index) of clientProgramsData"
                     :key="`${index}-c-p-${program.client_id}`"
                 >
+
                     <b-card-header class="p-2" role="tab">
                         <b-button 
                             block 
                             v-b-toggle="'accordion-' + program.id"
-                            variant="primary" 
+                            variant="primary"
                             class="d-flex justify-content-around"
                             :class="{ 
                                 wat : program.program_id==1,
@@ -27,7 +69,8 @@
                                 }"
                             v-show="!dataClientProgramsLoading"
                         >
-                          <span class="apk-client-programs-data">{{program.program_name}}</span>
+                          <span class="apk-client-programs-data d-sm-none">{{program.program_name == 'work and travel' ? 'wat' : program.program_name }}</span>
+                          <span class="apk-client-programs-data d-none d-sm-block">{{program.program_name}}</span>
                           <span class="apk-client-programs-data">{{program.season}}</span>
                           <span class="apk-client-programs-data">{{program.state}}</span>
                         </b-button>
@@ -41,6 +84,7 @@
                                 variant="primary" 
                                 class="d-flex justify-content-around apk-color-gray"
                                 v-show="!program.vouchers"
+                                @click="crearvoucher(program)"
                             >
                             <span class="apk-client-programs-data"> + AGREGAR</span>
                             </b-button>
@@ -86,37 +130,37 @@
                     <b-col cols="12" class="mb-2">
                         <b>DNI</b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.dni}}
+                            {{$store.state.client.data.dni || clientData.dni}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
                         <b>NOMBRES Y APELLIDOS: </b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.name}} {{$store.state.client.data.surnames}}
+                            {{$store.state.client.data.name || clientData.name}} {{$store.state.client.data.surnames || clientData.surnames}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
                         <b>CELULAR:</b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.mobile}}
+                            {{$store.state.client.data.mobile || clientData.mobile}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
                         <b>CORREO: </b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.email}}
+                            {{$store.state.client.data.email || clientData.email}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
                         <b>COMENTARIO:</b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.commentary}}
+                            {{$store.state.client.data.commentary || clientData.commentary}}
                         </p>
                     </b-col>
                     <b-col cols="12">
                         <b>PERFIL:</b>
                         <p class="apk-client-data">
-                            {{$store.state.client.data.profile}}
+                            {{$store.state.client.data.profile || clientData.profile}}
                         </p>
                     </b-col>
                 </b-row>
@@ -128,30 +172,45 @@
 </template>
 <script>
   import store from '@/store';
-  import { getClientProgramsData } from '@/api/clients';
+  import { getClient, getClientProgramsData } from '@/api/clients';
   import { getVouchersProgramData } from '@/api/clientPrograms';
+  import { getApkPrograms } from '@/api/apkPrograms';
 
   export default {
     data() {
         return {
             clientProgramsData: [] ,
             status:'',
+            clientData: [],
+            apkPrograms: [],
+            newProgramData: {
+                program_id: 1,
+                season: ''
+            },
+            years: [],
             //
             dataClientProgramsLoading: false,
       }
     },
     beforeMount (){
         this.getData()
-    },
-    computed: {
-        color(pay) {
-            return pay
-        },
+        this.getYears()
     },
     methods: {
+        getYears() {
+            var date = new Date();
+            var year = date.getFullYear();
+            
+            this.newProgramData.season = year
+
+            for(let i=year-3; i<year+3; i++) {
+                this.years.push(i)
+            }
+        },
+
         getData() {
             this.dataClientProgramsLoading = true
-            getClientProgramsData(store.state.client.data.id)
+            getClientProgramsData(store.state.client.data.id || this.$route.params.id)
                 .then (res => {
                     if (res.status == 200) {
                         this.status = 200
@@ -183,7 +242,52 @@
                             title: `${this.status}: Algo salio mal`
                         })
                     }
-          })
+                })
+            
+
+            if (!store.state.client.data.lengh) {
+                 getClient(this.$route.params.id)
+                    .then( res => {
+                        if (res.status == 200) {
+                            this.status = 200
+                            this.clientData = res.data.data.attributes
+                        }
+                    }).catch( err => {
+                        if(err.response){
+                            this.status = err.response.status
+                        } else {
+                            this.$notify({
+                                type: 'danger',
+                                title: err.message
+                            })
+                        }
+                    }).finally( () => {
+                    
+                        if(this.status == 200) {
+                            this.$notify({
+                                type: 'success',
+                                title: `${this.status}: Datos recuperados`
+                            })
+                        } else {
+                            this.$notify({
+                                type: 'danger',
+                                title: `${this.status}: Algo salio mal`
+                            })
+                        }
+                    })
+            }
+            getApkPrograms ()
+                .then (res => {
+                    if (res.status) {
+                        this.apkPrograms = res.data.data.map( m => ({value: m.attributes.id, text: m.attributes.name}) )
+                    }
+                }).catch( err => {
+                    if( err.response) {
+                        console.log(err.response.status)
+                    }
+                        console.log(err.message)
+                })
+           
         },
 
         getVouchersData(program) {
@@ -205,11 +309,23 @@
                 }).finally( () => {
                     this.$set( program, "loading", false );
                 })
+        },
+
+        crearvoucher(program) {
+            this.$router.push({
+                name : 'crear-voucher',
+                params: {
+                    id : program.id,
+                    clienteId: program.client_id
+                }
+            })
         }
     }
   };
 </script>
 <style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700;800&display=swap');
+    
     .apk-shadow {
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.16);
     }
@@ -280,5 +396,33 @@
         font-weight: bolder;
         text-align: justify;
         color: rgb(145, 145, 145);
+    }
+    
+    .apk-select {
+        appearance: none;
+        border: none;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        padding: 5px 15px;
+        border-radius: 8px;
+        background-color: rgba(129, 128, 128, 0.527);
+        color: #fff;
+    }
+    .bg-gray {
+        background-color: rgba(90, 89, 89, 0.527);
+
+    }
+    .apk-select-option {
+        padding: 5px 15px;
+        border-radius: 8px;
+        color: #000f;
+        background-color: rgb(255, 255, 255,0.158);
+    }
+    .apk-glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+        height: 60px;
     }
 </style>

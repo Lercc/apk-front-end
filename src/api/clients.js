@@ -4,6 +4,12 @@ import store from '@/store'
 const API_URL = store.state.api.url;
 const TOKEN = store.state.token.token
 
+function getClient(pClientId) {
+    const REQUEST = `api/clients/${pClientId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
 function getClients(pPage=1) {
     const REQUEST = `api/clients?page=${pPage}`
     const headers = { Authorization : `Bearer ${TOKEN}`}
@@ -16,7 +22,7 @@ function getClientProgramsData(pClientId) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-export { getClients, getClientProgramsData }
+export { getClient, getClients, getClientProgramsData }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy
