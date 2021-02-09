@@ -8,11 +8,13 @@
             <!-- END LOADER -->
             <b-card
                 no-body
-                class="mb-2 apk-shadow"
+                class="mb-5 apk-shadow opacity-9"
                 v-if="!dataClientProgramsLoading"
 
-            >
-                <b-card-header class="my-0 ">
+            >   <b-card-header>
+                    Crear un programa relacionado al cliente :
+                </b-card-header>
+                <b-card-body class="my-0 ">
                     <b-row class="d-flex justify-content-around">
                         <span class="d-flex justify-content-center ">
                             <select v-model="newProgramData.program_id" class="apk-select">
@@ -37,24 +39,28 @@
                         </span>
 
                         <span class="d-flex justify-content-center md-2">
-                            <b-button variant="primary" size="sm" class="apk-select  bg-gray" >
+                            <b-button variant="primary" size="sm" class="apk-select" >
                                 CREAR
                             </b-button>
                         </span>
                     </b-row>
                     
-                </b-card-header>
+                </b-card-body>
 
             </b-card>
 
             <div class="accordion">
+
+                <b-card-header class="apk-soft-shadow" v-if="!dataClientProgramsLoading">
+                    Programas relacionados al cliente :
+                </b-card-header>
+
                 <b-card 
                     no-body 
-                    class="apk-shadow"
+                    class="apk-soft-shadow"
                     v-for="(program, index) of clientProgramsData"
                     :key="`${index}-c-p-${program.client_id}`"
                 >
-
                     <b-card-header class="p-2" role="tab">
                         <b-button 
                             block 
@@ -76,8 +82,8 @@
                         </b-button>
                     </b-card-header>
                     
-                    <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" >
-                    <!-- <b-collapse :id="`accordion-${program.id}`" visible > -->
+                    <!-- <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" > -->
+                    <b-collapse :id="`accordion-${program.id}`" >
                         <b-card-body>
                             <b-button 
                                 block 
@@ -405,11 +411,11 @@
         font-family: 'Open Sans', sans-serif;
         padding: 5px 15px;
         border-radius: 8px;
-        background-color: rgba(129, 128, 128, 0.527);
-        color: #fff;
+        background-color: rgba(204, 192, 214, 0.363);
+        color: rgb(0, 0, 0);
     }
     .bg-gray {
-        background-color: rgba(90, 89, 89, 0.527);
+        background-color: rgba(129, 128, 128, 0.527);
 
     }
     .apk-select-option {
@@ -423,6 +429,5 @@
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
-        height: 60px;
     }
 </style>
