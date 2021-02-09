@@ -246,7 +246,7 @@
                         this.clientProgramsData = res.data.data.map(m => m.attributes)
                         this.$notify({
                             type: 'success',
-                            title: `Datos de programas del cliente recuperados`
+                            title: `Programas del cliente recuperados`
                         })
 
                         this.clientProgramsData.forEach(element => {
