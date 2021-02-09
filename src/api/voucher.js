@@ -11,6 +11,12 @@ function storeVoucherClientProgram(pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
 }
 
+function destroyVoucher(pVoucherId) {
+    const REQUEST = `api/vouchers/${pVoucherId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.delete(`${API_URL}/${REQUEST}`, { headers })
+}
 
 
-export { storeVoucherClientProgram }
+
+export { storeVoucherClientProgram, destroyVoucher }

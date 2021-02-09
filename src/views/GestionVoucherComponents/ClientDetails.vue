@@ -1,5 +1,7 @@
 <template>
     <b-row>
+
+
         <b-col cols="12" lg="7" xl="8" order="1" order-lg="0">
              <!-- LOADER -->
             <div class="bg-secondary d-flex justify-content-center py-8 apk-shadow rounded" v-if="dataClientProgramsLoading">
@@ -11,9 +13,11 @@
                 class="mb-5 apk-shadow opacity-9"
                 v-if="!dataClientProgramsLoading"
 
-            >   <b-card-header>
+            >  
+                <b-card-header>
                     Crear un programa relacionado al cliente :
                 </b-card-header>
+
                 <b-card-body class="my-0 ">
                     <b-row class="d-flex justify-content-around">
                         <span class="d-flex justify-content-center ">
@@ -46,21 +50,23 @@
                     </b-row>
                     
                 </b-card-body>
-
             </b-card>
 
-            <div class="accordion">
 
+            <!-- PROGRAMAS DE LOS CLIENTES -->
+            <div class="accordion">
                 <b-card-header class="apk-soft-shadow" v-if="!dataClientProgramsLoading">
                     Programas relacionados al cliente :
                 </b-card-header>
 
+                <!-- ITEREACIÓN DE LOS PROGRAMAS DE LOS CLIENTES -->
                 <b-card 
                     no-body 
                     class="apk-soft-shadow"
                     v-for="(program, index) of clientProgramsData"
                     :key="`${index}-c-p-${program.client_id}`"
                 >
+                    <!-- CABECERAS -->
                     <b-card-header class="p-2" role="tab">
                         <b-button 
                             block 
@@ -82,9 +88,11 @@
                         </b-button>
                     </b-card-header>
                     
+                    <!-- CONTENIDO( VOUCHERS) -->
                     <!-- <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" > -->
                     <b-collapse :id="`accordion-${program.id}`" >
 
+                        <!-- BTN AGREGAR VOUCHER A UN PROGRAMA DEL CLIENTE -->
                         <b-card-body>
                             <b-button 
                                 block 
@@ -103,6 +111,7 @@
                         </div>
                         <!-- END LOADER -->
 
+                        <!-- ITERACIÓN DE VOUCHERS POR PROGRAMAS -->
                         <b-card-body 
                             v-else 
                             v-for="(voucher, index) in  program.vouchers" 
@@ -115,11 +124,22 @@
                                 <b-col lg="12" xl="6">
                                     <b-card-img :src="voucher.image" class="rounded-0" fluid-grow></b-card-img>
                                 </b-col>
+
                                 <b-col lg="12" xl="6">
                                     <b-card-body>
                                         <p class="apk-card-title mb-0">{{voucher.code}}</p>
                                         <p class="apk-card-subtitle mb-0">{{voucher.name}}</p>
                                         <p class="apk-card-text mb-0">{{voucher.description}}</p>
+
+                                        <b-card-text class="mt-4 m-b-3 mb-lg-1">
+                                            <b-button  size="sm" variant="primary" @click="editarVoucher(voucher.id)">
+                                                EDITAR
+                                            </b-button>
+
+                                            <b-button  size="sm" variant="danger" @click="eliminarVoucher(voucher.id)">
+                                                ELIMINAR
+                                            </b-button>
+                                        </b-card-text>
                                     </b-card-body>
                                 </b-col>
                             </b-row>
@@ -184,6 +204,8 @@
   import { getClient, getClientProgramsData } from '@/api/clients';
   import { getVouchersProgramData, storeClientProgram } from '@/api/clientPrograms';
   import { getApkPrograms } from '@/api/apkPrograms';
+  import { destroyVoucher } from '@/api/voucher';
+  import swal from 'sweetalert';
 
   export default {
     data() {
@@ -358,6 +380,30 @@
                 })   
         },
 
+        eliminarVoucher(voucherId) {
+            swal('¿Estás seguro de eliminar este voucher?', {
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: true,
+                }
+            ).then( resp => {
+                if(resp) {
+                    destroyVoucher(voucherId)
+                        .then( res => {
+                            if(res.status == 204) {
+                                this.getClientProgramsData()
+                                swal('El voucher fue eliminado',{icon:'success'})
+                            }
+                        }).catch( err => {
+                            if(err.response){
+                                swal('No se pudo eliminar el voucher', err.response.status, {icon:'warning'})
+                            } else {
+                                swal('No se pudo eliminar el voucher', err.message, {icon:'warning'})
+                            }
+                        })
+                }
+            })
+        }
 
     }
   };
@@ -462,5 +508,9 @@
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+    }
+    .apk-bottom {
+        position: absolute;
+        bottom: 25px;
     }
 </style>

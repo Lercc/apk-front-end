@@ -68,7 +68,7 @@
                     @click="enviar"
                     size="lg"
                 >
-                    REGISTRAR voucher
+                    REGISTRAR VOUCHER
                </b-btn>
             </b-form>
         </b-card>
