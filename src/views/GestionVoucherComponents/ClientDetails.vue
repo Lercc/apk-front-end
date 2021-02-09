@@ -1,7 +1,6 @@
 <template>
     <b-row>
 
-
         <b-col cols="12" lg="7" xl="8" order="1" order-lg="0">
              <!-- LOADER -->
             <div class="bg-secondary d-flex justify-content-center py-8 apk-shadow rounded" v-if="dataClientProgramsLoading">
@@ -18,7 +17,7 @@
                     Crear un programa relacionado al cliente :
                 </b-card-header>
 
-                <b-card-body class="my-0 ">
+                <b-card-body class="my-0  apk-border-dash apk-color-gray-only">
                     <b-row class="d-flex justify-content-around">
                         <span class="d-flex justify-content-center ">
                             <select v-model="newProgramData.program_id" class="apk-select">
@@ -95,9 +94,9 @@
                         <!-- BTN AGREGAR VOUCHER A UN PROGRAMA DEL CLIENTE -->
                         <b-card-body>
                             <b-button 
-                                block 
+                                block
                                 variant="primary" 
-                                class="d-flex justify-content-around apk-color-gray"
+                                class="d-flex justify-content-around apk-color-gray apk-border-dash"
                                 v-show="!program.vouchers"
                                 @click="crearvoucher(program)"
                             >
@@ -150,6 +149,7 @@
             </div>
         </b-col>
 
+
         <b-col cols="12" lg="5" xl="4" class="mb-5">
             <b-card
                 title="Datos del cliente"
@@ -157,37 +157,37 @@
             >   
                 <b-row>
                     <b-col cols="12" class="mb-2">
-                        <b>DNI</b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Dni :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.dni || clientData.dni}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
-                        <b>NOMBRES Y APELLIDOS: </b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Nombres y apellidos :</p>
                         <p class="apk-client-data">
                             {{$store.state.client.data.name || clientData.name}} {{$store.state.client.data.surnames || clientData.surnames}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
-                        <b>CELULAR:</b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Celular :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.mobile || clientData.mobile}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
-                        <b>CORREO: </b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Correo :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.email || clientData.email}}
                         </p>
                     </b-col>
                     <b-col cols="12" class="mb-2">
-                        <b>COMENTARIO:</b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Comentario :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.commentary || clientData.commentary}}
                         </p>
                     </b-col>
                     <b-col cols="12">
-                        <b>PERFIL:</b>
+                        <p class="m-0 ml-1 p-0 opacity-6">Perfil :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.profile || clientData.profile}}
                         </p>
@@ -403,6 +403,15 @@
                         })
                 }
             })
+        },
+
+        editarVoucher(voucherId) {
+            this.$router.push({
+                name: 'editar-voucher',
+                params: {
+                    voucherId: voucherId
+                }
+            })
         }
 
     }
@@ -420,6 +429,7 @@
                     -1px 1px 2px rgba(133, 132, 132, 0.16);
     }
     .apk-client-data {
+        font-size: 14px;
         padding: 5px 10px;
         border-radius: 10px;
         background-color: rgba(210, 205, 218, 0.25);
@@ -452,6 +462,11 @@
     .apk-color-sec-2 {
         background-color: rgb(100,204,201);
         border:none;
+    }
+    .apk-color-gray-only {
+        background-color: rgba(138, 138, 138, 0.0);
+        border: 2px solid  rgba(138, 138, 138, 0.301);
+        box-shadow: none;
     }
     .apk-color-gray {
         background-color: rgba(138, 138, 138, 0.0);
@@ -496,6 +511,9 @@
     .bg-gray {
         background-color: rgba(129, 128, 128, 0.527);
 
+    }
+    .apk-border-dash {
+        border-style: dashed;
     }
     .apk-select-option {
         padding: 5px 15px;

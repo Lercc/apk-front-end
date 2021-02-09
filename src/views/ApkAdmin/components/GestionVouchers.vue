@@ -1,6 +1,7 @@
 <template>
     <div>
         <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
+
             <!-- <b-row class="d-flex justify-content-between" >
                 <b-col cols="12" sm="auto" class="d-flex justify-content-center justify-content-sm-end mb-2">
                     <b-button variant="primary" size="sm" class="px-3 py-2">
@@ -9,6 +10,7 @@
                     </b-button>
                 </b-col>
             </b-row> -->
+
         </base-header>
 
         <div class="container-fluid mt--7">

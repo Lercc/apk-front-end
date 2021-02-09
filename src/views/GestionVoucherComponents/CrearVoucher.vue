@@ -1,10 +1,6 @@
 <template>
-                <!-- LOADER -->
-                <!-- <div class="bg-secondary d-flex justify-content-center py-8 apk-shadow rounded" v-if="dataClientProgramsLoading">
-                    <pulse-loader :loading="dataClientProgramsLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
-                </div> -->
-                <!-- END LOADER -->
-   <b-container fluid >
+               
+   <b-container class="col-lg" >
         <b-card   class="apk-shadow">
             <b-card-title>
                 Nuevo Voucher
@@ -12,11 +8,17 @@
             <b-form >
                 <b-form-group
                     label="Nombre o concepto del voucher:"
-                > <b-form-input
-                    v-model="form.name"
-                    type="text"
-                    placeholder="Ingrese el concepto del voucher"
-                    :state="nameState"
+                > 
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!updateVoucherLoading"
+                        v-model="form.name"
+                        type="text"
+                        placeholder="Ingrese el concepto del voucher"
+                        :state="nameState"
                     ></b-form-input>
                     <span 
                         class="text-danger"
@@ -26,7 +28,12 @@
                </b-form-group>
 
                 <b-form-group label="Imagen del voucher:" >
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+                    
                     <b-form-file
+                        v-show="!updateVoucherLoading"
                         v-model="form.image"
                         placeholder="Subir una imagem..."
                         :state="imageState"
@@ -40,7 +47,13 @@
 
                 <b-form-group
                     label="Código del voucher:"
-                > <b-form-input
+                > 
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!updateVoucherLoading"
                         v-model="form.code"
                         type="number"
                         placeholder="Ingrese el código del voucher"
@@ -55,11 +68,17 @@
                
                 <b-form-group
                     label="Comentarios adicionales:"
-                ><b-form-textarea
-                    v-model="form.description"
-                    placeholder="Ingrese un comentario..."
-                    rows="3"
-                    max-rows="6"
+                >   
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-textarea
+                        v-show="!updateVoucherLoading"
+                        v-model="form.description"
+                        placeholder="Ingrese un comentario..."
+                        rows="3"
+                        max-rows="6"
                     ></b-form-textarea>
                </b-form-group>
 
@@ -72,21 +91,6 @@
                </b-btn>
             </b-form>
         </b-card>
-         <!-- <b-card>
-            <b-row>
-                <b-col cols="12" md="8" class="d-flex justify-content-center border border-dark">
-                    <b-form-group
-                    description="Selecciona uno de la opciones."
-                    :invalid-feedback="invalidFeedback"
-                    :state="state"
-                    >
-                    <b-form-select v-model="selected" :options="apkProgramsData"></b-form-select>
-                    </b-form-group>
-                        <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-                </b-col>
-            </b-row>
-        </b-card> -->
-
     </b-container>
 </template>
 <script>
@@ -111,8 +115,10 @@
             codeState: null,
 
             erroresInputs: [],
-            invalidFeedback: 'sestas mal ',
-            state: false
+            // invalidFeedback: 'sestas mal ',
+            // state: false
+
+            updateVoucherLoading: false,
       }
     },
     methods: {

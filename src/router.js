@@ -45,9 +45,9 @@ export default new Router({
               component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
             },
             {
-              path: '/gestion-vouchers/crear-cliente-programa/:id',
-              name: 'crear-cliente-programa',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CreateClientProgram.vue')
+              path: '/gestion-vouchers/editar-voucher/:id',
+              name: 'editar-voucher',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/EditarVoucher.vue')
             },
           ]
         },
