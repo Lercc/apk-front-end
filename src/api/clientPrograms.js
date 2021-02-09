@@ -10,6 +10,10 @@ function getVouchersProgramData(pClientId) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
+function storeClientProgram(pFormData) {
+    const REQUEST = `api/clientPrograms`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
+}
 
-
-export { getVouchersProgramData }
+export { getVouchersProgramData, storeClientProgram }

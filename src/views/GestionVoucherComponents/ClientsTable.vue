@@ -163,7 +163,7 @@
         this.$router.push({
           name: 'detalles-Cliente',
           params: {
-            id: row.id
+            clientId: row.id
           }
         })
       }

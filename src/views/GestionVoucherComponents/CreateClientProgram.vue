@@ -7,7 +7,7 @@
    <b-container fluid >
         <b-card   class="apk-shadow">
             <b-card-title>
-                Nuevo Voucher
+                Nuevo Programa relacionado al cliente: 
             </b-card-title>
             <b-form >
                 <b-form-group
@@ -145,7 +145,7 @@
 
 
             let voucherForm = new FormData()
-            voucherForm.append('client_program_id', this.$route.params.clientProgramId)
+            voucherForm.append('client_program_id', this.$route.params.id)
             voucherForm.append('name', this.form.name)
             voucherForm.append('code', this.form.code)
             voucherForm.append('state','pendiente')
@@ -154,8 +154,8 @@
 
             storeVoucherClientProgram(voucherForm)
                 .then( res => {
-                    console.log('ESTAUS',res.status)  // para elmiminar
-                    console.log('data',res.data)  // para elmiminar
+                    console.log('ESTAUS',res.status)
+                    console.log('data',res.data)
                     if(res.status == 201) {
                        this.$notify({
                             type: 'success',
@@ -164,7 +164,7 @@
                          this.$router.push({
                             name : 'detalles-Cliente',
                             params: {
-                                id : this.$route.params.clientId
+                                id : this.$route.params.clienteId
                             }
                         })
                     }
@@ -175,7 +175,7 @@
                         this.erroresInputs = err.response.data.errors
                          this.$notify({
                             type: 'danger',
-                            title: `${err.response.status}: Existen campos inválidos`
+                            title: `${err.response.status}: Algo salio mal`
                         })
                     }
                 })

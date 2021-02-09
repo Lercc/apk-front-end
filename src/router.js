@@ -35,14 +35,19 @@ export default new Router({
               component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
             },
             {
-              path: '/gestion-vouchers/detalles-cliente/:id',
+              path: '/gestion-vouchers/detalles-cliente/:clientId',
               name: 'detalles-Cliente',
               component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
             },
             {
-              path: '/gestion-vouchers/crear-voucher/:id/:clienteId',
+              path: '/gestion-vouchers/crear-voucher/:clientProgramId/:clientId',
               name: 'crear-voucher',
               component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
+            },
+            {
+              path: '/gestion-vouchers/crear-cliente-programa/:id',
+              name: 'crear-cliente-programa',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CreateClientProgram.vue')
             },
           ]
         },

@@ -39,7 +39,7 @@
                         </span>
 
                         <span class="d-flex justify-content-center md-2">
-                            <b-button variant="primary" size="sm" class="apk-select" >
+                            <b-button variant="primary" size="sm" class="apk-select" @click="createClientProgram">
                                 CREAR
                             </b-button>
                         </span>
@@ -84,6 +84,7 @@
                     
                     <!-- <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" > -->
                     <b-collapse :id="`accordion-${program.id}`" >
+
                         <b-card-body>
                             <b-button 
                                 block 
@@ -95,11 +96,13 @@
                             <span class="apk-client-programs-data"> + AGREGAR</span>
                             </b-button>
                         </b-card-body>
+
                         <!-- LOADER -->
                         <div class="bg-secondary d-flex justify-content-center py-8" v-if="!program.vouchers">
                             <pulse-loader :loading="program.loading || true" :size="20" :margin="'15px'" :color="'#2B2D64'" />
                         </div>
                         <!-- END LOADER -->
+
                         <b-card-body 
                             v-else 
                             v-for="(voucher, index) in  program.vouchers" 
@@ -179,14 +182,13 @@
 <script>
   import store from '@/store';
   import { getClient, getClientProgramsData } from '@/api/clients';
-  import { getVouchersProgramData } from '@/api/clientPrograms';
+  import { getVouchersProgramData, storeClientProgram } from '@/api/clientPrograms';
   import { getApkPrograms } from '@/api/apkPrograms';
 
   export default {
     data() {
         return {
             clientProgramsData: [] ,
-            status:'',
             clientData: [],
             apkPrograms: [],
             newProgramData: {
@@ -199,7 +201,7 @@
       }
     },
     beforeMount (){
-        this.getData()
+        this.getClientProgramsData()
         this.getYears()
     },
     methods: {
@@ -214,13 +216,16 @@
             }
         },
 
-        getData() {
+        getClientProgramsData() {
             this.dataClientProgramsLoading = true
-            getClientProgramsData(store.state.client.data.id || this.$route.params.id)
+            getClientProgramsData(store.state.client.data.id || this.$route.params.clientId)
                 .then (res => {
                     if (res.status == 200) {
-                        this.status = 200
                         this.clientProgramsData = res.data.data.map(m => m.attributes)
+                        this.$notify({
+                            type: 'success',
+                            title: `Datos de programas del cliente recuperados`
+                        })
 
                         this.clientProgramsData.forEach(element => {
                             this.getVouchersData(element)
@@ -228,7 +233,10 @@
                     }
                 }).catch (err => {
                      if(err.response){
-                        this.status = err.response.status
+                        this.$notify({
+                            type: 'danger',
+                            title: err.response.status
+                        })
                     } else {
                         this.$notify({
                             type: 'danger',
@@ -236,51 +244,33 @@
                         })
                     }
                 }).finally( () => {
-                    this.dataClientProgramsLoading = false
-                    if (this.status == 200) {
-                        this.$notify({
-                            type: 'success',
-                            title: `${this.status}: Datos recuperados`
-                        })
-                    } else {
-                         this.$notify({
-                            type: 'danger',
-                            title: `${this.status}: Algo salio mal`
-                        })
-                    }
-                })
+                     this.dataClientProgramsLoading = false
+                  })
             
 
             if (!store.state.client.data.lengh) {
-                 getClient(this.$route.params.id)
+                 getClient(this.$route.params.clientId)
                     .then( res => {
                         if (res.status == 200) {
-                            this.status = 200
                             this.clientData = res.data.data.attributes
+                            this.$notify({
+                                type: 'success',
+                                title: `Datos de cliente recuperados`
+                            })
                         }
                     }).catch( err => {
                         if(err.response){
-                            this.status = err.response.status
+                           this.$notify({
+                                type: 'danger',
+                                title: err.response.status
+                            })
                         } else {
                             this.$notify({
                                 type: 'danger',
                                 title: err.message
                             })
                         }
-                    }).finally( () => {
-                    
-                        if(this.status == 200) {
-                            this.$notify({
-                                type: 'success',
-                                title: `${this.status}: Datos recuperados`
-                            })
-                        } else {
-                            this.$notify({
-                                type: 'danger',
-                                title: `${this.status}: Algo salio mal`
-                            })
-                        }
-                    })
+                      })
             }
             getApkPrograms ()
                 .then (res => {
@@ -288,11 +278,18 @@
                         this.apkPrograms = res.data.data.map( m => ({value: m.attributes.id, text: m.attributes.name}) )
                     }
                 }).catch( err => {
-                    if( err.response) {
-                        console.log(err.response.status)
+                    if(err.response){
+                        this.$notify({
+                            type: 'danger',
+                            title: err.response.status
+                        })
+                    } else {
+                        this.$notify({
+                            type: 'danger',
+                            title: err.message
+                        })
                     }
-                        console.log(err.message)
-                })
+                  })
            
         },
 
@@ -305,7 +302,10 @@
                     }
                 }).catch( err => {
                     if(err.response){
-                        console.log('RRRRRR',err.response.status)
+                        this.$notify({
+                            type: 'danger',
+                            title: err.response.status
+                        })
                     } else {
                         this.$notify({
                             type: 'danger',
@@ -317,15 +317,48 @@
                 })
         },
 
-        crearvoucher(program) {
+        crearvoucher(clientProgram) {
             this.$router.push({
                 name : 'crear-voucher',
                 params: {
-                    id : program.id,
-                    clienteId: program.client_id
+                    clientProgramId : clientProgram.id,
+                    clientId: clientProgram.client_id
                 }
             })
-        }
+        },
+
+        createClientProgram () {
+            let clientProgram = new FormData()
+            clientProgram.append('client_id', this.$route.params.clientId)
+            clientProgram.append('program_id', this.newProgramData.program_id)
+            clientProgram.append('season', this.newProgramData.season)
+            clientProgram.append('state','activo')
+
+            storeClientProgram (clientProgram)
+                .then ( res => {
+                    if(res.status == 201) {
+                        this.$notify({
+                            type: 'success',
+                            title: 'Programa para el cliente creado!!'
+                        })
+                        this.getClientProgramsData()
+                    }
+                }).catch( err => {
+                    if (err.response){
+                        this.$notify({
+                            type: 'danger',
+                            title: err.response.status
+                        })
+                    } else {
+                        this.$notify({
+                            type: 'danger',
+                            title: err.message
+                        })
+                    }
+                })   
+        },
+
+
     }
   };
 </script>
