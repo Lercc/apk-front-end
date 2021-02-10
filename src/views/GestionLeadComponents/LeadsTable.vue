@@ -82,8 +82,7 @@
   </div>
 </template>
 <script>
-  import { getClients } from '@/api/clients'
-  import { mapMutations } from 'vuex';
+  import { getLeads } from '@/api/lead'
 
   export default {
     name: 'client-table',
@@ -105,32 +104,25 @@
     },
     beforeMount() {
       this.cargardatos()
-
     },
     methods: {
-      ...mapMutations('client',['setClientStoreData']),
-
       cargardatos (pPage) {
         this.dataTableLoading = true
-        getClients(pPage)
+        getLeads(pPage)
           .then( res => {
             if (res.status == 200) {
+              this.status = 200
               this.data = res.data.data
               this.meta = res.data.meta
 
               this.tableData = res.data.data.map( m => m.attributes )
-              
-              this.$notify({
-                type: 'success',
-                title: `Datos recuperados!!`
-              })
             }
           }).catch( err => {
             if(err.response){
-              this.$notify({
+                this.$notify({
                     type: 'danger',
                     title: `Algo salio mal: ${err.response.status}`
-              })
+                })
             } else {
               this.$notify({
                 type: 'danger',

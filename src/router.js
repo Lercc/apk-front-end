@@ -25,51 +25,59 @@ export default new Router({
         },
         {
           path: '/gestion-vouchers',
-          redirect:'/gestion-vouchers/listaClientes',
+          redirect:'/gestion-vouchers/lista-clientes',
           name: 'gestion-de-vouchers',
-          component: () => import(/* webpackChunkName: "vouchers" */ '@/views/ApkAdmin/components/GestionVouchers.vue'),
+          component: () => import(/* webpackChunkName: "gestion-de-vouchers" */ '@/views/ApkAdmin/components/GestionVouchers.vue'),
           children: [
             {
-              path: '/gestion-vouchers/listaClientes',
+              path: '/gestion-vouchers/lista-clientes',
               name: 'lista-Clientes',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
+              component: () => import(/* webpackChunkName: "lista-Clientes" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
             },
             {
               path: '/gestion-vouchers/detalles-cliente/:clientId',
               name: 'detalles-Cliente',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
+              component: () => import(/* webpackChunkName: "detalles-Cliente" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
             },
             {
               path: '/gestion-vouchers/crear-voucher/:clientProgramId/:clientId',
               name: 'crear-voucher',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
+              component: () => import(/* webpackChunkName: "crear-voucher" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
             },
             {
               path: '/gestion-vouchers/editar-voucher/:voucherId/:clientId',
               name: 'editar-voucher',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/EditarVoucher.vue')
+              component: () => import(/* webpackChunkName: "editar-voucher" */ '@/views/GestionVoucherComponents/EditarVoucher.vue')
             },
             {
               path: '/gestion-vouchers/crear-cliente',
               name: 'crear-cliente',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearCliente.vue')
+              component: () => import(/* webpackChunkName: "crear-cliente" */ '@/views/GestionVoucherComponents/CrearCliente.vue')
             },
             {
               path: '/gestion-vouchers/editar-cliente/:clientId',
               name: 'editar-cliente',
-              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/EditarCliente.vue')
+              component: () => import(/* webpackChunkName: "editar-cliente" */ '@/views/GestionVoucherComponents/EditarCliente.vue')
             },
           ]
         },
         {
-          path: '/leads',
-          name: 'leads',
-          component: () => import(/* webpackChunkName: "leads" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
+          path: '/gestion-leads',
+          redirect:'/gestion-leads/lista-leads',
+          name: 'gestion-de-leads',
+          component: () => import(/* webpackChunkName: "gestion-de-leads" */ '@/views/ApkAdmin/components/GestionLeads.vue'),
+          children: [
+            {
+              path: '/gestion-leads/lista-leads',
+              name: 'lista-leads',
+              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsTable.vue')
+            },
+          ]
         },
         {
           path: '/careers',
           name: 'careers',
-          component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue')
+          component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue'),
         },
         {
           path: '/institutions',
