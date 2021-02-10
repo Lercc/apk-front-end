@@ -22,7 +22,13 @@ function getClientProgramsData(pClientId) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-export { getClient, getClients, getClientProgramsData }
+function storeClient(pFormData) {
+    const REQUEST = `api/clients`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
+
+export { getClient, getClients, getClientProgramsData, storeClient }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy

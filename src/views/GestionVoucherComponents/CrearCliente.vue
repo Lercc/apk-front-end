@@ -7,17 +7,17 @@
             </b-card-title>
             <b-form >
                 <b-form-group
-                    label="Nombre o concepto del voucher:"
+                    label="* Nombre:"
                 > 
-                    <div class="" v-if="updateVoucherLoading">
-                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!updateVoucherLoading"
+                        v-show="!createClientLoading"
                         v-model="form.name"
                         type="text"
-                        placeholder="Ingrese el concepto del voucher"
+                        placeholder="Ingrese el nombre del cliente"
                         :state="nameState"
                     ></b-form-input>
                     <span 
@@ -27,95 +27,175 @@
                     </span>
                </b-form-group>
 
-                <b-form-group label="Imagen del voucher:" >
-                    <div class="" v-if="updateVoucherLoading">
-                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
-                    </div>
-                    
-                    <b-form-file
-                        v-show="!updateVoucherLoading"
-                        v-model="form.image"
-                        placeholder="Subir una imagem..."
-                        :state="imageState"
-                        style="overflow:hidden"
-                    ></b-form-file>
-                    <span 
-                        class="text-danger"
-                        v-for="(error, index) in mostrarErroresInput('image')"
-                        :key="`name-${index}`">{{ error }}
-                    </span>
-                </b-form-group>
-
                 <b-form-group
-                    label="Código del voucher:"
+                    label="* Apellidos:"
                 > 
-                    <div class="" v-if="updateVoucherLoading">
-                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!updateVoucherLoading"
-                        v-model="form.code"
-                        type="number"
-                        placeholder="Ingrese el código del voucher"
-                        :state="codeState"
+                        v-show="!createClientLoading"
+                        v-model="form.surnames"
+                        type="text"
+                        placeholder="Ingrese los apellidos del cliente"
+                        :state="surnamesState"
                     ></b-form-input>
                     <span 
                         class="text-danger"
-                        v-for="(error, index) in mostrarErroresInput('code')"
+                        v-for="(error, index) in mostrarErroresInput('surnames')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
+               </b-form-group>
+
+                <b-form-group
+                    label="* DNI:"
+                > 
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!createClientLoading"
+                        v-model="form.dni"
+                        type="number"
+                        placeholder="Ingrese el dni del cliente"
+                        :state="dniState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('dni')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
+                </b-form-group>
+                
+                <b-form-group
+                    label="Celular:"
+                > 
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!createClientLoading"
+                        v-model="form.mobile"
+                        type="number"
+                        placeholder="Ingrese el dni del cliente"
+                        :state="mobileState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('mobile')"
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
                
                 <b-form-group
-                    label="Comentarios adicionales:"
+                    label="* Email:"
+                > 
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!createClientLoading"
+                        v-model="form.email"
+                        type="email"
+                        placeholder="Ingrese el correo del cliente"
+                        :state="emailState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('email')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
+                </b-form-group>
+               
+               
+                <b-form-group
+                    label="Perfil:"
                 >   
-                    <div class="" v-if="updateVoucherLoading">
-                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-textarea
-                        v-show="!updateVoucherLoading"
-                        v-model="form.description"
+                        v-show="!createClientLoading"
+                        v-model="form.profile"
+                        placeholder="Ingrese el perfil del cliente..."
+                        rows="1"
+                        max-rows="6"
+                        :state="profileState"
+                    ></b-form-textarea>
+
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('profile')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
+               </b-form-group>
+
+                <b-form-group
+                    label="Comentarios adicionales:"
+                >   
+                    <div class="" v-if="createClientLoading">
+                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-textarea
+                        v-show="!createClientLoading"
+                        v-model="form.commentary"
                         placeholder="Ingrese un comentario..."
                         rows="3"
                         max-rows="6"
+                        :state="commentaryState"
                     ></b-form-textarea>
-               </b-form-group>
 
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('commentary')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
+               </b-form-group>
+           
                <b-btn
                     variant="primary"
                     @click="enviar"
                     size="lg"
                 >
-                    CREAR VOUCHER
+                    CREAR CLIENTE
                </b-btn>
             </b-form>
         </b-card>
     </b-container>
 </template>
 <script>
-  import { storeVoucherClientProgram } from '@/api/voucher';
+  import { storeClient } from '@/api/clients';
 
   export default {
     data() {
         return {
             form: {
-                client_program_id: null,
                 name: '',
-                code: '',
-                state: null,
-                image: null,
-                description: '',
+                surnames: '',
+                dni: '',
+                email: '',
+                mobile: '',
+                profile: '',
+                commentary: '',
             },
             //
             nameState: null,
-            imageState: null,
-            codeState: null,
+            surnamesState: null,
+            dniState: null,
+            emailState: null,
+            mobileState: null,
+            profileState: null,
+            commentaryState: null,
             //
             erroresInputs: [],
             //
-            updateVoucherLoading: false,
+            createClientLoading: false,
       }
     },
     methods: {
@@ -127,11 +207,23 @@
                     case 'name':
                         this.nameState = false
                         break;
-                    case 'image':
-                        this.imageState = false
+                    case 'surnames':
+                        this.surnamesState = false
                         break;
-                    case 'code':
-                        this.codeState = false
+                    case 'dni':
+                        this.dniState = false
+                        break;
+                    case 'email':
+                        this.emailState = false
+                        break;
+                    case 'mobile':
+                        this.mobileState = false
+                        break;
+                    case 'profile':
+                        this.profileState = false
+                        break;
+                    case 'commentary':
+                        this.commentaryState = false
                         break;
                     default:
                         break;
@@ -143,21 +235,26 @@
         },
 
         enviar() {
-            this.updateVoucherLoading = true
+            this.createClientLoading = true
 
-            this.nameState = null
-            this.nameState = null
-            this.nameState = null
+            this.nameState = true
+            this.surnamesState = true
+            this.dniState = true
+            this.emailState = true
+            this.mobileState = true
+            this.profileState = true
+            this.commentaryState = true
 
-            let voucherForm = new FormData()
-            voucherForm.append('client_program_id', this.$route.params.clientProgramId)
-            voucherForm.append('name', this.form.name)
-            voucherForm.append('code', this.form.code)
-            voucherForm.append('state','pendiente')
-            voucherForm.append('image', this.form.image)
-            voucherForm.append('description', this.form.description)
+            let clientForm = new FormData()
+            clientForm.append('name', this.form.name)
+            clientForm.append('surnames', this.form.surnames)
+            clientForm.append('dni', this.form.dni)
+            clientForm.append('email',this.form.email)
+            clientForm.append('mobile', this.form.mobile)
+            clientForm.append('profile', this.form.profile)
+            clientForm.append('commentary', this.form.commentary)
 
-            storeVoucherClientProgram(voucherForm)
+            storeClient(clientForm)
                 .then( res => {
                     if(res.status == 201) {
                        this.$notify({
@@ -165,10 +262,7 @@
                             title: 'Creación correcta!!'
                         })
                         this.$router.push({
-                            name : 'detalles-Cliente',
-                            params: {
-                                clientId : this.$route.params.clientId
-                            }
+                            name : 'lista-Clientes'
                         })
                     }
                 }).catch( err => {
@@ -185,7 +279,7 @@
                         })
                     }
                 }).finally( () => {
-                    this.updateVoucherLoading = false
+                    this.createClientLoading = false
                 })
         }
       

@@ -38,26 +38,28 @@
                   :data="tableData">
         <template slot="columns">
           <th>id</th>
+          <th>vouchers</th>
           <th>dni</th>
           <th>cliente</th>
           <th>celular</th>
           <th>correo</th>
-          <th>&nbsp;</th>
+          <th>Comentario</th>
         </template>
 
 
         <template slot-scope="{row}">
           <th scope="row">{{row.id}}</th>
-          <th scope="row">{{row.dni}}</th>
-          <th scope="row">{{row.name}} {{row.surnames}}</th>
-          <th scope="row">{{row.mobile}}</th>
-          <th scope="row">{{row.email}}</th>
           <th scope="row">
             <b-button variant="outline-primary" size="sm" @click="clientDetails(row)">
               <b-icon icon="list-task" ></b-icon>
               <span>VER DETALLES</span>
             </b-button>
           </th>
+          <th scope="row">{{row.dni}}</th>
+          <th scope="row">{{row.name}} {{row.surnames}}</th>
+          <th scope="row">{{row.mobile}}</th>
+          <th scope="row">{{row.email}}</th>
+          <th scope="row">{{row.commentary.substring(0, 50)+'...'}}</th>
         </template>
 
       </base-table>

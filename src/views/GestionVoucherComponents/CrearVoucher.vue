@@ -7,7 +7,7 @@
             </b-card-title>
             <b-form >
                 <b-form-group
-                    label="Nombre o concepto del voucher:"
+                    label="* Nombre o concepto del voucher:"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -27,7 +27,7 @@
                     </span>
                </b-form-group>
 
-                <b-form-group label="Imagen del voucher:" >
+                <b-form-group label="* Imagen del voucher:" >
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
@@ -47,7 +47,7 @@
                 </b-form-group>
 
                 <b-form-group
-                    label="Código del voucher:"
+                    label="* Código del voucher:"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -80,7 +80,14 @@
                         placeholder="Ingrese un comentario..."
                         rows="3"
                         max-rows="6"
+                        :state="descriptionState"
                     ></b-form-textarea>
+
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('description')"
+                        :key="`name-${index}`">{{ error }}
+                    </span>
                </b-form-group>
 
                <b-btn
@@ -112,6 +119,7 @@
             nameState: null,
             imageState: null,
             codeState: null,
+            descriptionState: null,
             //
             erroresInputs: [],
             //
@@ -122,6 +130,7 @@
         
         mostrarErroresInput(pCampo) { 
             let camposIncorrectos = Object.keys(this.erroresInputs);
+
             if (camposIncorrectos.includes(pCampo)) {
                 switch (pCampo) {
                     case 'name':
@@ -132,6 +141,9 @@
                         break;
                     case 'code':
                         this.codeState = false
+                        break;
+                    case 'description':
+                        this.descriptionState = false
                         break;
                     default:
                         break;
@@ -145,9 +157,10 @@
         enviar() {
             this.updateVoucherLoading = true
 
-            this.nameState = null
-            this.nameState = null
-            this.nameState = null
+            this.nameState = true
+            this.imageState = true
+            this.codeState = true
+            this.descriptionState = true
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
