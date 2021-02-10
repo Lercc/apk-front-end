@@ -11,19 +11,12 @@
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
-          <!-- <base-button type="success" size="sm" class="d-flex">
-            <span class="align-self-center">NUEVO</span>
-            <b-icon icon="person-plus-fill" font-scale="1" />
-          </base-button>
-          <base-button type="success" size="sm" class="d-flex">
-            <b-icon icon="arrow-counterclockwise" font-scale="1.5" />
-          </base-button> -->
-            <b-button variant="success" size="sm">
+            <b-button variant="success" size="sm" @click="crearNuevoCliente">
               <b-icon icon="person-plus-fill" ></b-icon>
               <span>NUEVO</span>
             </b-button>
 
-            <b-button variant="success" size="sm">
+            <b-button variant="success" size="sm" @click="recargarDatos">
               <b-icon icon="arrow-counterclockwise" ></b-icon>
             </b-button>
         </div>
@@ -166,6 +159,16 @@
             clientId: row.id
           }
         })
+      },
+
+      crearNuevoCliente() {
+        this.$router.push({
+          name: 'crear-cliente',
+        })
+      },
+
+      recargarDatos() {
+        this.cargardatos()
       }
     }
   }
