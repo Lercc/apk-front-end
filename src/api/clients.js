@@ -28,7 +28,22 @@ function storeClient(pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
-export { getClient, getClients, getClientProgramsData, storeClient }
+function updateClient(pClientId, pFormData) {
+    const REQUEST = `api/clients/${pClientId}`
+    const headers = { 
+        "Content-Type":"application/json",
+        Authorization   : `Bearer ${TOKEN}`,
+    }
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
+
+function destroyCliente(pClientId) {
+    const REQUEST = `api/clients/${pClientId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.delete(`${API_URL}/${REQUEST}`, { headers })
+}
+
+export { getClient, getClients, getClientProgramsData, storeClient, updateClient, destroyCliente }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy

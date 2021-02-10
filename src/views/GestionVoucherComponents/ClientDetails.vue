@@ -157,7 +157,7 @@
                                             <i :class="`bg-${voucher.state == 'verificado' ? 'success' : 'danger'}`"></i>
                                             <span class="status">{{voucher.state}}</span>
                                         </badge>
-                                        <b-card-text class="mt-4 m-b-3 mb-lg-1">
+                                        <b-card-text class="mt-4 m-b-3 mb-lg-1 d-flex justify-content-around">
                                             <b-button  size="sm" variant="primary" @click="editarVoucher(voucher.id)">
                                                 EDITAR
                                             </b-button>
@@ -213,11 +213,25 @@
                             {{$store.state.client.data.commentary || clientData.commentary}}
                         </p>
                     </b-col>
-                    <b-col cols="12">
+                    <b-col cols="12" class="mb-2">
                         <p class="m-0 ml-1 p-0 opacity-6">Perfil :</p> 
                         <p class="apk-client-data">
                             {{$store.state.client.data.profile || clientData.profile}}
                         </p>
+                    </b-col>
+                    <b-col cols="12" class="mb-2">
+                        <b-card-text class="mt-4 m-b-3 mb-lg-1 d-flex justify-content-around">
+                            <b-button  size="sm" variant="primary" @click="editarCliente">
+                                EDITAR
+                            </b-button>
+
+                            <b-button  size="sm" variant="danger" 
+                                @click="eliminarCliente"
+                                v-if="clientProgramsData.length == 0 ? true : false"
+                                >
+                                ELIMINAR
+                            </b-button>
+                        </b-card-text>
                     </b-col>
                 </b-row>
 
@@ -228,13 +242,14 @@
 </template>
 <script>
   import store from '@/store';
-  import { getClient, getClientProgramsData } from '@/api/clients';
+  import { getClient, getClientProgramsData, destroyCliente } from '@/api/clients';
   import { getVouchersProgramData, storeClientProgram, destroyClientProgram } from '@/api/clientPrograms';
   import { getApkPrograms } from '@/api/apkPrograms';
   import { destroyVoucher } from '@/api/voucher';
   import swal from 'sweetalert';
 
   export default {
+      name:'ClientDetails',
     data() {
         return {
             clientProgramsData: [] ,
@@ -472,7 +487,41 @@
                 }).finally ( () => {
                     this.$set( clientProgram, "deleteLoading", false );
                 }) 
-        }
+        },
+      
+        eliminarCliente () {
+            swal('¿Estás seguro de eliminar este Cliente?', {
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: true,
+                }
+            ).then( resp => {
+                if(resp) {
+                    destroyCliente(this.$route.params.clientId)
+                        .then( res => {
+                            if(res.status == 204) {
+                                swal('El cliente fue eliminado',{icon:'success'})
+                                this.$router.push({name: 'lista-Clientes'})
+                            }
+                        }).catch( err => {
+                            if(err.response){
+                                swal('No se pudo eliminar el cliente', err.response.status, {icon:'warning'})
+                            } else {
+                                swal('No se pudo eliminar el cliente', err.message, {icon:'warning'})
+                            }
+                        })
+                }
+            })
+        },
+
+       editarCliente () {
+            this.$router.push({
+                name: 'editar-cliente',
+                params: {
+                    clientId: this.$route.params.clientId
+                }
+            })
+        },
     }
   };
 </script>

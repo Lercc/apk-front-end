@@ -3,18 +3,18 @@
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
             <b-card-title class="text-center text-md-right">
-                CREAR NUEVO CLIENTE
+                EDITAR CLIENTE
             </b-card-title>
             <b-form >
                 <b-form-group
                     label="* Nombre:"
                 > 
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.name"
                         type="text"
                         placeholder="Ingrese el nombre del cliente"
@@ -30,12 +30,12 @@
                 <b-form-group
                     label="* Apellidos:"
                 > 
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.surnames"
                         type="text"
                         placeholder="Ingrese los apellidos del cliente"
@@ -51,12 +51,12 @@
                 <b-form-group
                     label="* DNI:"
                 > 
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.dni"
                         type="number"
                         placeholder="Ingrese el dni del cliente"
@@ -72,12 +72,12 @@
                 <b-form-group
                     label="Celular:"
                 > 
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.mobile"
                         type="number"
                         placeholder="Ingrese el dni del cliente"
@@ -93,12 +93,12 @@
                 <b-form-group
                     label="* Email:"
                 > 
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-input
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.email"
                         type="email"
                         placeholder="Ingrese el correo del cliente"
@@ -115,12 +115,12 @@
                 <b-form-group
                     label="Perfil:"
                 >   
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-textarea
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.profile"
                         placeholder="Ingrese el perfil del cliente..."
                         rows="1"
@@ -138,12 +138,12 @@
                 <b-form-group
                     label="Comentarios adicionales:"
                 >   
-                    <div class="" v-if="createClientLoading">
-                        <pulse-loader :loading="createClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    <div class="" v-if="updateClientLoading">
+                        <pulse-loader :loading="updateClientLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
                     <b-form-textarea
-                        v-show="!createClientLoading"
+                        v-show="!updateClientLoading"
                         v-model="form.commentary"
                         placeholder="Ingrese un comentario..."
                         rows="3"
@@ -163,14 +163,14 @@
                     @click="enviar"
                     size="lg"
                 >
-                    CREAR CLIENTE
+                    ACTUALIZAR CLIENTE
                </b-btn>
             </b-form>
         </b-card>
     </b-container>
 </template>
 <script>
-  import { storeClient } from '@/api/clients';
+  import { getClient , updateClient } from '@/api/clients';
 
   export default {
     data() {
@@ -195,12 +195,15 @@
             //
             erroresInputs: [],
             //
-            createClientLoading: false,
+            updateClientLoading: false,
       }
     },
-    
+    beforeMount() {
+        this.getClientData(this.$route.params.clientId)
+        this.clear()
+    },
     methods: {
-         clear(){
+        clear(){
             this.erroresInputs = []
             this.nameState =  null
             this.surnamesState =  null
@@ -245,8 +248,36 @@
             }
         },
 
+        getClientData(pClientId) {
+            this.updateClientLoading = true
+            getClient(pClientId)
+                .then( res => {
+                     if( res.status == 200) {
+                        [this.form] = [res.data.data.attributes]
+                        this.$notify({
+                            type: 'success',
+                            title: 'Datos recuperados'
+                        })
+                     }
+                }).catch( err => {
+                    if(err.response){
+                        this.$notify({
+                            type: 'danger',
+                            title: `Algo salio mal: ${err.response.status}`
+                        })
+                    } else {
+                        this.$notify({
+                            type: 'danger',
+                            title: err.message
+                        })
+                    }
+                }).finally ( () => {
+                     this.updateClientLoading = false
+                })
+        },
+
         enviar() {
-            this.createClientLoading = true
+            this.updateClientLoading = true
 
             this.nameState = true
             this.surnamesState = true
@@ -257,41 +288,40 @@
             this.commentaryState = true
 
             let clientForm = new FormData()
+            clientForm.append('.method', 'put')
             clientForm.append('name', this.form.name)
             clientForm.append('surnames', this.form.surnames)
             clientForm.append('dni', this.form.dni)
             clientForm.append('email',this.form.email)
-            clientForm.append('mobile', this.form.mobile)
+            clientForm.append('mobile', this.form.mobile == null ? '' : `${this.form.mobile}`)
             clientForm.append('profile', this.form.profile)
             clientForm.append('commentary', this.form.commentary)
 
-            storeClient(clientForm)
+            updateClient(this.$route.params.clientId, clientForm)
                 .then( res => {
-                    if(res.status == 201) {
+                    if(res.status == 200) {
                        this.$notify({
                             type: 'success',
-                            title: 'Creación correcta!!'
+                            title: 'Actualización correcta!!'
                         })
-                        this.$router.push({
-                            name : 'lista-Clientes'
-                        })
+                        this.clear()
+                        this.getClientData(this.$route.params.clientId)
                     }
                 }).catch( err => {
                     if (err.response) {
-                        this.clear()                                                
                         this.erroresInputs = err.response.data.errors
                         this.$notify({
                             type: 'danger',
                             title:  'Existen campos inválidos'
                         })
                     } else {
-                        this.notify({
+                        this.$notify({
                             type: 'danger',
                             title: err.message
                         })
                     }
                 }).finally( () => {
-                    this.createClientLoading = false
+                    this.updateClientLoading = false
                 })
         }
       

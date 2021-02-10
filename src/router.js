@@ -15,7 +15,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'dashboard',
+      redirect: 'inicio',
       component: ApkAdmin,
       children: [
         {
@@ -53,6 +53,11 @@ export default new Router({
               path: '/gestion-vouchers/crear-cliente',
               name: 'crear-cliente',
               component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/CrearCliente.vue')
+            },
+            {
+              path: '/gestion-vouchers/editar-cliente/:clientId',
+              name: 'editar-cliente',
+              component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/GestionVoucherComponents/EditarCliente.vue')
             },
           ]
         },

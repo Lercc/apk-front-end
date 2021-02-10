@@ -59,7 +59,7 @@
           <th scope="row">{{row.name}} {{row.surnames}}</th>
           <th scope="row">{{row.mobile}}</th>
           <th scope="row">{{row.email}}</th>
-          <th scope="row">{{row.commentary.substring(0, 50)+'...'}}</th>
+          <th scope="row">{{ row.commentary ? row.commentary.substring(0, 50)+'...' : ''}}</th>
         </template>
 
       </base-table>
