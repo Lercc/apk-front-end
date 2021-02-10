@@ -2,7 +2,7 @@
                
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
-            <b-card-title class="text-right">
+            <b-card-title class="text-center text-md-right">
                EDITAR VOUCHER
             </b-card-title>
             <b-form >

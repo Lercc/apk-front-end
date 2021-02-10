@@ -19,7 +19,7 @@
                 <span class="navbar-toggler-icon"></span>
             </navbar-toggle-button>
 
-            <div class="collapse navbar-collapse"
+            <div class="collapse navbar-collapse d-flex justify-content-end"
                  :class="{show: toggled}"
                  :id="contentId"
                  v-click-outside="closeMenu">

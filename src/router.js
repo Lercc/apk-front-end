@@ -19,9 +19,9 @@ export default new Router({
       component: ApkAdmin,
       children: [
         {
-          path: '/dashboard',
-          name: 'dashboard',
-          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Dashboard.vue')
+          path: '/inicio',
+          name: 'inicio',
+          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Inicio.vue')
         },
         {
           path: '/gestion-vouchers',

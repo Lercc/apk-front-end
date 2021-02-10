@@ -12,7 +12,8 @@
 
             <slot name="mobile-right">
                 <ul class="nav align-items-center d-md-none">
-                    <base-dropdown class="nav-item" position="right">
+                    <!-- NOTIFICACIONES -->
+                    <!-- <base-dropdown class="nav-item" position="right">
                         <a slot="title" class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             <i class="ni ni-bell-55"></i>
@@ -22,36 +23,24 @@
                         <a class="dropdown-item" href="#">Another action</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
-                    </base-dropdown>
+                    </base-dropdown> -->
+                    <!-- END NOTIFICACIONES -->
+                    
                     <base-dropdown class="nav-item" position="right">
                         <a slot="title" class="nav-link" href="#" role="button">
                             <div class="media align-items-center">
-                              <span class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+                              <span class="avatar avatar-sm rounded-circle apk-employee opacity-8">
+                                <img class="apk-employee-img" alt="employeee" src="img/icons/apk/logo-user-262x262.png">
                               </span>
                             </div>
                         </a>
 
                         <div class=" dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome!</h6>
+                            <h6 class="text-overflow m-0">opciones</h6>
                         </div>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
-                            <span>My profile</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-settings-gear-65"></i>
-                            <span>Settings</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Activity</span>
-                        </router-link>
-                        <router-link to="/profile" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Support</span>
-                        </router-link>
+
                         <div class="dropdown-divider"></div>
+
                         <a href="#!" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
                             <span>Logout</span>
@@ -81,31 +70,8 @@
                 </ul>
                 <!--Divider-->
                 <hr class="my-3">
-                <!--Heading-->
-                <!-- <h6 class="navbar-heading text-muted">Documentation</h6> -->
-                <!--Navigation-->
-                <!-- <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="https://demos.creative-tim.com/vue-argon-dashboard/documentation">
-                            <i class="ni ni-spaceship"></i> Getting started
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/foundation/colors.html">
-                            <i class="ni ni-palette"></i> Foundation
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/components/alerts.html">
-                            <i class="ni ni-ui-04"></i> Components
-                        </a>
-                    </li>
-                </ul> -->
             </div>
-            </div>
+          </div>
     </nav>
 </template>
 <script>
@@ -119,7 +85,7 @@
     props: {
       logo: {
         type: String,
-        default: 'img/brand/green.png',
+        default: 'img/brand/imagotipo-w&t-524x170.png',
         description: 'Sidebar app logo'
       },
       autoClose: {
@@ -148,3 +114,11 @@
     }
   };
 </script>
+<style scoped>
+  .apk-employee {
+    background-color: rgba(0, 0, 0, .05);
+  }
+  .apk-employee-img{
+    transform: scale(.6);
+  }
+</style>

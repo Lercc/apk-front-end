@@ -2,7 +2,7 @@
                
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
-            <b-card-title class="text-right">
+            <b-card-title class="text-center text-md-right">
                 CREAR NUEVO VOUCHER
             </b-card-title>
             <b-form >
@@ -37,6 +37,7 @@
                         v-model="form.image"
                         placeholder="Subir una imagem..."
                         :state="imageState"
+                        style="overflow:hidden"
                     ></b-form-file>
                     <span 
                         class="text-danger"

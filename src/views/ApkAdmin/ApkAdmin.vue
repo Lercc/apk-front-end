@@ -8,9 +8,9 @@
       <template slot="links">
         <sidebar-item
           :link="{
-            name: 'Dashboard',
+            name: 'Inicio',
             icon: 'ni ni-tv-2 text-primary',
-            path: '/dashboard'
+            path: '/inicio'
           }"
         />
 
@@ -33,6 +33,7 @@
         </fade-transition>
         <content-footer v-if="!$route.meta.hideFooter"></content-footer>
       </div>
+      
     </div>
   </div>
 </template>

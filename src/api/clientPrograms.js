@@ -16,4 +16,11 @@ function storeClientProgram(pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
 }
 
-export { getVouchersProgramData, storeClientProgram }
+function destroyClientProgram(pClientProgramId) {
+    const REQUEST = `api/clientPrograms/${pClientProgramId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.delete(`${API_URL}/${REQUEST}`, { headers })
+}
+
+
+export { getVouchersProgramData, storeClientProgram, destroyClientProgram }

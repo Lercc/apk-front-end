@@ -2,15 +2,10 @@
     <b-row>
 
         <b-col cols="12" lg="7" xl="8" order="1" order-lg="0">
-             <!-- LOADER -->
-            <div class="bg-secondary d-flex justify-content-center py-8 apk-shadow rounded" v-if="dataClientProgramsLoading">
-                <pulse-loader :loading="dataClientProgramsLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
-            </div>
-            <!-- END LOADER -->
+            
             <b-card
                 no-body
                 class="mb-5 apk-shadow opacity-9"
-                v-if="!dataClientProgramsLoading"
 
             >  
                 <b-card-header>
@@ -53,67 +48,96 @@
 
 
             <!-- PROGRAMAS DE LOS CLIENTES -->
-            <div class="accordion">
-                <b-card-header class="apk-soft-shadow" v-if="!dataClientProgramsLoading">
+            <div class="accordion"
+            >
+                <!-- <b-card-header class="apk-soft-shadow" v-if="!dataClientProgramsLoading"> -->
+                <b-card-header class="apk-soft-shadow">
                     Programas relacionados al cliente :
+                </b-card-header>
+
+                <!-- LOADER -->
+                <div class="d-flex justify-content-center  apk-shadow rounded" v-show="dataClientProgramsLoading"
+                    style="background-color:#fff">
+                    <pulse-loader :loading="dataClientProgramsLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
+                </div>
+                <!-- END LOADER -->
+
+                 <b-card-header class="apk-soft-shadow" v-show="createProgramLoading">
+                    <!-- LOADER -->
+                    <div class="d-flex justify-content-center  apk-shadow rounded" v-show="createProgramLoading"
+                        style="background-color:#fff">
+                        <pulse-loader :loading="createProgramLoading" :size="20" :margin="'15px'" :color="'#2B2D64'" />
+                    </div>
+                    <!-- END LOADER -->
                 </b-card-header>
 
                 <!-- ITEREACIÓN DE LOS PROGRAMAS DE LOS CLIENTES -->
                 <b-card 
                     no-body 
+                    v-show="!dataClientProgramsLoading"
                     class="apk-soft-shadow"
-                    v-for="(program, index) of clientProgramsData"
-                    :key="`${index}-c-p-${program.client_id}`"
+                    v-for="(clientProgram, index) of clientProgramsData"
+                    :key="`${index}-c-p-${clientProgram.client_id}`"
                 >
                     <!-- CABECERAS -->
                     <b-card-header class="p-2" role="tab">
                         <b-button 
                             block 
-                            v-b-toggle="'accordion-' + program.id"
+                            v-b-toggle="'accordion-' + clientProgram.id"
                             variant="primary"
                             class="d-flex justify-content-around"
                             :class="{ 
-                                wat : program.program_id==1,
-                                internship : program.program_id==2,
-                                trainee : program.program_id==3,
-                                aupair : program.program_id==4
+                                wat : clientProgram.program_id==1,
+                                internship : clientProgram.program_id==2,
+                                trainee : clientProgram.program_id==3,
+                                aupair : clientProgram.program_id==4
                                 }"
                             v-show="!dataClientProgramsLoading"
                         >
-                          <span class="apk-client-programs-data d-sm-none">{{program.program_name == 'work and travel' ? 'wat' : program.program_name }}</span>
-                          <span class="apk-client-programs-data d-none d-sm-block">{{program.program_name}}</span>
-                          <span class="apk-client-programs-data">{{program.season}}</span>
-                          <span class="apk-client-programs-data">{{program.state}}</span>
+                          <span class="apk-client-programs-data d-sm-none">{{clientProgram.program_name == 'work and travel' ? 'wat' : clientProgram.program_name }}</span>
+                          <span class="apk-client-programs-data d-none d-sm-block">{{clientProgram.program_name}}</span>
+                          <span class="apk-client-programs-data">{{clientProgram.season}}</span>
+                          <span class="apk-client-programs-data">{{clientProgram.state}}</span>
                         </b-button>
                     </b-card-header>
                     
                     <!-- CONTENIDO( VOUCHERS) -->
                     <!-- <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" > -->
-                    <b-collapse :id="`accordion-${program.id}`" >
+                    <b-collapse :id="`accordion-${clientProgram.id}`" >
 
-                        <!-- BTN AGREGAR VOUCHER A UN PROGRAMA DEL CLIENTE -->
                         <b-card-body>
+                        <!-- BTN AGREGAR VOUCHER A UN PROGRAMA DEL CLIENTE -->
                             <b-button 
                                 block
                                 variant="primary" 
                                 class="d-flex justify-content-around apk-color-gray apk-border-dash"
-                                v-show="!program.vouchers"
-                                @click="crearvoucher(program)"
+                                @click="crearvoucher(clientProgram)"
                             >
-                            <span class="apk-client-programs-data"> + AGREGAR</span>
+                                <span class="apk-client-programs-data"> + AGREGAR VOUCHER</span>
+                            </b-button>
+
+                            <!-- BTN AGREGAR ELIMINAR EL PROGRAMA DEL CLIENTE -->
+                             <b-button 
+                                block
+                                variant="danger" 
+                                class="d-flex justify-content-around mt-4 opacity-9"
+                                v-if="clientProgram.vouchers ? clientProgram.vouchers.length == 0 ? true : false : false "
+                                @click="eliminarPrograma(clientProgram)"
+                            >
+                                 <span class="apk-client-programs-data"> - Eliminar programa</span>
                             </b-button>
                         </b-card-body>
 
-                        <!-- LOADER -->
-                        <div class="bg-secondary d-flex justify-content-center py-8" v-if="!program.vouchers">
-                            <pulse-loader :loading="program.loading || true" :size="20" :margin="'15px'" :color="'#2B2D64'" />
+                        <!-- VOUCHERS DATA LOADER -->
+                        <div class="bg-secondary d-flex justify-content-center py-2" v-if="!clientProgram.vouchers">
+                            <pulse-loader :loading="clientProgram.loading || true" :size="20" :margin="'15px'" :color="'#2B2D64'" />
                         </div>
                         <!-- END LOADER -->
 
                         <!-- ITERACIÓN DE VOUCHERS POR PROGRAMAS -->
                         <b-card-body 
                             v-else 
-                            v-for="(voucher, index) in  program.vouchers" 
+                            v-for="(voucher, index) in  clientProgram.vouchers" 
                             :key="`${voucher.id}-voucher-${index}`"
                         >
                             <b-row 
@@ -129,7 +153,10 @@
                                         <p class="apk-card-title mb-0">{{voucher.code}}</p>
                                         <p class="apk-card-subtitle mb-0">{{voucher.name}}</p>
                                         <p class="apk-card-text mb-0">{{voucher.description}}</p>
-
+                                         <badge class="badge-dot mr-4" :type="voucher.state == 'verificado' ? 'success' : 'danger'">
+                                            <i :class="`bg-${voucher.state == 'verificado' ? 'success' : 'danger'}`"></i>
+                                            <span class="status">{{voucher.state}}</span>
+                                        </badge>
                                         <b-card-text class="mt-4 m-b-3 mb-lg-1">
                                             <b-button  size="sm" variant="primary" @click="editarVoucher(voucher.id)">
                                                 EDITAR
@@ -202,7 +229,7 @@
 <script>
   import store from '@/store';
   import { getClient, getClientProgramsData } from '@/api/clients';
-  import { getVouchersProgramData, storeClientProgram } from '@/api/clientPrograms';
+  import { getVouchersProgramData, storeClientProgram, destroyClientProgram } from '@/api/clientPrograms';
   import { getApkPrograms } from '@/api/apkPrograms';
   import { destroyVoucher } from '@/api/voucher';
   import swal from 'sweetalert';
@@ -220,6 +247,7 @@
             years: [],
             //
             dataClientProgramsLoading: false,
+            createProgramLoading: false
       }
     },
     beforeMount (){
@@ -227,7 +255,7 @@
         this.getYears()
     },
     methods: {
-        getYears() {
+        getYears () {
             var date = new Date();
             var year = date.getFullYear();
             
@@ -238,7 +266,7 @@
             }
         },
 
-        getClientProgramsData() {
+        getClientProgramsData () {
             this.dataClientProgramsLoading = true
             getClientProgramsData(store.state.client.data.id || this.$route.params.clientId)
                 .then (res => {
@@ -246,18 +274,18 @@
                         this.clientProgramsData = res.data.data.map(m => m.attributes)
                         this.$notify({
                             type: 'success',
-                            title: `Programas del cliente recuperados`
+                            title: `Programas recuperados`
                         })
 
-                        this.clientProgramsData.forEach(element => {
-                            this.getVouchersData(element)
+                        this.clientProgramsData.forEach( clientProgra => {
+                            this.getVouchersData(clientProgra)
                         });
                     }
                 }).catch (err => {
                      if(err.response){
                         this.$notify({
                             type: 'danger',
-                            title: err.response.status
+                            title: `Algo salio mal :${err.resposne.status}`
                         })
                     } else {
                         this.$notify({
@@ -284,7 +312,7 @@
                         if(err.response){
                            this.$notify({
                                 type: 'danger',
-                                title: err.response.status
+                                title: `Algo salio mal :${err.resposne.status}`
                             })
                         } else {
                             this.$notify({
@@ -303,7 +331,7 @@
                     if(err.response){
                         this.$notify({
                             type: 'danger',
-                            title: err.response.status
+                            title: `Algo salio mal :${err.resposne.status}`
                         })
                     } else {
                         this.$notify({
@@ -315,18 +343,18 @@
            
         },
 
-        getVouchersData(program) {
-            program.loading = true
-            getVouchersProgramData(program.id)
+        getVouchersData (clientProgram) {
+            clientProgram.loading = true
+            getVouchersProgramData(clientProgram.id)
                 .then(res => {
                     if(res.status==200) {
-                        this.$set( program, "vouchers", res.data.data.map( m => m.attributes ));
+                        this.$set( clientProgram, "vouchers", res.data.data.map( m => m.attributes ));
                     }
                 }).catch( err => {
                     if(err.response){
                         this.$notify({
                             type: 'danger',
-                            title: err.response.status
+                            title: `Algo salio mal :${err.resposne.status}`
                         })
                     } else {
                         this.$notify({
@@ -335,11 +363,11 @@
                         })
                     }
                 }).finally( () => {
-                    this.$set( program, "loading", false );
+                    this.$set( clientProgram, "loading", false );
                 })
         },
 
-        crearvoucher(clientProgram) {
+        crearvoucher (clientProgram) {
             this.$router.push({
                 name : 'crear-voucher',
                 params: {
@@ -350,6 +378,7 @@
         },
 
         createClientProgram () {
+            this.createProgramLoading = true
             let clientProgram = new FormData()
             clientProgram.append('client_id', this.$route.params.clientId)
             clientProgram.append('program_id', this.newProgramData.program_id)
@@ -369,7 +398,7 @@
                     if (err.response){
                         this.$notify({
                             type: 'danger',
-                            title: err.response.status
+                            title: `Algo salio mal :${err.resposne.status}`
                         })
                     } else {
                         this.$notify({
@@ -377,10 +406,12 @@
                             title: err.message
                         })
                     }
-                })   
+                }).finally( () => {
+                    this.createProgramLoading = false
+                })
         },
 
-        eliminarVoucher(voucherId) {
+        eliminarVoucher (voucherId) {
             swal('¿Estás seguro de eliminar este voucher?', {
                     icon: 'warning',
                     dangerMode: true,
@@ -405,7 +436,7 @@
             })
         },
 
-        editarVoucher(voucherId) {
+        editarVoucher (voucherId) {
             this.$router.push({
                 name: 'editar-voucher',
                 params: {
@@ -413,6 +444,34 @@
                     clientId: this.$route.params.clientId
                 }
             })
+        },
+
+        eliminarPrograma (clientProgram) {
+            this.$set( clientProgram, "deleteLoading", true );
+            destroyClientProgram(clientProgram.id)
+                .then( res => {
+                    if (res.status == 204) {
+                        this.$notify({
+                            type: 'success',
+                            title: 'Programa eliminado!'
+                        })
+                        this.getClientProgramsData()
+                    } 
+                }).catch( err => {
+                    if (err.response) {
+                        this.$notify({
+                            type: 'danger',
+                            title: `Algo salio mal :${err.resposne.status}`
+                        })
+                    } else {
+                        this.$notify({
+                            type: 'danger',
+                            title: err.message
+                        })
+                    }
+                }).finally ( () => {
+                    this.$set( clientProgram, "deleteLoading", false );
+                }) 
         }
     }
   };
