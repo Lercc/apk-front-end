@@ -2,8 +2,8 @@
                
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
-            <b-card-title>
-                Nuevo Voucher
+            <b-card-title class="text-right">
+                CREAR NUEVO VOUCHER
             </b-card-title>
             <b-form >
                 <b-form-group
@@ -82,21 +82,19 @@
                     ></b-form-textarea>
                </b-form-group>
 
-               <b-btn 
+               <b-btn
                     variant="primary"
                     @click="enviar"
                     size="lg"
                 >
-                    REGISTRAR VOUCHER
+                    CREAR VOUCHER
                </b-btn>
             </b-form>
         </b-card>
     </b-container>
 </template>
 <script>
-//   import store from '@/store';
   import { storeVoucherClientProgram } from '@/api/voucher';
-//   import { getVouchersProgramData } from '@/api/clientPrograms';
 
   export default {
     data() {
@@ -113,11 +111,9 @@
             nameState: null,
             imageState: null,
             codeState: null,
-
+            //
             erroresInputs: [],
-            // invalidFeedback: 'sestas mal ',
-            // state: false
-
+            //
             updateVoucherLoading: false,
       }
     },
@@ -144,11 +140,13 @@
                 return []
             }
         },
-        enviar() {
-            this.nameState = null
-            this.nameState = null
-            this.nameState = null
 
+        enviar() {
+            this.updateVoucherLoading = true
+
+            this.nameState = null
+            this.nameState = null
+            this.nameState = null
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
@@ -160,37 +158,43 @@
 
             storeVoucherClientProgram(voucherForm)
                 .then( res => {
-                    console.log('ESTAUS',res.status)  // para elmiminar
-                    console.log('data',res.data)  // para elmiminar
                     if(res.status == 201) {
                        this.$notify({
                             type: 'success',
-                            title: `${res.status}: Creación correcta`
+                            title: 'Creación correcta!!'
                         })
-                         this.$router.push({
+                        this.$router.push({
                             name : 'detalles-Cliente',
                             params: {
-                                id : this.$route.params.clientId
+                                clientId : this.$route.params.clientId
                             }
                         })
                     }
                 }).catch( err => {
                     if (err.response) {
-                        console.log(err.response.data) // to delete
-                        console.log(err.response.status) // to delete
                         this.erroresInputs = err.response.data.errors
-                         this.$notify({
+                        this.$notify({
                             type: 'danger',
-                            title: `${err.response.status}: Existen campos inválidos`
+                            title:  'Existen campos inválidos'
+                        })
+                    } else {
+                        this.notify({
+                            type: 'danger',
+                            title: err.message
                         })
                     }
+                }).finally( () => {
+                    this.updateVoucherLoading = false
                 })
         }
       
     }
   };
 </script>
+
 <style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700;800&display=swap');
+    
     .apk-shadow {
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.16);
     }
@@ -200,6 +204,7 @@
                     -1px 1px 2px rgba(133, 132, 132, 0.16);
     }
     .apk-client-data {
+        font-size: 14px;
         padding: 5px 10px;
         border-radius: 10px;
         background-color: rgba(210, 205, 218, 0.25);
@@ -233,6 +238,11 @@
         background-color: rgb(100,204,201);
         border:none;
     }
+    .apk-color-gray-only {
+        background-color: rgba(138, 138, 138, 0.0);
+        border: 2px solid  rgba(138, 138, 138, 0.301);
+        box-shadow: none;
+    }
     .apk-color-gray {
         background-color: rgba(138, 138, 138, 0.0);
         border: 2px solid  rgba(138, 138, 138, 0.301);
@@ -261,5 +271,39 @@
         font-weight: bolder;
         text-align: justify;
         color: rgb(145, 145, 145);
+    }
+    
+    .apk-select {
+        appearance: none;
+        border: none;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        padding: 5px 15px;
+        border-radius: 8px;
+        background-color: rgba(204, 192, 214, 0.363);
+        color: rgb(0, 0, 0);
+    }
+    .bg-gray {
+        background-color: rgba(129, 128, 128, 0.527);
+
+    }
+    .apk-border-dash {
+        border-style: dashed;
+    }
+    .apk-select-option {
+        padding: 5px 15px;
+        border-radius: 8px;
+        color: #000f;
+        background-color: rgb(255, 255, 255,0.158);
+    }
+    .apk-glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+    }
+    .apk-bottom {
+        position: absolute;
+        bottom: 25px;
     }
 </style>

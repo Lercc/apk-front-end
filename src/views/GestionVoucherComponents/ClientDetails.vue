@@ -409,11 +409,11 @@
             this.$router.push({
                 name: 'editar-voucher',
                 params: {
-                    voucherId: voucherId
+                    voucherId: voucherId,
+                    clientId: this.$route.params.clientId
                 }
             })
         }
-
     }
   };
 </script>
