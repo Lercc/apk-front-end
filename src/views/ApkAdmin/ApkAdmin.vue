@@ -2,8 +2,8 @@
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
     <side-bar
       :background-color="sidebarBackground"
-      short-title="Argon"
-      title="Argon"
+      short-title="apk"
+      title="apk"
     >
       <template slot="links">
         <sidebar-item
@@ -19,7 +19,7 @@
         <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/careers'}"/>
         <sidebar-item :link="{name: 'Instituciones', icon: 'ni ni-align-left-2 text-red', path: '/institutions'}"/>
         <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}"/>
-
+        
       </template>
     </side-bar>
     
