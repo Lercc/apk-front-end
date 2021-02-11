@@ -77,11 +77,22 @@ export default new Router({
               name: 'lista-leads-perfiles-aceptados',
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsPerfilesAceptadosTable.vue')
             },
+
+
+
+
+
+
+            {
+              path: '/gestion-leads/editar-lead/:leadId',
+              name: 'editar-lead',
+              component: () => import (/* webpackChunkName: "editar-lead" */ '@/views/GestionLeadComponents/EditarLead.vue')
+            }
           ]
         },
         {
-          path: '/careers',
-          name: 'careers',
+          path: '/carreras',
+          name: 'carreras',
           component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue'),
           children: [
             {
@@ -89,6 +100,11 @@ export default new Router({
               name: 'lista-carreras',
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/CareersComponents/CareersTable.vue')
             },
+            // {
+            //   path: '/gestion-leads/editar-lead',
+            //   name: 'editar-carrera',
+            //   component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/C')
+            // }
           ]
         },
         {

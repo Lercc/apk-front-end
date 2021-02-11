@@ -58,7 +58,7 @@
         <template slot-scope="{row}">
           <td class="text-left">
             <base-dropdown class="dropdown" position="left">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a slot="title" class="btn btn-sm btn-icon-only btn-primary text-secondary opacity-8" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
               </a>
               <template>
@@ -69,7 +69,7 @@
 
                 <div class="dropdown-divider"></div>
 
-                <span class="dropdown-item text-primary" @click="editar(row.id)">Editar </span>
+                <span class="dropdown-item text-primary" @click="editar(row.id)">Editar</span>
                 <span class="dropdown-item text-danger" @click="eliminar(row.id)">Eliminar</span>
               </template>
             </base-dropdown>
@@ -318,7 +318,7 @@
 
       editar (pLeadId) {
         this.$router.push({
-          name: 'editar-cliente',
+          name: 'editar-lead',
           params: {
             leadId: pLeadId
           }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <base-header type="gradient-primary" class="pb-8 pb-9 pt-5 pt-md-7 border border-dark">
+        <base-header type="gradient-primary" class="pb-8 pb-9 pt-5 pt-md-7">
 
             <div class="row ">
                 <div class="col d-flex justify-content-between flex-wrap">
