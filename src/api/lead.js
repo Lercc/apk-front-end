@@ -17,8 +17,39 @@ function getLeadsCalificados(pPage=1) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
+/** perfils aceptados-pipeline todos, enviados y no enviados*/
 function getLeadsPerfilesAceptados(pPage=1) {
     const REQUEST = `api/leads/perfiles-aceptados?page=${pPage}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+function getLeadsPerfilesAceptadosEnviado(pPage=1) {
+    const REQUEST = `api/leads/perfiles-aceptados-enviado?page=${pPage}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+function getLeadsPerfilesAceptadosNoEnviado(pPage=1) {
+    const REQUEST = `api/leads/perfiles-aceptados-noenviado?page=${pPage}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+function updatePipeline(pLeadId, pPipeline) {
+    const REQUEST = `api/leads/${pLeadId}/${pPipeline}/updatepipeline`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.put(`${API_URL}/${REQUEST}`, { headers })
+}
+
+/** */
+
+function getLeadsIngles(pPage=1) {
+    const REQUEST = `api/leads/ingles?page=${pPage}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+function getLeadsEdad(pPage=1) {
+    const REQUEST = `api/leads/edad?page=${pPage}`
     const headers = { Authorization : `Bearer ${TOKEN}`}
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
@@ -32,6 +63,7 @@ function updateQualifiedTable(pLeadId, pFormData) {
     }
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
+
 function updateAceptedTable(pLeadId, pFormData) {
     const REQUEST = `api/leads/${pLeadId}/updateAceptedTable`
     const headers = { 
@@ -84,8 +116,13 @@ function createLead(pFormData) {
 
 export {
     getShowLead,
-    getLeadsCalificados, 
-    getLeadsPerfilesAceptados, 
+    getLeadsCalificados,
+    getLeadsPerfilesAceptados,
+    getLeadsPerfilesAceptadosEnviado,
+    getLeadsPerfilesAceptadosNoEnviado,
+    updatePipeline,
+    getLeadsIngles,
+    getLeadsEdad,
     updateEnglishTable, 
     updateAgeTable, 
     updateAceptedTable, 

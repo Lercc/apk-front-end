@@ -7,7 +7,7 @@
       <div class="row align-items-center">
         <div class="col">
           <h3 class="mb-0 text-uppercase text-muted" :class="type === 'dark' ? 'text-white': ''" c>
-            Tabla de Leads Calificados
+            Tabla de Leads - Inglés
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
@@ -53,11 +53,12 @@
 
 
         <template slot-scope="{row}">
+
           <td class="text-left">
             <b-dropdown size="sm" text="•••" variant="primary">
-              <!-- <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item> -->
+              <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
               <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+              <!-- <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item> -->
               <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
 
               <b-dropdown-divider></b-dropdown-divider>
@@ -81,10 +82,10 @@
           <td >{{row.profile}}</td>
           <td >{{ row.commentary}}</td>
           <td class="text-left">
-           <b-dropdown size="sm" text="•••" variant="primary">
-              <!-- <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item> -->
+            <b-dropdown size="sm" text="•••" variant="primary">
+              <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
               <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+              <!-- <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item> -->
               <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
 
               <b-dropdown-divider></b-dropdown-divider>
@@ -118,7 +119,7 @@
   import * as lead from '@/api/lead'
 
   export default {
-    name: 'LeadsCalificadosTable',
+    name: 'LeadsEdadTable',
     props: {
       type: {
         type: String
@@ -141,7 +142,7 @@
     methods: {
       cargardatos (pPage) {
         this.dataTableLoading = true
-        lead.getLeadsCalificados(pPage)
+        lead.getLeadsEdad(pPage)
           .then( res => {
             if (res.status == 200) {
               this.status = 200

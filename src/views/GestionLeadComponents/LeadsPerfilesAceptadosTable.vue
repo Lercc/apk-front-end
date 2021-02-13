@@ -6,16 +6,11 @@
          :class="type === 'dark' ? 'bg-transparent': ''">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''" c>
-            Tabla de Leads de perfiles aceptados
+          <h3 class="mb-0 text-uppercase text-muted" :class="type === 'dark' ? 'text-white': ''" c>
+            Tabla de Leads Perfiles Aceptados - todos 
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
-            <b-button variant="success" size="sm" @click="crearNuevoLead">
-              <b-icon icon="person-plus-fill" ></b-icon>
-              <span>NUEVO</span>
-            </b-button>
-
             <b-button variant="success" size="sm" @click="recargarDatos">
               <b-icon icon="arrow-counterclockwise" ></b-icon>
             </b-button>
@@ -30,7 +25,7 @@
     </div>
     <!-- END LOADER -->
 
-    <div class="table-responsive" style="min-height: 350px" v-show="!dataTableLoading">
+    <div class="table-responsive" style="min-height: 450px" v-show="!dataTableLoading">
       <base-table class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
@@ -50,34 +45,41 @@
           <th>inglés</th>
           <th>programa</th>
           <th>medio com.</th>
-          <th>Comentario</th>
+          <th>horario</th>
           <th>perfil</th>
+          <th>Comentario</th>
           <th>&nbsp;</th>
         </template>
 
 
         <template slot-scope="{row}">
-          <td class="text-left">
-            <base-dropdown class="dropdown" position="left">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-              <template>
-                <span class="dropdown-item" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></span>
-                <span class="dropdown-item" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></span>
-                <span class="dropdown-item" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></span>
-                <span class="dropdown-item" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></span>
+          <td class="">
+              <b-dropdown size="sm" text="•••" variant="primary">
+                <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
+                <!-- <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item> -->
+                <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+                <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
 
-                <div class="dropdown-divider"></div>
+                <b-dropdown-divider></b-dropdown-divider>
 
-                <span class="dropdown-item text-primary" @click="editar(row.id)">Editar </span>
-                <span class="dropdown-item text-danger" @click="eliminar(row.id)">Eliminar</span>
-              </template>
-            </base-dropdown>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'si')" 
+                  v-if="row.pipeline_dispatch=='no'" ><span class="text-uppercase text-success" >marcar como enviado</span>
+                </b-dropdown-item>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'no')" 
+                  v-if="row.pipeline_dispatch=='si'" ><span class="text-uppercase text-danger" >marcar como no enviado</span>
+                </b-dropdown-item>
+
+                <b-dropdown-divider></b-dropdown-divider>
+
+                <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
+                <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
+              </b-dropdown>
           </td>
           <td >{{row.id}}</td>
           <td >
-            <badge class="badge-dot mr-4" :type="row.pipeline_dispatch == 'no' ? 'danger' : 'success'">
+            <badge class="badge-dot mr-4" v-if="!row.pipelineLoading" :type="row.pipeline_dispatch == 'no' ? 'danger' : 'success'">
               <i :class="`bg-${row.pipeline_dispatch == 'no' ? 'danger' : 'success'}`"></i>
               <span class="status">{{row.pipeline_dispatch}}</span>
             </badge>
@@ -93,9 +95,33 @@
           <td >{{row.program_name}}</td>
           <td >{{row.communication_channel}}</td>
           <td >{{row.schedule_duration}}</td>
-          <td >{{ row.commentary}}</td>
           <td >{{row.profile}}</td>
-          <td >&nbsp;</td>
+          <td >{{ row.commentary}}</td>
+          <td class="text-left">
+          <td class="">
+              <b-dropdown size="sm" text="•••" variant="primary">
+                <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
+                <!-- <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item> -->
+                <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+                <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
+
+                <b-dropdown-divider></b-dropdown-divider>
+
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'si')" 
+                  v-if="row.pipeline_dispatch=='no'" ><span class="text-uppercase text-success" >marcar como enviado</span>
+                </b-dropdown-item>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'no')" 
+                  v-if="row.pipeline_dispatch=='si'" ><span class="text-uppercase text-danger" >marcar como no enviado</span>
+                </b-dropdown-item>
+
+                <b-dropdown-divider></b-dropdown-divider>
+
+                <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
+                <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
+              </b-dropdown>
+          </td>
         </template>
 
       </base-table>
@@ -121,7 +147,7 @@
   import * as lead from '@/api/lead'
 
   export default {
-    name: 'LeadsPerfilesAceptadosTable',
+    name: 'LeadsCalificadosTable',
     props: {
       type: {
         type: String
@@ -136,6 +162,8 @@
         tableData: [],
         //
         dataTableLoading: false,
+        //
+        pipelineLoading: false
       }
     },
     beforeMount() {
@@ -152,9 +180,16 @@
               this.meta = res.data.meta
 
               this.tableData = res.data.data.map( m => m.attributes )
+              this.$notify({
+                    type: 'success',
+                    title: 'Datos recuperados!!'
+              })
             }
           }).catch( err => {
             if(err.response){
+              console.log(err.response.data)
+              console.log(err.message)
+              console.log(err.config)
                 this.$notify({
                     type: 'danger',
                     title: `Algo salio mal: ${err.response.status}`
@@ -183,7 +218,7 @@
         let leadFormdata = new FormData()
         leadFormdata.append('.method','put')
 
-        lead.updateQualifiedTable(pLeadId,leadFormdata)
+        lead.getLeadsPerfilesAceptados(pLeadId,leadFormdata)
           .then( res => {
             if (res.status == 200) {
               this.$notify({
@@ -297,7 +332,7 @@
       },
       
       eliminar (pLeadId) {
-        lead.destroyLead()
+        lead.destroyLead(pLeadId)
         .then( res => {
             if (res.status == 204) {
               this.$notify({
@@ -325,7 +360,7 @@
 
       editar (pLeadId) {
         this.$router.push({
-          name: 'editar-cliente',
+          name: 'editar-lead',
           params: {
             leadId: pLeadId
           }
@@ -340,8 +375,35 @@
 
       recargarDatos() {
         this.cargardatos()
+      },
+
+      cambiarPipeline(pLead, pPipeline){
+        lead.updatePipeline(pLead.id,pPipeline)
+          .then( res => {
+            if (res.status == 200) {
+              this.$set(pLead,'pipeline_dispatch', pPipeline)
+            }
+            this.$notify({
+              type: 'success',
+              title: res.data.message
+            })
+          }).catch (err => {
+            if(err.response) {
+              this.$notify({
+                type: 'danger',
+                title: `Algo salio mal: ${err.response.status}`
+              })
+            } else {
+              this.$notify({
+                type: 'danger',
+                title: err.message
+              })
+            }
+          })
       }
-      
+
+
+
     }
   }
 </script>

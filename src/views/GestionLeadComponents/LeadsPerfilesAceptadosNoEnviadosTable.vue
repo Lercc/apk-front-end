@@ -7,7 +7,7 @@
       <div class="row align-items-center">
         <div class="col">
           <h3 class="mb-0 text-uppercase text-muted" :class="type === 'dark' ? 'text-white': ''" c>
-            Tabla de Leads Calificados
+            Tabla de Leads Perfiles Aceptados - <b class="text-danger">no enviados</b>
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
@@ -31,10 +31,10 @@
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
                   tbody-classes="list"
                   :data="tableData">
-                  
         <template slot="columns">
           <th>&nbsp;</th>
           <th>id</th>
+          <th>pipeline</th>
           <th>dni</th>
           <th>nombres</th>
           <th>celular</th>
@@ -45,7 +45,7 @@
           <th>inglés</th>
           <th>programa</th>
           <th>medio com.</th>
-          <th>Horario</th>
+          <th>horario</th>
           <th>perfil</th>
           <th>Comentario</th>
           <th>&nbsp;</th>
@@ -53,20 +53,37 @@
 
 
         <template slot-scope="{row}">
-          <td class="text-left">
-            <b-dropdown size="sm" text="•••" variant="primary">
-              <!-- <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item> -->
-              <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
+          <td class="">
+              <b-dropdown size="sm" text="•••" variant="primary">
+                <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
+                <!-- <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item> -->
+                <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+                <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
 
-              <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-divider></b-dropdown-divider>
 
-              <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
-              <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
-            </b-dropdown>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'si')" 
+                  v-if="row.pipeline_dispatch=='no'" ><span class="text-uppercase text-success" >marcar como enviado</span>
+                </b-dropdown-item>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'no')" 
+                  v-if="row.pipeline_dispatch=='si'" ><span class="text-uppercase text-danger" >marcar como no enviado</span>
+                </b-dropdown-item>
+
+                <b-dropdown-divider></b-dropdown-divider>
+
+                <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
+                <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
+              </b-dropdown>
           </td>
           <td >{{row.id}}</td>
+          <td >
+            <badge class="badge-dot mr-4" v-if="!row.pipelineLoading" :type="row.pipeline_dispatch == 'no' ? 'danger' : 'success'">
+              <i :class="`bg-${row.pipeline_dispatch == 'no' ? 'danger' : 'success'}`"></i>
+              <span class="status">{{row.pipeline_dispatch}}</span>
+            </badge>
+          </td>
           <td >{{row.dni}}</td>
           <td >{{row.name}} {{row.surnames}}</td>
           <td >{{row.mobile}}</td>
@@ -81,17 +98,29 @@
           <td >{{row.profile}}</td>
           <td >{{ row.commentary}}</td>
           <td class="text-left">
-           <b-dropdown size="sm" text="•••" variant="primary">
-              <!-- <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item> -->
-              <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
-              <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
+          <td class="">
+              <b-dropdown size="sm" text="•••" variant="primary">
+                <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
+                <!-- <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item> -->
+                <b-dropdown-item class="" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></b-dropdown-item>
+                <b-dropdown-item class="" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></b-dropdown-item>
 
-              <b-dropdown-divider></b-dropdown-divider>
+                <b-dropdown-divider></b-dropdown-divider>
 
-              <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
-              <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
-            </b-dropdown>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'si')" 
+                  v-if="row.pipeline_dispatch=='no'" ><span class="text-uppercase text-success" >marcar como enviado</span>
+                </b-dropdown-item>
+                <b-dropdown-item 
+                  @click="cambiarPipeline(row, 'no')" 
+                  v-if="row.pipeline_dispatch=='si'" ><span class="text-uppercase text-danger" >marcar como no enviado</span>
+                </b-dropdown-item>
+
+                <b-dropdown-divider></b-dropdown-divider>
+
+                <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
+                <b-dropdown-item class="text-danger" @click="eliminar(row.id)"><span class="text-danger">Eliminar</span></b-dropdown-item>
+              </b-dropdown>
           </td>
         </template>
 
@@ -133,6 +162,8 @@
         tableData: [],
         //
         dataTableLoading: false,
+        //
+        pipelineLoading: false
       }
     },
     beforeMount() {
@@ -141,7 +172,7 @@
     methods: {
       cargardatos (pPage) {
         this.dataTableLoading = true
-        lead.getLeadsCalificados(pPage)
+        lead.getLeadsPerfilesAceptadosNoEnviado(pPage)
           .then( res => {
             if (res.status == 200) {
               this.status = 200
@@ -187,7 +218,7 @@
         let leadFormdata = new FormData()
         leadFormdata.append('.method','put')
 
-        lead.updateQualifiedTable(pLeadId,leadFormdata)
+        lead.getLeadsPerfilesAceptados(pLeadId,leadFormdata)
           .then( res => {
             if (res.status == 200) {
               this.$notify({
@@ -344,7 +375,34 @@
 
       recargarDatos() {
         this.cargardatos()
+      },
+
+      cambiarPipeline(pLead, pPipeline){
+        lead.updatePipeline(pLead.id,pPipeline)
+          .then( res => {
+            if (res.status == 200) {
+              this.$set(pLead,'pipeline_dispatch', pPipeline)
+            }
+            this.$notify({
+              type: 'success',
+              title: res.data.message
+            })
+          }).catch (err => {
+            if(err.response) {
+              this.$notify({
+                type: 'danger',
+                title: `Algo salio mal: ${err.response.status}`
+              })
+            } else {
+              this.$notify({
+                type: 'danger',
+                title: err.message
+              })
+            }
+          })
       }
+
+
 
     }
   }

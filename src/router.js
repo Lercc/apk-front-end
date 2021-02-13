@@ -24,38 +24,38 @@ export default new Router({
           component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Inicio.vue')
         },
         {
-          path: '/gestion-vouchers',
-          redirect:'/gestion-vouchers/lista-clientes',
-          name: 'gestion-de-vouchers',
-          component: () => import(/* webpackChunkName: "gestion-de-vouchers" */ '@/views/ApkAdmin/components/GestionVouchers.vue'),
+          path: '/gestion-clientes',
+          redirect:'/gestion-clientes/lista-clientes',
+          name: 'gestion-de-clientes',
+          component: () => import(/* webpackChunkName: "gestion-de-clientes" */ '@/views/ApkAdmin/components/GestionClientes.vue'),
           children: [
             {
-              path: '/gestion-vouchers/lista-clientes',
+              path: '/gestion-clientes/lista-clientes',
               name: 'lista-Clientes',
               component: () => import(/* webpackChunkName: "lista-Clientes" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
             },
             {
-              path: '/gestion-vouchers/detalles-cliente/:clientId',
+              path: '/gestion-clientes/detalles-cliente/:clientId',
               name: 'detalles-Cliente',
               component: () => import(/* webpackChunkName: "detalles-Cliente" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
             },
             {
-              path: '/gestion-vouchers/crear-voucher/:clientProgramId/:clientId',
+              path: '/gestion-clientes/crear-voucher/:clientProgramId/:clientId',
               name: 'crear-voucher',
               component: () => import(/* webpackChunkName: "crear-voucher" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
             },
             {
-              path: '/gestion-vouchers/editar-voucher/:voucherId/:clientId',
+              path: '/gestion-clientes/editar-voucher/:voucherId/:clientId',
               name: 'editar-voucher',
               component: () => import(/* webpackChunkName: "editar-voucher" */ '@/views/GestionVoucherComponents/EditarVoucher.vue')
             },
             {
-              path: '/gestion-vouchers/crear-cliente',
+              path: '/gestion-clientes/crear-cliente',
               name: 'crear-cliente',
               component: () => import(/* webpackChunkName: "crear-cliente" */ '@/views/GestionVoucherComponents/CrearCliente.vue')
             },
             {
-              path: '/gestion-vouchers/editar-cliente/:clientId',
+              path: '/gestion-clientes/editar-cliente/:clientId',
               name: 'editar-cliente',
               component: () => import(/* webpackChunkName: "editar-cliente" */ '@/views/GestionVoucherComponents/EditarCliente.vue')
             },
@@ -73,9 +73,31 @@ export default new Router({
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsCalificadosTable.vue')
             },
             {
-              path: '/gestion-leads/lista-leads-perfiles-aceptados',
+              path: '/gestion-leads/lista-leads-perfiles-aceptados-todos/:mostrarDatos',
               name: 'lista-leads-perfiles-aceptados',
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsPerfilesAceptadosTable.vue')
+            },
+            {
+              path: '/gestion-leads/lista-leads-perfiles-aceptados-enviados/:mostrarDatos',
+              name: 'lista-leads-perfiles-aceptados-enviados',
+              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsPerfilesAceptadosEnviadosTable.vue')
+            },
+            {
+              path: '/gestion-leads/lista-leads-perfiles-aceptados-no-enviados/:mostrarDatos',
+              name: 'lista-leads-perfiles-aceptados-no-enviados',
+              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsPerfilesAceptadosNoEnviadosTable.vue')
+            },
+
+            {
+              path: '/gestion-leads/lista-leads-edad',
+              name: 'lista-leads-edad',
+              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsEdadTable.vue')
+            },
+
+            {
+              path: '/gestion-leads/lista-leads-ingles',
+              name: 'lista-leads-ingles',
+              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsInglesTable.vue')
             },
 
 

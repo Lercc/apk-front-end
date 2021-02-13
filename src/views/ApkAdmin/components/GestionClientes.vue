@@ -15,7 +15,7 @@
 </template>
 <script>
     export default {
-        name: 'gestionVouchers',
+        name: 'GestionClientes',
     }
 </script>
 
