@@ -57,6 +57,8 @@ function updateEnglishTable(pLeadId, pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
+
+// 
 function updateLead(pLeadId, pFormData) {
     const REQUEST = `api/leads/${pLeadId}/update`
     const headers = { 
@@ -66,15 +68,19 @@ function updateLead(pLeadId, pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
-
-
-
+// 
 function destroyLead(pLeadId) {
     const REQUEST = `api/leads/${pLeadId}`
     const headers = { Authorization : `Bearer ${TOKEN}`}
     return axios.delete(`${API_URL}/${REQUEST}`, { headers })
 }
 
+//
+function createLead(pFormData) {
+    const REQUEST = `api/leads/store`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
 
 export {
     getShowLead,
@@ -85,5 +91,6 @@ export {
     updateAceptedTable, 
     updateQualifiedTable,
     updateLead,
-    destroyLead
+    destroyLead,
+    createLead
 }

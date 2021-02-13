@@ -87,6 +87,11 @@ export default new Router({
               path: '/gestion-leads/editar-lead/:leadId',
               name: 'editar-lead',
               component: () => import (/* webpackChunkName: "editar-lead" */ '@/views/GestionLeadComponents/EditarLead.vue')
+            },
+            {
+              path: '/gestion-leads/crear-lead',
+              name: 'crear-lead',
+              component: () => import (/* webpackChunkName: "editar-lead" */ '@/views/GestionLeadComponents/CrearLead.vue')
             }
           ]
         },

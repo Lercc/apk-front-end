@@ -1,10 +1,10 @@
 <template>
-    <b-container fluid >
+    <b-container class="col-12 col-md-12 col-xl-10">
         <b-row>
-            <b-col>
-                <b-card header="EDITAR LEAD" class="shadow-lg apk-shadow">
+            <b-col >
+                <b-card header="EDITAR LEAD" class="shadow-lg apk-shadow" header-text-variant="center">
                     <b-form-row >
-                        <b-col cols="12" lg="6"  >
+                        <b-col cols="12" xl="6"  >
                             <b-form-group label="* Dni" >
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -22,7 +22,7 @@
                     </b-form-row>
 
                     <b-form-row >
-                        <b-col cols="12" lg="6"  >
+                        <b-col cols="12" xl="6"  >
                             <b-form-group label="* Nombre" >
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -38,7 +38,7 @@
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12" lg="6"  >
+                        <b-col cols="12" xl="6"  >
                             <b-form-group label="* Apellidos" >
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -56,7 +56,7 @@
                     </b-form-row>
 
                     <b-form-row>
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Celular" >
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -72,7 +72,7 @@
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="Correo" >
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -92,7 +92,7 @@
                     <br>
 
                     <b-form-row>
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Carrera">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -112,7 +112,7 @@
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Semestre">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -156,7 +156,7 @@
                     </b-form-row>
 
                     <b-form-row>
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Nivel de inglés">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -176,7 +176,7 @@
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Programa">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -198,7 +198,7 @@
                     </b-form-row>
 
                     <b-form-row>
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Canal de comunicación preferente">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -218,7 +218,7 @@
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12" lg="6">
+                        <b-col cols="12" xl="6">
                             <b-form-group label="* Horario de contacto preferente">
                                 <div class="" v-show="leadLoading">
                                     <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -247,12 +247,12 @@
                                 <span 
                                     class="text-danger"
                                     v-for="(error, index) in mostrarErroresInput('schedule_start')"
-                                    :key="`name-${index}`">{{ error }}
+                                    :key="`schedule_start-${index}`">{{ error }}
                                 </span>
                                 <span 
                                     class="text-danger"
                                     v-for="(error, index) in mostrarErroresInput('schedule_end')"
-                                    :key="`name-${index}`">{{ error }}
+                                    :key="`schedule_end-${index}`">{{ error }}
                                 </span>
                             </b-form-group>
                         </b-col>
@@ -266,6 +266,12 @@
                                 </div>
 
                                 <b-form-textarea v-model="form.profile" placeholder="Ingrese el perfil..." v-show="!leadLoading"></b-form-textarea>
+
+                                <span 
+                                    class="text-danger"
+                                    v-for="(error, index) in mostrarErroresInput('profile')"
+                                    :key="`profile-${index}`">{{ error }}
+                                </span>
                             </b-form-group>
                         </b-col>
                     </b-form-row>
@@ -278,6 +284,12 @@
                                 </div>
 
                                 <b-form-textarea v-model="form.commentary" placeholder="Ingrese el comentario..."  v-show="!leadLoading" rows="4"></b-form-textarea>
+
+                                <span 
+                                    class="text-danger"
+                                    v-for="(error, index) in mostrarErroresInput('commentary')"
+                                    :key="`commentary-${index}`">{{ error }}
+                                </span>
                             </b-form-group>
                         </b-col>
                     </b-form-row>
@@ -374,6 +386,8 @@ export default {
             communication_channelState: null,
             schedule_startState : null,
             schedule_endState : null,
+            profile : null,
+            commentary : null,
             //
             leadLoading : false,
             //
@@ -404,6 +418,8 @@ export default {
             this.communication_channelState = true
             this.schedule_startState =  true
             this.schedule_endState =  true
+            this.profileState =  true
+            this.commentaryState =  true
         },
 
         clear(){
@@ -421,6 +437,8 @@ export default {
             this.communication_channelState = null
             this.schedule_startState =  null
             this.schedule_endState =  null
+            this.profileState =  null
+            this.commentaryState =  null
         },
 
         mostrarErroresInput(pCampo) { 
@@ -463,6 +481,12 @@ export default {
                         break;
                     case 'schedule_end':
                         this.schedule_endState = false
+                        break;
+                    case 'profile':
+                        this.profileState = false
+                        break;
+                    case 'commentary':
+                        this.commentaryState = false
                         break;
                     default:
                         break;

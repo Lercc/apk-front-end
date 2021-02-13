@@ -11,11 +11,6 @@
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
-            <b-button variant="success" size="sm" @click="crearNuevoLead">
-              <b-icon icon="person-plus-fill" ></b-icon>
-              <span>NUEVO</span>
-            </b-button>
-
             <b-button variant="success" size="sm" @click="recargarDatos">
               <b-icon icon="arrow-counterclockwise" ></b-icon>
             </b-button>

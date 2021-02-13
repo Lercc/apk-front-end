@@ -1,10 +1,8 @@
 <template>
                
-   <b-container class="col-lg" >
-        <b-card   class="apk-shadow">
-            <b-card-title class="text-center text-md-right">
-                CREAR NUEVO CLIENTE
-            </b-card-title>
+   <b-container class="col-12 col-md-10 col-lg-8" >
+        <b-card   class="apk-shadow" header="CREAR NUEVO CLIENTE" header-text-variant="center">
+            
             <b-form >
                 <b-form-group
                     label="* Nombre:"
