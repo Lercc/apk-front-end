@@ -312,9 +312,7 @@
                 type: 'success',
                 title: 'Enviado a Calificados'
               })
-
               this.eliminarDeArray(pLeadId)
-
             }
           }).catch( err => {
             if (err.response) {
@@ -384,7 +382,7 @@
               this.$set(pLead,'pipeline_dispatch', pPipeline)
             }
             this.$notify({
-              type: 'success',
+              type: 'info',
               title: res.data.message
             })
           }).catch (err => {

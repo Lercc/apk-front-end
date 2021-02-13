@@ -6,13 +6,13 @@
          :class="type === 'dark' ? 'bg-transparent': ''">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''" c>
-            Tabla de Leads Calificados
+          <h3 class="mb-0 text-muted" :class="type === 'dark' ? 'text-white': ''">
+            Tabla de Carreras
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
-            <b-button variant="success" size="sm" @click="crearNuevoLead">
-              <b-icon icon="person-plus-fill" ></b-icon>
+            <b-button variant="success" size="sm" @click="crearNuevaCarrera">
+              <b-icon icon="plus" variant="secondary"></b-icon>
               <span>NUEVO</span>
             </b-button>
 
@@ -39,56 +39,36 @@
         <template slot="columns">
           <th>&nbsp;</th>
           <th>id</th>
-          <th>dni</th>
-          <th>nombres</th>
-          <th>celular</th>
-          <th>correo</th>
           <th>carrera</th>
-          <th>semestre</th>
-          <th>institucion</th>
-          <th>inglés</th>
-          <th>programa</th>
-          <th>medio com.</th>
-          <th>Comentario</th>
-          <th>perfil</th>
-          <th>&nbsp;</th>
+          <th>estado</th>
+          <th>descripción</th>
         </template>
 
 
         <template slot-scope="{row}">
           <td class="text-left">
-            <base-dropdown class="dropdown" position="left">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-              <template>
-                <span class="dropdown-item" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></span>
-                <span class="dropdown-item" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></span>
-                <span class="dropdown-item" @click="enviarEdad(row.id)">Enviar a <b>EDAD</b></span>
-                <span class="dropdown-item" @click="enviarIngles(row.id)">Enviar a <b>INGLÉS</b></span>
-
-                <div class="dropdown-divider"></div>
-
-                <span class="dropdown-item text-primary" @click="editar(row.id)">Editar </span>
-                <span class="dropdown-item text-danger" @click="eliminar(row.id)">Eliminar</span>
-              </template>
-            </base-dropdown>
+            <b-dropdown size="sm" text="•••" variant="primary">
+              <b-dropdown-item class="" @click="editar(row.id)"><span class="text-primary">Editar</span></b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item 
+                @click="cambiarEstado(row, 'activado')" 
+                v-if="row.state=='desactivado'" ><span class="text-uppercase text-success" >activar</span>
+              </b-dropdown-item>
+              <b-dropdown-item 
+                @click="cambiarEstado(row, 'desactivado')" 
+                v-if="row.state=='activado'" ><span class="text-uppercase text-danger" >desactivar</span>
+              </b-dropdown-item>
+            </b-dropdown>
           </td>
           <td >{{row.id}}</td>
-          <td >{{row.dni}}</td>
-          <td >{{row.name}} {{row.surnames}}</td>
-          <td >{{row.mobile}}</td>
-          <td >{{row.email}}</td>
-          <td >{{row.career_name}}</td>
-          <td >{{row.semester}}</td>
-          <td >{{row.institution_name}}</td>
-          <td >{{row.english_level}}</td>
-          <td >{{row.program_name}}</td>
-          <td >{{row.communication_channel}}</td>
-          <td >{{row.schedule_duration}}</td>
-          <td >{{ row.commentary}}</td>
-          <td >{{row.profile}}</td>
-          <td >&nbsp;</td>
+          <td >{{row.name}}</td>
+          <td >
+            <badge class="badge-dot mr-4"  :type="row.state == 'desactivado' ? 'danger' : 'success'">
+              <i :class="`bg-${row.state == 'desactivado' ? 'danger' : 'success'}`"></i>
+              <span class="status">{{row.state}}</span>
+            </badge>            
+          </td>
+          <td >{{row.description}}</td>
         </template>
 
       </base-table>
@@ -111,7 +91,7 @@
   </div>
 </template>
 <script>
-  import * as lead from '@/api/lead'
+  import * as career from '@/api/career'
 
   export default {
     name: 'CarrersTable',
@@ -137,14 +117,17 @@
     methods: {
       cargardatos (pPage) {
         this.dataTableLoading = true
-        lead.getLeadsCalificados(pPage)
+        career.getCareers(pPage)
           .then( res => {
             if (res.status == 200) {
-              this.status = 200
               this.data = res.data.data
               this.meta = res.data.meta
 
               this.tableData = res.data.data.map( m => m.attributes )
+              this.$notify({
+                type: 'success',
+                title: 'Datos recuperados'
+              })
             }
           }).catch( err => {
             if(err.response){
@@ -163,60 +146,25 @@
           })
         
       },
+      
+      cambiarEstado (pCareer, pState) {
 
-      eliminarDeArray(pLeadId) {
-        this.tableData.map((m, index) => {
-          if( m.id == pLeadId) {
-            this.tableData.splice(index,1)
-          }
-        })
-      },
+        const careerForm = new FormData()
 
-      enviarCafilidados (pLeadId) {
-        let leadFormdata = new FormData()
-        leadFormdata.append('.method','put')
+        careerForm.append('.method', 'put')
+        careerForm.append('name',pCareer.name)
+        careerForm.append('state',pState)
 
-        lead.updateQualifiedTable(pLeadId,leadFormdata)
+        career.updateCareerState(pCareer.id, careerForm)
           .then( res => {
-            if (res.status == 200) {
-              this.$notify({
-                type: 'success',
-                title: 'Enviado a Calificados'
-              })
-
-              this.eliminarDeArray(pLeadId)
-
-            }
-          }).catch( err => {
-            if (err.response) {
-              this.$notify({
-                type: 'danger',
-                title: `Algo salio mal: ${err.response.status}`
-              })
-            } else {
-              this.$notify({
-                  type: 'danger',
-                  title: err.message
+              if (res.status == 200) {
+                this.$set(pCareer,'state', pState)
+                this.$notify({
+                  type: 'info',
+                  title: res.data.message
                 })
               }
-          })
-      },
-      enviarAceptados (pLeadId) {
-        let leadFormdata = new FormData()
-        leadFormdata.append('.method','put')
-
-        lead.updateAceptedTable(pLeadId, leadFormdata)
-          .then( res => {
-            if (res.status == 200) {
-              this.$notify({
-                type: 'success',
-                title: 'Enviado a Calificados'
-              })
-
-              this.eliminarDeArray(pLeadId)
-
-            }
-          }).catch( err => {
+            }).catch( err => {
               if (err.response) {
                 this.$notify({
                   type: 'danger',
@@ -228,106 +176,21 @@
                     title: err.message
                   })
                 }
-          })
-      },
-      enviarEdad (pLeadId) {
-        let leadFormdata = new FormData()
-
-        leadFormdata.append('.method','put')
-        lead.updateAgeTable(pLeadId, leadFormdata)
-          .then( res => {
-            if (res.status == 200) {
-              this.$notify({
-                type: 'success',
-                title: 'Enviado a Calificados'
-              })
-
-              this.eliminarDeArray(pLeadId)
-
-            }
-          }).catch( err => {
-            if (err.response) {
-              this.$notify({
-                type: 'danger',
-                title: `Algo salio mal: ${err.response.status}`
-              })
-            } else {
-              this.$notify({
-                  type: 'danger',
-                  title: err.message
-                })
-              }
-          })
-      },
-      enviarIngles (pLeadId) {
-        let leadFormdata = new FormData()
-        leadFormdata.append('.method','put')
-
-        lead.updateEnglishTable(pLeadId, leadFormdata)
-          .then( res => {
-            if (res.status == 200) {
-              this.$notify({
-                type: 'success',
-                title: 'Enviado a Calificados'
-              })
-
-              this.eliminarDeArray(pLeadId)
-
-            }
-          }).catch( err => {
-            if (err.response) {
-              this.$notify({
-                type: 'danger',
-                title: `Algo salio mal: ${err.response.status}`
-              })
-            } else {
-              this.$notify({
-                  type: 'danger',
-                  title: err.message
-                })
-              }
-          })
-      },
-      
-      eliminar (pLeadId) {
-        lead.destroyLead()
-        .then( res => {
-            if (res.status == 204) {
-              this.$notify({
-                type: 'success',
-                title: 'Registro eliminado!'
-              })
-
-              this.eliminarDeArray(pLeadId)
-
-            }
-          }).catch( err => {
-            if (err.response) {
-              this.$notify({
-                type: 'danger',
-                title: `Algo salio mal: ${err.response.status}`
-              })
-            } else {
-              this.$notify({
-                  type: 'danger',
-                  title: err.message
-                })
-              }
-          })
+            })
       },
 
-      editar (pLeadId) {
+      editar (pCareerId) {
         this.$router.push({
-          name: 'editar-cliente',
+          name: 'editar-carrera',
           params: {
-            leadId: pLeadId
+            careerId: pCareerId
           }
         })
       },
 
-      crearNuevoLead() {
+      crearNuevaCarrera() {
         this.$router.push({
-          name: 'crear-cliente',
+          name: 'crear-carrera',
         })
       },
 

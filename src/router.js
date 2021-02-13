@@ -119,19 +119,25 @@ export default new Router({
         },
         {
           path: '/carreras',
+          redirect: '/carreras/lista-carreras',
           name: 'carreras',
           component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue'),
           children: [
             {
-              path: '/gestion-leads/lista-carreras',
+              path: '/carreras/lista-carreras',
               name: 'lista-carreras',
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/CareersComponents/CareersTable.vue')
             },
-            // {
-            //   path: '/gestion-leads/editar-lead',
-            //   name: 'editar-carrera',
-            //   component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/C')
-            // }
+            {
+              path: '/carreras/editar-carrera/:careerId',
+              name: 'editar-carrera',
+              component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/CareersComponents/EditarCarrera.vue')
+            },
+            {
+              path: '/carreras/crear-carrera',
+              name: 'crear-carrera',
+              component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/CareersComponents/CrearCarrera.vue')
+            }
           ]
         },
         {

@@ -384,7 +384,7 @@
               this.$set(pLead,'pipeline_dispatch', pPipeline)
             }
             this.$notify({
-              type: 'success',
+              type: 'info',
               title: res.data.message
             })
           }).catch (err => {

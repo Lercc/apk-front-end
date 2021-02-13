@@ -309,7 +309,7 @@
 </template>
 
 <script>
-import { getAllCareers } from '@/api/career'
+import { getAllActiveCareers } from '@/api/career'
 import { getAllInstitutions } from '@/api/institution'
 import { getApkPrograms } from '@/api/apkPrograms'
 import { createLead } from '@/api/lead'
@@ -553,7 +553,7 @@ export default {
         },
 
         getCareerData(){
-            getAllCareers()
+            getAllActiveCareers()
                 .then ( res => {
                     if (res.status == 200) {
                         this.careersData = res.data.data.map( m => ({ value : m.attributes.id, text : m.attributes.name }) )

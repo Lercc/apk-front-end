@@ -16,7 +16,7 @@
 
         <sidebar-item :link="{name: 'Gestión de Clientes', icon: 'ni ni-folder-17 text-blue', path: '/gestion-clientes'}"/>
         <sidebar-item :link="{name: 'Gestión de Leads', icon: 'ni ni-single-02 text-orange', path: '/gestion-leads'}"/>
-        <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/careers'}"/>
+        <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/carreras'}"/>
         <sidebar-item :link="{name: 'Instituciones', icon: 'ni ni-align-left-2 text-red', path: '/institutions'}"/>
         <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}"/>
         

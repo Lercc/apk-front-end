@@ -79,7 +79,7 @@
           </td>
           <td >{{row.id}}</td>
           <td >
-            <badge class="badge-dot mr-4" v-if="!row.pipelineLoading" :type="row.pipeline_dispatch == 'no' ? 'danger' : 'success'">
+            <badge class="badge-dot mr-4"  :type="row.pipeline_dispatch == 'no' ? 'danger' : 'success'">
               <i :class="`bg-${row.pipeline_dispatch == 'no' ? 'danger' : 'success'}`"></i>
               <span class="status">{{row.pipeline_dispatch}}</span>
             </badge>
@@ -384,7 +384,7 @@
               this.$set(pLead,'pipeline_dispatch', pPipeline)
             }
             this.$notify({
-              type: 'success',
+              type: 'info',
               title: res.data.message
             })
           }).catch (err => {
