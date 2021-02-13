@@ -200,6 +200,18 @@
     },
     
     methods: {
+        setTrue(){
+            this.clear()
+
+            this.nameState = true
+            this.surnamesState = true
+            this.dniState = true
+            this.emailState = true
+            this.mobileState = true
+            this.profileState = true
+            this.commentaryState = true
+        },
+
          clear(){
             this.erroresInputs = []
             this.nameState =  null
@@ -248,13 +260,7 @@
         enviar() {
             this.createClientLoading = true
 
-            this.nameState = true
-            this.surnamesState = true
-            this.dniState = true
-            this.emailState = true
-            this.mobileState = true
-            this.profileState = true
-            this.commentaryState = true
+            this.setTrue()
 
             let clientForm = new FormData()
             clientForm.append('name', this.form.name)
@@ -277,8 +283,7 @@
                         })
                     }
                 }).catch( err => {
-                    if (err.response) {
-                        this.clear()                                                
+                    if (err.response) {                                             
                         this.erroresInputs = err.response.data.errors
                         this.$notify({
                             type: 'danger',

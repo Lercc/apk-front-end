@@ -148,6 +148,9 @@
             }
           }).catch( err => {
             if(err.response){
+              console.log(err.response.data)
+              console.log(err.message)
+              console.log(err.config)
                 this.$notify({
                     type: 'danger',
                     title: `Algo salio mal: ${err.response.status}`

@@ -216,6 +216,7 @@
 
         mostrarErroresInput(pCampo) { 
             let camposIncorrectos = Object.keys(this.erroresInputs);
+            
             if (camposIncorrectos.includes(pCampo)) {
                 switch (pCampo) {
                     case 'name':

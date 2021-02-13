@@ -5,6 +5,12 @@ const API_URL = store.state.api.url;
 const TOKEN = store.state.token.token
 
 
+function getShowLead(pLeadId) {
+    const REQUEST = `api/leads/show/${pLeadId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
 function getLeadsCalificados(pPage=1) {
     const REQUEST = `api/leads/calificados?page=${pPage}`
     const headers = { Authorization : `Bearer ${TOKEN}`}
@@ -16,7 +22,6 @@ function getLeadsPerfilesAceptados(pPage=1) {
     const headers = { Authorization : `Bearer ${TOKEN}`}
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
-
 
 // updates
 function updateQualifiedTable(pLeadId, pFormData) {
@@ -52,6 +57,17 @@ function updateEnglishTable(pLeadId, pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
+function updateLead(pLeadId, pFormData) {
+    const REQUEST = `api/leads/${pLeadId}/update`
+    const headers = { 
+        "Content-Type":"application/json",
+        Authorization : `Bearer ${TOKEN}`
+    }
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
+
+
+
 
 function destroyLead(pLeadId) {
     const REQUEST = `api/leads/${pLeadId}`
@@ -60,12 +76,14 @@ function destroyLead(pLeadId) {
 }
 
 
-export { 
+export {
+    getShowLead,
     getLeadsCalificados, 
     getLeadsPerfilesAceptados, 
     updateEnglishTable, 
     updateAgeTable, 
     updateAceptedTable, 
     updateQualifiedTable,
+    updateLead,
     destroyLead
 }
