@@ -97,8 +97,7 @@
           <td >{{row.schedule_duration}}</td>
           <td >{{row.profile}}</td>
           <td >{{ row.commentary}}</td>
-          <td class="text-left">
-          <td class="">
+          <td >
               <b-dropdown size="sm" text="•••" variant="primary">
                 <b-dropdown-item class="" @click="enviarCafilidados(row.id)">Enviar a <b>CALIFICADOS</b></b-dropdown-item>
                 <!-- <b-dropdown-item class="" @click="enviarAceptados(row.id)">Enviar a <b>PERFILES ACEPTADOS</b></b-dropdown-item> -->

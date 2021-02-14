@@ -13,12 +13,6 @@ function getInstitution(pInstitutionId) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-function getAllInstitutions () {
-    const REQUEST = `api/all/institutions`
-    const headers = { Authorization : `Bearer ${TOKEN}`}
-    return axios.get(`${API_URL}/${REQUEST}`, { headers })
-}
-
 function getAllActiveInstitutions () {
     const REQUEST = `api/all/active/institutions`
     const headers = { Authorization : `Bearer ${TOKEN}`}
@@ -59,7 +53,6 @@ function updateInstitution(pInstitutionId, pFormData) {
 
 export { 
     getInstitution, 
-    getAllInstitutions, 
     getAllActiveInstitutions, 
     getInstitutions ,
     updateInstitutionState ,

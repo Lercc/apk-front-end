@@ -311,7 +311,7 @@
 <script>
 import { getAllActiveCareers } from '@/api/career'
 import { getAllActiveInstitutions } from '@/api/institution'
-import { getApkPrograms } from '@/api/apkPrograms'
+import { getAllActivePrograms } from '@/api/apkPrograms'
 import { createLead } from '@/api/lead'
 
 
@@ -571,7 +571,7 @@ export default {
         },
 
         getProgramData(){
-            getApkPrograms()
+            getAllActivePrograms()
                 .then ( res => {
                     if (res.status == 200) {
                         this.programsData = res.data.data.map( m => ({ value : m.attributes.id, text : m.attributes.name }) )

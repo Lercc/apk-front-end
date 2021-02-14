@@ -10,7 +10,7 @@
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholdes="Ingrese el nombre de la carrera"></b-form-input>
+                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholder="Ingrese el nombre de la carrera"></b-form-input>
 
                              <span 
                                 class="text-danger"
@@ -49,7 +49,7 @@
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-textarea v-model="form.description" :state="descriptionState" v-show="!leadLoading"  placeholder="Ingrese una descripción"></b-form-textarea>
+                            <b-form-textarea v-model="form.description" :state="descriptionState" v-show="!leadLoading"  placeholder="Ingrese una descripción" ></b-form-textarea>
 
                             <span 
                                 class="text-danger"

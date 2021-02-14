@@ -5,12 +5,12 @@
               <b-card header="EDITAR INSTITUCIÓN" class="shadow-lg apk-shadow" header-text-variant="center">
                   <b-form-row>
                     <b-col cols="12">
-                        <b-form-group label="* Carrera">
+                        <b-form-group label="* Institución">
                             <div class="" v-show="leadLoading">
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholdes="Ingrese el nombre de la institucion"></b-form-input>
+                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholdes="Ingrese el nombre de la institución"></b-form-input>
 
                              <span 
                                 class="text-danger"
@@ -83,7 +83,7 @@
 
                   <b-form-row>
                       <b-col>
-                          <b-button variant="primary" @click="enviar">ACTUALIZAR CARRERA</b-button>
+                          <b-button variant="primary" @click="enviar">ACTUALIZAR INSTITUCIÓN</b-button>
                       </b-col>
                   </b-form-row>
               </b-card>

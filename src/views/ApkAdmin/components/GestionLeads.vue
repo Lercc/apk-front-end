@@ -11,6 +11,9 @@
                             </router-link>
                         </b-dropdown-item>
                 
+                        <b-dropdown-divider></b-dropdown-divider>
+
+
                         <b-dropdown-item>
                             <b-dropdown-group  header="Tabla perfiles aceptados" header-classes="text-muted">
                                 <b-dropdown-item >
@@ -32,6 +35,8 @@
                                 </b-dropdown-item>
                             </b-dropdown-group>
                         </b-dropdown-item>
+
+                        <b-dropdown-divider></b-dropdown-divider>
 
                         <b-dropdown-item>
                             <router-link :to="{name: 'lista-leads-edad'}" class="mb-3 col-12 mb-3 ">

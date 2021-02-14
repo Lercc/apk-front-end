@@ -165,8 +165,26 @@ export default new Router({
         },
         {
           path: '/programs',
+          redirect: '/programs/lista-programas',
           name: 'programs',
-          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Programs.vue')
+          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Programs.vue'),
+          children: [
+            {
+              path: '/programs/lista-programas',
+              name: 'lista-programas',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/ProgramsTable.vue'),
+            },
+            {
+              path: '/programs/editar-programa/:programId',
+              name: 'editar-programa',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/EditarPrograma.vue'),
+            },
+            {
+              path: '/programs/crear-programa',
+              name: 'crear-programa',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/CrearPrograma.vue'),
+            }
+          ]
         }
       ]
     },

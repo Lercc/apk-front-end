@@ -23,11 +23,6 @@ function getCareers(pPage) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-function getAllCareers() {
-    const REQUEST = `api/all/careers`
-    const headers = { Authorization : `Bearer ${TOKEN}`}
-    return axios.get(`${API_URL}/${REQUEST}`, { headers })
-}
 function getAllActiveCareers() {
     const REQUEST = `api/all/active/careers`
     const headers = { Authorization : `Bearer ${TOKEN}`}
@@ -55,4 +50,4 @@ function updateCareer(pCareerId, pFormData) {
 }
 
 
-export { storeCareer, getCareer, getCareers, getAllCareers, getAllActiveCareers, updateCareerState, updateCareer }
+export { storeCareer, getCareer, getCareers, getAllActiveCareers, updateCareerState, updateCareer }

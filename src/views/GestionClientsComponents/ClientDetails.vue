@@ -244,7 +244,7 @@
   import store from '@/store';
   import { getClient, getClientProgramsData, destroyCliente } from '@/api/clients';
   import { getVouchersProgramData, storeClientProgram, destroyClientProgram } from '@/api/clientPrograms';
-  import { getApkPrograms } from '@/api/apkPrograms';
+  import { getAllActivePrograms } from '@/api/apkPrograms';
   import { destroyVoucher } from '@/api/voucher';
   import swal from 'sweetalert';
 
@@ -337,7 +337,7 @@
                         }
                       })
             }
-            getApkPrograms ()
+            getAllActivePrograms ()
                 .then (res => {
                     if (res.status) {
                         this.apkPrograms = res.data.data.map( m => ({value: m.attributes.id, text: m.attributes.name}) )
