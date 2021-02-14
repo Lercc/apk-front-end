@@ -32,32 +32,32 @@ export default new Router({
             {
               path: '/gestion-clientes/lista-clientes',
               name: 'lista-Clientes',
-              component: () => import(/* webpackChunkName: "lista-Clientes" */ '@/views/GestionVoucherComponents/ClientsTable.vue')
+              component: () => import(/* webpackChunkName: "lista-Clientes" */ '@/views/GestionClientsComponents/ClientsTable.vue')
             },
             {
               path: '/gestion-clientes/detalles-cliente/:clientId',
               name: 'detalles-Cliente',
-              component: () => import(/* webpackChunkName: "detalles-Cliente" */ '@/views/GestionVoucherComponents/ClientDetails.vue')
+              component: () => import(/* webpackChunkName: "detalles-Cliente" */ '@/views/GestionClientsComponents/ClientDetails.vue')
             },
             {
               path: '/gestion-clientes/crear-voucher/:clientProgramId/:clientId',
               name: 'crear-voucher',
-              component: () => import(/* webpackChunkName: "crear-voucher" */ '@/views/GestionVoucherComponents/CrearVoucher.vue')
+              component: () => import(/* webpackChunkName: "crear-voucher" */ '@/views/GestionClientsComponents/CrearVoucher.vue')
             },
             {
               path: '/gestion-clientes/editar-voucher/:voucherId/:clientId',
               name: 'editar-voucher',
-              component: () => import(/* webpackChunkName: "editar-voucher" */ '@/views/GestionVoucherComponents/EditarVoucher.vue')
+              component: () => import(/* webpackChunkName: "editar-voucher" */ '@/views/GestionClientsComponents/EditarVoucher.vue')
             },
             {
               path: '/gestion-clientes/crear-cliente',
               name: 'crear-cliente',
-              component: () => import(/* webpackChunkName: "crear-cliente" */ '@/views/GestionVoucherComponents/CrearCliente.vue')
+              component: () => import(/* webpackChunkName: "crear-cliente" */ '@/views/GestionClientsComponents/CrearCliente.vue')
             },
             {
               path: '/gestion-clientes/editar-cliente/:clientId',
               name: 'editar-cliente',
-              component: () => import(/* webpackChunkName: "editar-cliente" */ '@/views/GestionVoucherComponents/EditarCliente.vue')
+              component: () => import(/* webpackChunkName: "editar-cliente" */ '@/views/GestionClientsComponents/EditarCliente.vue')
             },
           ]
         },
