@@ -5,10 +5,64 @@ const API_URL = store.state.api.url;
 const TOKEN = store.state.token.token
 
 
+
+function getInstitution(pInstitutionId) {
+    const REQUEST = `api/institutions/${pInstitutionId}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
 function getAllInstitutions () {
     const REQUEST = `api/all/institutions`
     const headers = { Authorization : `Bearer ${TOKEN}`}
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
-export { getAllInstitutions }
+function getAllActiveInstitutions () {
+    const REQUEST = `api/all/active/institutions`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+function getInstitutions (pPage=1) {
+    const REQUEST = `api/institutions?page=${pPage}`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+
+function updateInstitutionState (pInstitutionId, pFormData) {
+    const REQUEST = `api/updateState/institutions/${pInstitutionId}`
+    const headers = { 
+        "Content-Type":"application/json",
+        Authorization   : `Bearer ${TOKEN}`,
+    }
+    return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
+}
+
+function storeInstitution(pFormData) {
+    const REQUEST = `api/institutions`
+    const headers = { Authorization : `Bearer ${TOKEN}`}
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
+
+function updateInstitution(pInstitutionId, pFormData) {
+    const REQUEST = `api/institutions/${pInstitutionId}`
+    const headers = { 
+        "Content-Type":"application/json",
+        Authorization   : `Bearer ${TOKEN}`,
+    }
+    return axios.post(`${API_URL}/${REQUEST}`,pFormData, { headers })
+}
+
+
+export { 
+    getInstitution, 
+    getAllInstitutions, 
+    getAllActiveInstitutions, 
+    getInstitutions ,
+    updateInstitutionState ,
+    storeInstitution,
+    updateInstitution
+}

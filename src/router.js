@@ -126,24 +126,42 @@ export default new Router({
             {
               path: '/carreras/lista-carreras',
               name: 'lista-carreras',
-              component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/CareersComponents/CareersTable.vue')
+              component: () => import(/* webpackChunkName: "lista-carreras" */ '@/views/CareersComponents/CareersTable.vue')
             },
             {
               path: '/carreras/editar-carrera/:careerId',
               name: 'editar-carrera',
-              component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/CareersComponents/EditarCarrera.vue')
+              component: () => import(/* webpackChunkName: "editar-carrera" */ '@/views/CareersComponents/EditarCarrera.vue')
             },
             {
               path: '/carreras/crear-carrera',
               name: 'crear-carrera',
-              component: () => import(/* webpackChunkName: "editar-lead" */ '@/views/CareersComponents/CrearCarrera.vue')
+              component: () => import(/* webpackChunkName: "crear-carrera" */ '@/views/CareersComponents/CrearCarrera.vue')
             }
           ]
         },
         {
-          path: '/institutions',
-          name: 'institutions',
-          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Institutions.vue')
+          path: '/instituciones',
+          redirect:'/instituciones/lista-instituciones',
+          name: 'instituciones',
+          component: () => import(/* webpackChunkName: "instituciones" */ '@/views/ApkAdmin/components/Institutions.vue'),
+          children: [
+            {
+              path: '/instituciones/lista-instituciones',
+              name: 'lista-instituciones',
+              component: () => import(/* webpackChunkName: "lista-instituciones" */ '@/views/InstitutionsComponents/InstitutionsTable.vue')
+            },
+            {
+              path: '/instituciones/editar-institucion/:institucionId',
+              name: 'editar-institucion',
+              component: () => import(/* webpackChunkName: "editar-instituciones" */ '@/views/InstitutionsComponents/EditarInstitucion.vue')
+            },
+            {
+              path: '/instituciones/crear-institucion',
+              name: 'crear-institucion',
+              component: () => import(/* webpackChunkName: "crear-instituciones" */ '@/views/InstitutionsComponents/CrearInstitucion.vue')
+            }
+          ]
         },
         {
           path: '/programs',

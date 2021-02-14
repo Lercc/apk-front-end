@@ -2,7 +2,7 @@
   <b-container class="col-12 col-xl-8">
       <b-row>
           <b-col>
-              <b-card>
+              <b-card header="CREAR CARRERA" class="shadow-lg apk-shadow" header-text-variant="center">
                   <b-form-row>
                     <b-col cols="12">
                         <b-form-group label="* Carrera">
@@ -15,7 +15,7 @@
                              <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('name')"
-                                :key="`career-name-edit-${index}`">{{ error }}
+                                :key="`career-name-create-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -36,7 +36,7 @@
                              <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('state')"
-                                :key="`career-state-edit-${index}`">{{ error }}
+                                :key="`career-state-create-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -54,7 +54,7 @@
                             <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('description')"
-                                :key="`career-description-edit-${index}`">{{ error }}
+                                :key="`career-description-create-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>

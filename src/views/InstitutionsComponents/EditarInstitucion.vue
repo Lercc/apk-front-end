@@ -2,7 +2,7 @@
   <b-container class="col-12 col-xl-8">
       <b-row>
           <b-col>
-              <b-card header="EDITAR CARRERA" class="shadow-lg apk-shadow" header-text-variant="center">
+              <b-card header="EDITAR INSTITUCIÓN" class="shadow-lg apk-shadow" header-text-variant="center">
                   <b-form-row>
                     <b-col cols="12">
                         <b-form-group label="* Carrera">
@@ -10,12 +10,12 @@
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholdes="Ingrese el nombre de la carrera"></b-form-input>
+                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholdes="Ingrese el nombre de la institucion"></b-form-input>
 
                              <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('name')"
-                                :key="`career-name-edit-${index}`">{{ error }}
+                                :key="`institution-name-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -36,7 +36,28 @@
                              <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('state')"
-                                :key="`career-state-edit-${index}`">{{ error }}
+                                :key="`institution-state-edit-${index}`">{{ error }}
+                            </span>
+                        </b-form-group>
+                    </b-col>
+                  </b-form-row>
+                
+                  <b-form-row>
+                    <b-col>
+                        <b-form-group label="* Tipo">
+                            <div class="" v-show="leadLoading">
+                                <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                            </div>
+
+                            <b-form-select v-model="form.tipo" :state="tipoState" v-show="!leadLoading" >
+                                <b-form-select-option value="universidad">universidad</b-form-select-option>
+                                <b-form-select-option value="instituto">instituto</b-form-select-option>
+                            </b-form-select>
+
+                             <span 
+                                class="text-danger"
+                                v-for="(error, index) in mostrarErroresInput('tipo')"
+                                :key="`institution-state-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -54,7 +75,7 @@
                             <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('description')"
-                                :key="`career-description-edit-${index}`">{{ error }}
+                                :key="`institution-description-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -72,15 +93,16 @@
 </template>
 
 <script>
-import { getCareer, updateCareer } from '@/api/career' 
+import { getInstitution, updateInstitution } from '@/api/institution' 
 
 export default {
-    name : 'EditarCarrera',
+    name : 'EditarInstitucion',
     data () {
         return {
             form : {
                 name: '',
                 state: '',
+                tipo: '',
                 description: ''
             },
             //
@@ -88,6 +110,7 @@ export default {
             //
             nameState: null,
             stateState: null,
+            tipoState: null,
             descriptionState: null,
             //
             inputErrors: []
@@ -101,7 +124,7 @@ export default {
     methods : {
         getData () {
             this.leadLoading = true
-            getCareer(this.$route.params.careerId)
+            getInstitution(this.$route.params.institucionId)
                 .then( res => {
                     if (res.status == 200) {
                         [this.form] = [res.data.data.attributes]
@@ -138,6 +161,9 @@ export default {
                     case 'state': 
                         this.stateState = false;
                         break;
+                    case 'tipo':
+                        this.tipoState = false;
+                        break;
                     case 'description':
                         this.descriptionState = false;
                         break;
@@ -154,6 +180,7 @@ export default {
            this.clear()
             this.nameState =  true
             this.stateState =  true
+            this.tipoState =  true
             this.descriptionState =  true
         },
 
@@ -161,6 +188,7 @@ export default {
             this.inputErrors = []
             this.nameState = null
             this.stateState =  null
+            this.tipoState =  null
             this.descriptionState =  null
         },
 
@@ -173,9 +201,10 @@ export default {
             CarrerForm.append('.method', 'put')
             CarrerForm.append('name', this.form.name)
             CarrerForm.append('state', this.form.state)
+            CarrerForm.append('tipo', this.form.tipo)
             CarrerForm.append('description', this.form.description)
 
-            updateCareer (this.$route.params.careerId, CarrerForm)
+            updateInstitution (this.$route.params.institucionId, CarrerForm)
                 .then( res => {
                     if(res.status == 200) {
                        this.$notify({
