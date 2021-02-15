@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-6 collapse-brand">
                             <router-link to="/">
-                                <img src="img/brand/green.png">
+                                <img src="img/brand/logo-muni-black.png">
                             </router-link>
                         </div>
                         <div class="col-6 collapse-close">
@@ -102,7 +102,7 @@
                                     Us</a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://www.creative-tim.com/blog" class="nav-link" target="_blank">Blog</a>
+                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
