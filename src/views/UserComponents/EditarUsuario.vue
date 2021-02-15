@@ -2,20 +2,20 @@
   <b-container class="col-12 col-xl-8">
       <b-row>
           <b-col>
-              <b-card header="EDITAR INSTITUCIÓN" class="shadow-lg apk-shadow" header-text-variant="center">
+              <b-card header="EDITAR USUARIO" class="shadow-lg apk-shadow" header-text-variant="center">
                   <b-form-row>
                     <b-col cols="12">
-                        <b-form-group label="* Institución">
+                        <b-form-group label="* Nombre">
                             <div class="" v-show="leadLoading">
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholder="Ingrese el nombre de la institución"></b-form-input>
+                            <b-form-input v-model="form.name" :state="nameState" v-show="!leadLoading" placeholder="Ingrese el nombre del usuario"></b-form-input>
 
                              <span 
                                 class="text-danger"
                                 v-for="(error, index) in mostrarErroresInput('name')"
-                                :key="`institution-name-edit-${index}`">{{ error }}
+                                :key="`program-name-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -23,59 +23,38 @@
 
                   <b-form-row>
                     <b-col>
-                        <b-form-group label="* Estado">
+                        <b-form-group label="* rol">
                             <div class="" v-show="leadLoading">
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-select v-model="form.state" :state="stateState" v-show="!leadLoading" >
-                                <b-form-select-option value="activado">activado</b-form-select-option>
-                                <b-form-select-option value="desactivado">desactivado</b-form-select-option>
+                            <b-form-select v-model="form.role" :state="roleState" v-show="!leadLoading" >
+                                <b-form-select-option value="admin">administrador</b-form-select-option>
+                                <b-form-select-option value="employee">empleado</b-form-select-option>
                             </b-form-select>
 
                              <span 
                                 class="text-danger"
-                                v-for="(error, index) in mostrarErroresInput('state')"
-                                :key="`institution-state-edit-${index}`">{{ error }}
+                                v-for="(error, index) in mostrarErroresInput('role')"
+                                :key="`program-role-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
                   </b-form-row>
                 
                   <b-form-row>
-                    <b-col>
-                        <b-form-group label="* Tipo">
+                    <b-col cols="12">
+                        <b-form-group label="* Correo">
                             <div class="" v-show="leadLoading">
                                 <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                             </div>
 
-                            <b-form-select v-model="form.tipo" :state="tipoState" v-show="!leadLoading" >
-                                <b-form-select-option value="universidad">universidad</b-form-select-option>
-                                <b-form-select-option value="instituto">instituto</b-form-select-option>
-                            </b-form-select>
+                            <b-form-input v-model="form.email" :state="emailState" v-show="!leadLoading" type="email" placeholder="Ingrese el correo del usuario"></b-form-input>
 
                              <span 
                                 class="text-danger"
-                                v-for="(error, index) in mostrarErroresInput('tipo')"
-                                :key="`institution-state-edit-${index}`">{{ error }}
-                            </span>
-                        </b-form-group>
-                    </b-col>
-                  </b-form-row>
-
-                  <b-form-row>
-                    <b-col>
-                        <b-form-group label="Descripción">
-                            <div class="" v-show="leadLoading">
-                                <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
-                            </div>
-
-                            <b-form-textarea v-model="form.description" :state="descriptionState" v-show="!leadLoading"  placeholder="Ingrese una descripción"></b-form-textarea>
-
-                            <span 
-                                class="text-danger"
-                                v-for="(error, index) in mostrarErroresInput('description')"
-                                :key="`institution-description-edit-${index}`">{{ error }}
+                                v-for="(error, index) in mostrarErroresInput('email')"
+                                :key="`program-email-edit-${index}`">{{ error }}
                             </span>
                         </b-form-group>
                     </b-col>
@@ -83,7 +62,7 @@
 
                   <b-form-row>
                       <b-col>
-                          <b-button variant="primary" @click="enviar">ACTUALIZAR INSTITUCIÓN</b-button>
+                          <b-button variant="primary" @click="enviar">EDITAR USUARIO</b-button>
                       </b-col>
                   </b-form-row>
               </b-card>
@@ -93,25 +72,23 @@
 </template>
 
 <script>
-import { getInstitution, updateInstitution } from '@/api/institution' 
+import { getUser, updateUser } from '@/api/usuario' 
 
 export default {
-    name : 'EditarInstitucion',
+    name : 'EditarUsuario',
     data () {
         return {
             form : {
                 name: '',
-                state: '',
-                tipo: '',
-                description: ''
+                email: '',
+                role:'',
             },
             //
             leadLoading: false,
             //
             nameState: null,
-            stateState: null,
-            tipoState: null,
-            descriptionState: null,
+            emailState: null,
+            roleState: null,
             //
             inputErrors: []
         }
@@ -124,13 +101,14 @@ export default {
     methods : {
         getData () {
             this.leadLoading = true
-            getInstitution(this.$route.params.institucionId)
+            getUser(this.$route.params.usuarioId)
                 .then( res => {
                     if (res.status == 200) {
                         [this.form] = [res.data.data.attributes]
+                        this.form.role = res.data.data.attributes.role[0].name
                         this.$notify({
                             type: 'success',
-                            title: 'Datos recuperados!!'
+                            title: 'Usuario recuperado!!'
                         })
                     }
                 }).catch( err => {
@@ -158,14 +136,11 @@ export default {
                     case 'name' :
                         this.nameState = false;
                         break;
-                    case 'state': 
-                        this.stateState = false;
+                    case 'email': 
+                        this.emailState = false;
                         break;
-                    case 'tipo':
-                        this.tipoState = false;
-                        break;
-                    case 'description':
-                        this.descriptionState = false;
+                    case 'role': 
+                        this.roleState = false;
                         break;
                     default:
                         break
@@ -179,17 +154,15 @@ export default {
         setTrue() {
            this.clear()
             this.nameState =  true
-            this.stateState =  true
-            this.tipoState =  true
-            this.descriptionState =  true
+            this.emailState =  true
+            this.roleState =  true
         },
 
         clear(){
             this.inputErrors = []
             this.nameState = null
-            this.stateState =  null
-            this.tipoState =  null
-            this.descriptionState =  null
+            this.emailState =  null
+            this.roleState =  null
         },
 
         enviar() {
@@ -197,14 +170,13 @@ export default {
 
             this.setTrue()
 
-            let CarrerForm = new FormData()
-            CarrerForm.append('.method', 'put')
-            CarrerForm.append('name', this.form.name)
-            CarrerForm.append('state', this.form.state)
-            CarrerForm.append('tipo', this.form.tipo)
-            CarrerForm.append('description', this.form.description)
+            let userForm = new FormData()
+            userForm.append('.method', 'put')
+            userForm.append('name', this.form.name)
+            userForm.append('email', this.form.email)
+            userForm.append('role', this.form.role)
 
-            updateInstitution (this.$route.params.institucionId, CarrerForm)
+            updateUser (this.$route.params.usuarioId, userForm)
                 .then( res => {
                     if(res.status == 200) {
                        this.$notify({

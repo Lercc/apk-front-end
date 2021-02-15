@@ -19,6 +19,7 @@
         <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/carreras'}"/>
         <sidebar-item :link="{name: 'Instituciones', icon: 'ni ni-align-left-2 text-red', path: '/instituciones'}"/>
         <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}"/>
+        <sidebar-item :link="{name: 'Usuarios', icon: 'ni ni-tag text-green', path: '/users'}"/>
         
       </template>
     </side-bar>

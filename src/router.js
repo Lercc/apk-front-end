@@ -185,6 +185,29 @@ export default new Router({
               component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/CrearPrograma.vue'),
             }
           ]
+        },
+        {
+          path: '/users',
+          redirect: '/users/lista-usuarios',
+          name: 'users',
+          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Users.vue'),
+          children: [
+            {
+              path: '/users/lista-usuarios',
+              name: 'lista-usuarios',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/UsersTable.vue'),
+            },
+            {
+              path: '/users/editar-usuarios/:usuarioId',
+              name: 'editar-usuario',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/EditarUsuario.vue'),
+            },
+            {
+              path: '/users/crear-usuarios',
+              name: 'crear-usuario',
+              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/CrearUsuario.vue'),
+            }
+          ]
         }
       ]
     },
