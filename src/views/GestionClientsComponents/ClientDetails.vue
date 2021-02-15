@@ -548,7 +548,7 @@
         background-color: rgba(0, 0, 0, 0.158);
     }
     .internship {
-        background-color: rgb(64,182,230);
+        background-color: #40b6e6;
         border:none;
     }
     .trainee {
@@ -556,11 +556,11 @@
         border:none;
     }
     .wat {
-        background-color: rgb(104,91,199);
+        background-color: #685bc7;
         border:none;
     }
     .aupair {
-        background-color: rgb(255,173,0);
+        background-color: #ffad00;
         border:none;
     }
     .apk-color-sec-1 {
