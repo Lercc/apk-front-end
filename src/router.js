@@ -10,7 +10,7 @@ import NotFound from '@/views/DefaultViews/NotFound'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   linkExactActiveClass: 'active',
   routes: [
     {
