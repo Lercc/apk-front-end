@@ -49,4 +49,9 @@ function login(pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData)
 }
 
-export {  logout, storeUser, getUser, getUsers, updateUser, destroyUser, login}
+function clientLogin(pFormData) {
+    const REQUEST = `api/login/client`
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData)
+}
+
+export {  logout, storeUser, getUser, getUsers, updateUser, destroyUser, login, clientLogin}

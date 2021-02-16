@@ -7,18 +7,18 @@
             </b-card-title>
             <b-form >
                 <b-form-group
-                    label="* Nombre o concepto del voucher:"
+                    label="* Concepto del voucher:"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
+                    
                     <b-form-select v-model="form.name" :options="conceptosDePago" :state="nameState" v-show="!updateVoucherLoading">
                         <template #first>
                             <b-form-select-option value="" disabled>-- Selecione el concepto del voucher --</b-form-select-option>
                         </template>
                     </b-form-select>
-
 
                     <span 
                         class="text-danger"
@@ -67,29 +67,6 @@
                     </span>
                 </b-form-group>
                
-                <b-form-group
-                    label="Comentarios adicionales:"
-                >   
-                    <div class="" v-if="updateVoucherLoading">
-                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
-                    </div>
-
-                    <b-form-textarea
-                        v-show="!updateVoucherLoading"
-                        v-model="form.description"
-                        placeholder="Ingrese un comentario..."
-                        rows="3"
-                        max-rows="6"
-                        :state="descriptionState"
-                    ></b-form-textarea>
-
-                    <span 
-                        class="text-danger"
-                        v-for="(error, index) in mostrarErroresInput('description')"
-                        :key="`name-${index}`">{{ error }}
-                    </span>
-               </b-form-group>
-
                 <b-form-row class="d-flex justify-content-center"> 
                     <b-btn
                             variant="primary"
@@ -105,7 +82,7 @@
     </b-container>
 </template>
 <script>
-  import { storeVoucherClientProgram } from '@/api/voucher';
+  import { storeVoucherClientProgram } from '@/api/clientAplication';
 
   export default {
     data() {
@@ -116,9 +93,8 @@
                 code: '',
                 state: null,
                 image: null,
-                description: '',
             },
-             //
+            //
             conceptosDePago: [
                 { value: 'Entrevista de inglés', text: 'Entrevista de inglés' },
                 { value: 'Primer pago', text: 'Primer pago' },
@@ -129,7 +105,6 @@
             nameState: null,
             imageState: null,
             codeState: null,
-            descriptionState: null,
             //
             erroresInputs: [],
             //
@@ -152,9 +127,6 @@
                     case 'code':
                         this.codeState = false
                         break;
-                    case 'description':
-                        this.descriptionState = false
-                        break;
                     default:
                         break;
                 }
@@ -170,7 +142,6 @@
             this.nameState = true
             this.imageState = true
             this.codeState = true
-            this.descriptionState = true
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
@@ -178,7 +149,6 @@
             voucherForm.append('code', this.form.code)
             voucherForm.append('state','pendiente')
             voucherForm.append('image', this.form.image)
-            voucherForm.append('description', this.form.description)
 
             storeVoucherClientProgram(voucherForm)
                 .then( res => {
@@ -187,12 +157,7 @@
                             type: 'success',
                             title: 'Creación correcta!!'
                         })
-                        this.$router.push({
-                            name : 'detalles-Cliente',
-                            params: {
-                                clientId : this.$route.params.clientId
-                            }
-                        })
+                        this.$router.push({ name : 'registro-voucher'})
                     }
                 }).catch( err => {
                     if (err.response) {

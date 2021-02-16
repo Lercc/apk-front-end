@@ -16,9 +16,14 @@
                         </span>
                     </div>
 
-                    <p class="dropdown-item mb-0" style="cursor:pointer" @click="salir(data.id)">
+                    <p class="dropdown-item mb-0" style="cursor:pointer" @click="salir(data.id)" v-if="role== 'clientAplication' ? false : true">
+                      <i class="ni ni-user-run"></i>
+                      <span>Logout</span>
+                    </p>
+
+                    <p class="dropdown-item mb-0" style="cursor:pointer" @click="logoutTraveler(id)" v-if="role== 'clientAplication' ? true : false">
                         <i class="ni ni-user-run"></i>
-                        <span>Logout</span>
+                        <span>Traveler Logout</span>
                     </p>
                 </admin-dropdown>
             </li>
@@ -42,11 +47,14 @@ import axios from 'axios';
       ...mapState ('user', ['data']),
       ...mapState ('api', ['url']),
       ...mapState ('token', ['token']),
+      ...mapState ('clientAplication', ['id','role','cliAppToken']),
     },
 
     methods: {
+      /** */
       ...mapMutations('user',['clearUserStoreData']),
       ...mapMutations('token',['clearTokenStoreData']),
+      ...mapMutations('clientAplication',['clearTokenCliAppStoreData']),
 
       salir (pUserId) {
           axios({
@@ -76,6 +84,33 @@ import axios from 'axios';
             })
       },
 
+      logoutTraveler (pClientId) {
+          axios({
+              url : `${this.url}/api/logout/client/${pClientId}`,
+              method:'post',
+              headers: { 'Authorization' : `Bearer ${this.cliAppToken}` }
+            })
+            .then(res => {
+              if (res.status == 203) {
+
+                this.clearTokenCliAppStoreData()
+
+                this.$notify({
+                  type: 'success',
+                  title: res.data.message 
+                })
+
+                this.$router.push({name:'login-traveler'})
+              }
+            })
+            .catch ( err => {
+              this.$notify({
+                type: 'danger',
+                title: err.message 
+              })
+            })
+      },
+    /** */
       toggleSidebar() {
         this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
       },

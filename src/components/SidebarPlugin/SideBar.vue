@@ -41,9 +41,14 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <p class="dropdown-item mb-0" style="cursor:pointer" @click="salir(data.id)">
+                        <p class="dropdown-item mb-0" style="cursor:pointer" @click="salir(data.id)" v-if="role== 'clientAplication' ? false : true">
                           <i class="ni ni-user-run"></i>
                           <span>Logout</span>
+                        </p>
+
+                        <p class="dropdown-item mb-0" style="cursor:pointer" @click="logoutTraveler(id)" v-if="role== 'clientAplication' ? true : false">
+                          <i class="ni ni-user-run"></i>
+                          <span>Traveler Logout</span>
                         </p>
                     </base-dropdown>
                 </ul>
@@ -104,6 +109,8 @@
       ...mapState ('user', ['data']),
       ...mapState ('api', ['url']),
       ...mapState ('token', ['token']),
+
+      ...mapState ('clientAplication', ['id','role','cliAppToken']),
     },
     /** */
 
@@ -117,6 +124,7 @@
       /** */
        ...mapMutations('user',['clearUserStoreData']),
       ...mapMutations('token',['clearTokenStoreData']),
+      ...mapMutations('clientAplication',['clearTokenCliAppStoreData']),
 
       salir (pUserId) {
           axios({
@@ -136,6 +144,33 @@
                 })
 
                 this.$router.push({name:'login'})
+              }
+            })
+            .catch ( err => {
+              this.$notify({
+                type: 'danger',
+                title: err.message 
+              })
+            })
+      },
+
+      logoutTraveler (pClientId) {
+          axios({
+              url : `${this.url}/api/logout/client/${pClientId}`,
+              method:'post',
+              headers: { 'Authorization' : `Bearer ${this.cliAppToken}` }
+            })
+            .then(res => {
+              if (res.status == 203) {
+
+                this.clearTokenCliAppStoreData()
+
+                this.$notify({
+                  type: 'success',
+                  title: res.data.message 
+                })
+
+                this.$router.push({name:'login-traveler'})
               }
             })
             .catch ( err => {

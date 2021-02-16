@@ -15,13 +15,26 @@
           v-if="data.rol==='admin' ? true : false" 
         />
 
-        <sidebar-item :link="{name: 'Gestión de Clientes', icon: 'ni ni-folder-17 text-blue', path: '/gestion-clientes'}" v-if="data.rol==='employee' ? true : false" />
-        <sidebar-item :link="{name: 'Gestión de Leads', icon: 'ni ni-single-02 text-orange', path: '/gestion-leads'}" v-if="data.rol==='employee' ? true : false" />
-        <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/carreras'}" v-if="data.rol==='employee' ? true : false" />
-        <sidebar-item :link="{name: 'Instituciones', icon: 'ni ni-align-left-2 text-red', path: '/instituciones'}" v-if="data.rol==='employee' ? true : false" />
-        <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}" v-if="data.rol==='employee' ? true : false" />
+        <sidebar-item :link="{name: 'Registro de Vouchers', icon: 'ni ni-folder-17 text-blue', path: '/registro-voucher'}" 
+          v-if="role==='clientAplication' ? true : false" />
 
-        <sidebar-item :link="{name: 'Usuarios', icon: 'ni ni-tag text-green', path: '/users'}" v-if="data.rol==='admin' ? true : false" />
+        <sidebar-item :link="{name: 'Gestión de Clientes', icon: 'ni ni-folder-17 text-blue', path: '/gestion-clientes'}" 
+          v-if="data.rol==='employee' ? true : false" />
+
+        <sidebar-item :link="{name: 'Gestión de Leads', icon: 'ni ni-single-02 text-orange', path: '/gestion-leads'}" 
+          v-if="data.rol==='employee' ? true : false" />
+
+        <sidebar-item :link="{name: 'Carreras', icon: 'ni ni-ruler-pencil text-yellow', path: '/carreras'}" 
+          v-if="data.rol==='employee' ? true : false" />
+
+        <sidebar-item :link="{name: 'Instituciones', icon: 'ni ni-align-left-2 text-red', path: '/instituciones'}" 
+          v-if="data.rol==='employee' ? true : false" />
+
+        <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}" 
+          v-if="data.rol==='employee' ? true : false" />
+
+        <sidebar-item :link="{name: 'Usuarios', icon: 'ni ni-tag text-green', path: '/users'}" 
+          v-if="data.rol==='admin' ? true : false" />
         
       </template>
     </side-bar>
@@ -61,7 +74,8 @@
     },
 
     computed: {
-      ...mapState('user',['data'])
+      ...mapState('user',['data']),
+      ...mapState('clientAplication',['role'])
     } ,
 
     methods: {

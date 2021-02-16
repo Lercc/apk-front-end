@@ -11,10 +11,7 @@ import api from './modules/api';
 import token from './modules/token';
 import client from './modules/client';
 import user from './modules/user';
-// import ciclos from './modules/ciclos';
-// import estudiante from './modules/estudiante';
-// import temp from './modules/temp';
-// import usuario from './modules/usuario';
+import clientAplication from './modules/clientAplication';
 
 // REGISTRAR MODULOS:
 export default new Vuex.Store({
@@ -24,9 +21,6 @@ export default new Vuex.Store({
     token,
     client,
     user,
-    // ciclos,
-    // estudiante,
-    // temp,
-    // usuario,
+    clientAplication,
   }
 });

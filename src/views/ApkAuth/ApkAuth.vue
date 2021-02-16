@@ -37,6 +37,12 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link class="nav-link nav-link-icon" to="/login-traveler">
+                            <i class="ni ni-key-25"></i>
+                            <span class="nav-link-inner--text">Traveler</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/login">
                             <i class="ni ni-key-25"></i>
                             <span class="nav-link-inner--text">Login</span>

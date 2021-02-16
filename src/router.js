@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ApkAdmin from '@/views/ApkAdmin/ApkAdmin'
-// import ApkAuth from '@/layout/AuthLayout'
 import ApkAuth from '@/views/ApkAuth/ApkAuth'
+import NotFound from '@/views/DefaultViews/NotFound'
 
-// import GestionVouchers from '@/views/ApkAdmin/components/GestionVouchers.vue'
+ import store from '@/store'
 
 
 Vue.use(Router)
@@ -24,6 +24,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "login" */ '@/views/ApkAuth/components/Login.vue')
         },
         {
+          path: '/login-traveler',
+          name: 'login-traveler',
+          component: () => import(/* webpackChunkName: "login" */ '@/views/ApkAuth/components/LoginTraveler.vue')
+        },
+        {
           path: '/registro',
           name: 'registro',
           component: () => import(/* webpackChunkName: "registro" */ '@/views/ApkAuth/components/Registro.vue')
@@ -35,6 +40,28 @@ export default new Router({
       redirect: 'inicio',
       component: ApkAdmin,
       children: [
+        {
+          path: '/registro-voucher',
+          name: 'registro-voucher',
+          redirect: '/registro-voucher/detalles-voucher',
+          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/RegistroVoucher.vue'),
+          beforeEnter(to, from, next) {
+            if (!store.state.clientAplication.role)  next({ name: 'login-traveler' })
+            else next()
+          },
+          children: [
+            {
+              path: '/registro-voucher/detalles-voucher', //:clientId -> parámetro oculto
+              name: 'detalles-voucher',
+              component: () => import(/* webpackChunkName: "detalles-voucher" */ '@/views/RegistroVoucherComponents/DetallesVoucher.vue')
+            },
+            {
+              path: '/registro-voucher/registrar-nuevo-voucher', //:clientProgramId -> parámetro oculto
+              name: 'registrar-nuevo-voucher',
+              component: () => import(/* webpackChunkName: "registrar-nuevo-voucher" */ '@/views/RegistroVoucherComponents/RegistrarNuevoVoucher.vue')
+            },
+          ]
+        },
         {
           path: '/inicio',
           name: 'inicio',
@@ -227,6 +254,7 @@ export default new Router({
           ]
         }
       ]
-    }
+    },
+    { path: '*', component: NotFound }
   ]
 })
