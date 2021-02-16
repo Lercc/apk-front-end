@@ -10,7 +10,7 @@ Vue.use(Vuex);
 import api from './modules/api';
 import token from './modules/token';
 import client from './modules/client';
-// import carreras from './modules/carreras';
+import user from './modules/user';
 // import ciclos from './modules/ciclos';
 // import estudiante from './modules/estudiante';
 // import temp from './modules/temp';
@@ -23,7 +23,7 @@ export default new Vuex.Store({
     api,
     token,
     client,
-    // carreras,
+    user,
     // ciclos,
     // estudiante,
     // temp,

@@ -1,93 +1,179 @@
 <template>
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-                <div class="card bg-secondary shadow border-0">
-                    <div class="card-header bg-transparent pb-5">
-                        <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
-                        <div class="btn-wrapper text-center">
-                            <a href="#" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="img/icons/common/github.svg"></span>
-                                <span class="btn-inner--text">Github</span>
-                            </a>
-                            <a href="#" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="img/icons/common/google.svg"></span>
-                                <span class="btn-inner--text">Google</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body px-lg-5 py-lg-5">
-                        <div class="text-center text-muted mb-4">
-                            <small>Or sign in with credentials</small>
-                        </div>
-                        <form role="form">
-                            <base-input class="input-group-alternative mb-3"
-                                        placeholder="Email"
-                                        addon-left-icon="ni ni-email-83"
-                                        v-model="model.email">
-                            </base-input>
+      <b-container class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <b-row>
+              <b-card>
+                  {{token}}
+              </b-card>
+          </b-row>
+          <b-row>
+              <b-col>
+                <b-card header="LOGIN" header-text-variant="center">
+                    <b-form-row>
+                        <b-col cols="12">
+                            <b-form-group label="Correo">
+                                <div class="" v-show="leadLoading">
+                                    <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                                 </div>
 
-                            <base-input class="input-group-alternative"
-                                        placeholder="Password"
-                                        type="password"
-                                        addon-left-icon="ni ni-lock-circle-open"
-                                        v-model="model.password">
-                            </base-input>
+                                <b-form-input type="email" v-model="form.email" :state="emailState" placeholder="Ingrese su correo"></b-form-input>
+                            
+                                <span 
+                                    class="text-danger"
+                                    v-for="(error, index) in mostrarErroresInput('email')"
+                                    :key="`user-email-login-${index}`">{{ error }}
+                                </span>
+                            </b-form-group>
+                        </b-col>
+                    </b-form-row>
 
-                            <base-checkbox class="custom-control-alternative">
-                                <span class="text-muted">Remember me</span>
-                            </base-checkbox>
-                            <div class="text-center">
-                                <base-button 
-                                    type="primary"
-                                    class="my-4"
-                                    @click="login"
-                                >Sign in</base-button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <a href="#" class="text-light"><small>Forgot password?</small></a>
-                    </div>
-                    <div class="col-6 text-right">
-                        <router-link to="/register" class="text-light"><small>Create new account</small></router-link>
-                    </div>
-                </div>
-                 <base-button 
-                                    type="primary"
-                                    class="my-4"
-                                    @click="buscar"
-                                >buscar</base-button>
-            </div>
-        </div>
+                    <b-form-row>
+                        <b-col cols="12">
+                            <b-form-group label="Contraseña">
+                                <div class="" v-show="leadLoading">
+                                    <pulse-loader :loading="leadLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                                 </div>
+
+                                <b-form-input type="password" v-model="form.password" :state="passwordState" placeholder="Ingrese su correo"></b-form-input>
+                            
+                                <span 
+                                    class="text-danger"
+                                    v-for="(error, index) in mostrarErroresInput('password')"
+                                    :key="`user-password-login-${index}`">{{ error }}
+                                </span>
+                            </b-form-group>
+                        </b-col>
+                    </b-form-row>
+
+                    <b-form-row >
+                        <b-col cols="8" class="mx-auto">
+                            <b-button variant="primary" size="lg" class="col-12" @click="enviar">
+                                    LOGIN
+                            </b-button>
+                        </b-col>
+                    </b-form-row>
+                </b-card> 
+              </b-col>
+          </b-row>
+      </b-container>
 </template>
 <script>
-  import * as auth from '@/api/auth';
+  import { mapMutations , mapState} from 'vuex';
+  import { login } from '@/api/usuario';
 
   export default {
     name: 'login',
     data() {
       return {
-        model: {
-          email: 'apk@admin.com',
-          password: 'APK2021ADMIN'
-        }
+        form: {
+        //   email: 'apk@admin.com',
+        //   password: 'APK2021ADMIN'
+            email: '',
+            password: '',
+        },
+        //
+        emailState: null,
+        passwordState: null,
+        //
+        leadLoading: false,
+        //
+        inputErrors: [],
       }
     },
+    computed:{
+        ...mapState('token',['token']),
+    },
     methods: {
-        login () {
-            auth.login(this.model.email, this.model.password)
-                .then(res => {
-                    console.log(res)
-                })
-                .catch( err => {
-                    console.log(err.response)
+        ...mapMutations('user',['setUserStoreData']),
+        ...mapMutations('token',['setTokenStoreData']),
+
+        mostrarErroresInput(pCampo) {
+            const camposIncorrectos = Object.keys(this.inputErrors);
+
+            if (camposIncorrectos.includes(pCampo)) {
+                switch (pCampo) {
+                    case 'email': 
+                        this.emailState = false;
+                        break;
+                    case 'password':
+                        this.passwordState = false;
+                        break;
+                    default:
+                        break
+                }
+                return this.inputErrors[pCampo]
+            } else {
+                return []
+            }
+        },
+
+        setTrue() {
+            this.clear()
+            this.emailState =  true
+            this.passwordState =  true
+        },
+
+        clear(){
+            this.inputErrors = []
+            this.emailState =  null
+            this.passwordState =  null
+        },
+
+        enviar() {
+            this.leadLoading = true
+
+            this.setTrue()
+
+            let userForm = new FormData()
+            userForm.append('email', this.form.email)
+            userForm.append('password', this.form.password)
+
+            login (userForm)
+                .then( res => {
+                    if(res.status == 200) {
+
+                        //guardar en storage con vuex
+                        let respuesta = {
+                            'id' : res.data.attributes.id,
+                            'name' : res.data.attributes.name,
+                            'email' : res.data.attributes.email,
+                            'rol' : res.data.attributes.role,
+                        }
+                        this.setUserStoreData(respuesta)
+                        this.setTokenStoreData(res.data.attributes.token)
+
+                        //notificar
+                        this.$notify({
+                            type: 'success',
+                            title: 'Usuario logeado!!'
+                        })
+
+                        //redireccionar
+                        this.$router.push({ name : 'inicio' })
+                    }
+                }).catch( err => {
+                    if (err.response) {
+                        if ( err.response.status == 401) {
+                            this.$notify({
+                                type: 'warning',
+                                title:  err.response.data.message
+                            })
+                        } else {
+                            this.inputErrors = err.response.data.errors
+                            this.$notify({
+                                type: 'danger',
+                                title:  'Existen campos inválidos'
+                            })
+                        }
+                    } else {
+                        this.$notify({
+                            type: 'danger',
+                            title: err.message
+                        })
+                    }
+                }).finally( () => {
+                    this.leadLoading = false
                 })
         },
-        buscar () {
-        
-        }
     }
   }
 </script>

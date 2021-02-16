@@ -184,22 +184,22 @@ export default new Router({
           path: '/programs',
           redirect: '/programs/lista-programas',
           name: 'programs',
-          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Programs.vue'),
+          component: () => import(/* webpackChunkName: "programas" */ '@/views/ApkAdmin/components/Programs.vue'),
           children: [
             {
               path: '/programs/lista-programas',
               name: 'lista-programas',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/ProgramsTable.vue'),
+              component: () => import(/* webpackChunkName: "listar-programas" */ '@/views/ProgramComponents/ProgramsTable.vue'),
             },
             {
               path: '/programs/editar-programa/:programId',
               name: 'editar-programa',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/EditarPrograma.vue'),
+              component: () => import(/* webpackChunkName: "editar-programas" */ '@/views/ProgramComponents/EditarPrograma.vue'),
             },
             {
               path: '/programs/crear-programa',
               name: 'crear-programa',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/ProgramComponents/CrearPrograma.vue'),
+              component: () => import(/* webpackChunkName: "crear-programas" */ '@/views/ProgramComponents/CrearPrograma.vue'),
             }
           ]
         },
@@ -207,22 +207,22 @@ export default new Router({
           path: '/users',
           redirect: '/users/lista-usuarios',
           name: 'users',
-          component: () => import(/* webpackChunkName: "institutions" */ '@/views/ApkAdmin/components/Users.vue'),
+          component: () => import(/* webpackChunkName: "users" */ '@/views/ApkAdmin/components/Users.vue'),
           children: [
             {
               path: '/users/lista-usuarios',
               name: 'lista-usuarios',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/UsersTable.vue'),
+              component: () => import(/* webpackChunkName: "listar-usuarios" */ '@/views/UserComponents/UsersTable.vue'),
             },
             {
               path: '/users/editar-usuarios/:usuarioId',
               name: 'editar-usuario',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/EditarUsuario.vue'),
+              component: () => import(/* webpackChunkName: "editar-usuarios" */ '@/views/UserComponents/EditarUsuario.vue'),
             },
             {
               path: '/users/crear-usuarios',
               name: 'crear-usuario',
-              component: () => import(/* webpackChunkName: "institutions" */ '@/views/UserComponents/CrearUsuario.vue'),
+              component: () => import(/* webpackChunkName: "crear-usuarios" */ '@/views/UserComponents/CrearUsuario.vue'),
             }
           ]
         }

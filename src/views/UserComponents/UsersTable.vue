@@ -84,6 +84,7 @@
   </div>
 </template>
 <script>
+
   import * as usuario from '@/api/usuario';
 
   export default {

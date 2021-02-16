@@ -41,10 +41,10 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a href="#!" class="dropdown-item">
-                            <i class="ni ni-user-run"></i>
-                            <span>Logout</span>
-                        </a>
+                        <p class="dropdown-item mb-0" style="cursor:pointer" @click="salir(data.id)">
+                          <i class="ni ni-user-run"></i>
+                          <span>Logout</span>
+                        </p>
                     </base-dropdown>
                 </ul>
             </slot>
@@ -76,6 +76,10 @@
 </template>
 <script>
   import NavbarToggleButton from '@/components/NavbarToggleButton'
+  /** */
+  import { mapState, mapMutations } from 'vuex';
+  import axios from 'axios';
+  /** */
 
   export default {
     name: 'sidebar',
@@ -94,12 +98,55 @@
         description: 'Whether sidebar should autoclose on mobile when clicking an item'
       }
     },
+
+    /** */
+    computed: {
+      ...mapState ('user', ['data']),
+      ...mapState ('api', ['url']),
+      ...mapState ('token', ['token']),
+    },
+    /** */
+
     provide() {
       return {
         autoClose: this.autoClose
       };
     },
+
     methods: {
+      /** */
+       ...mapMutations('user',['clearUserStoreData']),
+      ...mapMutations('token',['clearTokenStoreData']),
+
+      salir (pUserId) {
+          axios({
+              url : `${this.url}/api/logout/${pUserId}`,
+              method:'post',
+              headers: { 'Authorization' : `Bearer ${this.token}` }
+            })
+            .then(res => {
+              if (res.status == 203) {
+
+                this.clearUserStoreData({})
+                this.clearTokenStoreData({})
+
+                this.$notify({
+                  type: 'success',
+                  title: res.data.message 
+                })
+
+                this.$router.push({name:'login'})
+              }
+            })
+            .catch ( err => {
+              this.$notify({
+                type: 'danger',
+                title: err.message 
+              })
+            })
+      },
+      /** */
+
       closeSidebar() {
         this.$sidebar.displaySidebar(false)
       },

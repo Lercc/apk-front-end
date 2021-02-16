@@ -13,7 +13,7 @@
 
                         <template slot="footer">
                             <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                            <span class="text-nowrap">Since last month</span>
+                            <span class="text-nowrap">{{token}}</span>
                         </template>
                     </stats-card>
                 </div>
@@ -151,6 +151,8 @@
   import SocialTrafficTable from '@/views/Dashboard/SocialTrafficTable';
   import PageVisitsTable from '@/views//Dashboard/PageVisitsTable';
 
+  import {mapState} from 'vuex'
+
   export default {
     components: {
       LineChart,
@@ -182,6 +184,9 @@
           }
         }
       };
+    },
+    computed: {
+      ...mapState('token',['token']),
     },
     methods: {
       initBigChart(index) {

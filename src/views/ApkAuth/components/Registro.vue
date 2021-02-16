@@ -273,10 +273,10 @@
 </template>
 
 <script>
-import { getAllActiveCareers } from '@/api/career'
-import { getAllActiveInstitutions } from '@/api/institution'
-import { getAllActivePrograms } from '@/api/apkPrograms'
-import { createLead } from '@/api/lead'
+import { getAllActiveCareersWithoutAuth } from '@/api/career'
+import { getAllActiveInstitutionsWithoutAuth } from '@/api/institution'
+import { getAllActiveProgramsWithoutAuth } from '@/api/apkPrograms'
+import { createLeadWithoutAuth } from '@/api/lead'
 
 
 export default {
@@ -479,7 +479,7 @@ export default {
             leadForm.append('profile', this.form.profile)
             leadForm.append('commentary', this.form.commentary)
 
-            createLead (leadForm)
+            createLeadWithoutAuth (leadForm)
                 .then( res => {
                     if(res.status == 201) {
                        this.$notify({
@@ -506,7 +506,7 @@ export default {
         },
 
         getCareerData(){
-            getAllActiveCareers()
+            getAllActiveCareersWithoutAuth()
                 .then ( res => {
                     if (res.status == 200) {
                         this.careersData = res.data.data.map( m => ({ value : m.attributes.id, text : m.attributes.name }) )
@@ -515,7 +515,7 @@ export default {
         },
 
         getInstitutionData(){
-            getAllActiveInstitutions()
+            getAllActiveInstitutionsWithoutAuth()
                 .then ( res => {
                     if (res.status == 200) {
                         this.institutionData = res.data.data.map( m => ({ value : m.attributes.id, text : m.attributes.name }) )
@@ -524,7 +524,7 @@ export default {
         },
 
         getProgramData(){
-            getAllActivePrograms()
+            getAllActiveProgramsWithoutAuth()
                 .then ( res => {
                     if (res.status == 200) {
                         this.programsData = res.data.data.map( m => ({ value : m.attributes.id, text : m.attributes.name }) )

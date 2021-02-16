@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content " style="background-image: linear-gradient(240deg, rgba(104,91,199,1) 0%, rgba(64,182,230,1) 50%, rgba(104,91,199,1) 100%);">
+    <div class="main-content bg-default " style="min-height: 100vh">
         <!-- Navbar -->
         <auth-nav class="navbar-top navbar-horizontal navbar-dark"
                   containerClasses="px-4 container"
@@ -46,7 +46,7 @@
             </template>
         </auth-nav>
         <!-- Header -->
-        <div class="header  py-7 py-lg-8">
+        <div class="header  py-5 py-lg-7">
             <div class="container">
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
@@ -64,7 +64,7 @@
             </div>
         </div>
         <!-- Page content -->
-        <div class="container mt--8 pb-5" >
+        <div class="container mt--8 pb-4" >
             <slide-y-up-transition mode="out-in" origin="center top">
                 <router-view></router-view>
             </slide-y-up-transition>
