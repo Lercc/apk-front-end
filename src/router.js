@@ -10,13 +10,17 @@ import NotFound from '@/views/DefaultViews/NotFound'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   linkExactActiveClass: 'active',
   routes: [
     {
       path: '/',
       redirect: 'login',
       component: ApkAuth,
+      beforeEnter(to, from, next) {
+        if (store.state.user.data.rol) next({ name: 'gestion-de-clientes' })
+        else next()
+      },
       children: [
         {
           path: '/login',
@@ -35,10 +39,16 @@ export default new Router({
         }
       ]
     },
+
     {
       path: '/',
-      redirect: 'inicio',
+      redirect: 'gestion-de-clientes',
       component: ApkAdmin,
+      beforeEnter(to, from, next) {
+        if (store.state.clientAplication.role)  next()
+        else if (!store.state.user.data.rol) next({ name: 'login' }) 
+        else next()
+      },
       children: [
         {
           path: '/registro-voucher',
@@ -46,7 +56,7 @@ export default new Router({
           redirect: '/registro-voucher/detalles-voucher',
           component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/RegistroVoucher.vue'),
           beforeEnter(to, from, next) {
-            if (!store.state.clientAplication.role)  next({ name: 'login-traveler' })
+            if (!store.state.clientAplication.role)  next({ name: 'login-traveler'})
             else next()
           },
           children: [
@@ -62,16 +72,17 @@ export default new Router({
             },
           ]
         },
-        {
-          path: '/inicio',
-          name: 'inicio',
-          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Inicio.vue')
-        },
+
         {
           path: '/gestion-clientes',
           redirect:'/gestion-clientes/lista-clientes',
           name: 'gestion-de-clientes',
           component: () => import(/* webpackChunkName: "gestion-de-clientes" */ '@/views/ApkAdmin/components/GestionClientes.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
           children: [
             {
               path: '/gestion-clientes/lista-clientes',
@@ -105,11 +116,17 @@ export default new Router({
             },
           ]
         },
+
         {
           path: '/gestion-leads',
           redirect:'/gestion-leads/lista-leads-calificados',
           name: 'gestion-de-leads',
           component: () => import(/* webpackChunkName: "gestion-de-leads" */ '@/views/ApkAdmin/components/GestionLeads.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
           children: [
             {
               path: '/gestion-leads/lista-leads-calificados',
@@ -144,11 +161,6 @@ export default new Router({
               component: () => import(/* webpackChunkName: "lista-leads" */ '@/views/GestionLeadComponents/LeadsInglesTable.vue')
             },
 
-
-
-
-
-
             {
               path: '/gestion-leads/editar-lead/:leadId',
               name: 'editar-lead',
@@ -161,11 +173,17 @@ export default new Router({
             }
           ]
         },
+
         {
           path: '/carreras',
           redirect: '/carreras/lista-carreras',
           name: 'carreras',
           component: () => import(/* webpackChunkName: "careers" */ '@/views/ApkAdmin/components/Careers.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
           children: [
             {
               path: '/carreras/lista-carreras',
@@ -184,11 +202,17 @@ export default new Router({
             }
           ]
         },
+
         {
           path: '/instituciones',
           redirect:'/instituciones/lista-instituciones',
           name: 'instituciones',
           component: () => import(/* webpackChunkName: "instituciones" */ '@/views/ApkAdmin/components/Institutions.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
           children: [
             {
               path: '/instituciones/lista-instituciones',
@@ -207,11 +231,17 @@ export default new Router({
             }
           ]
         },
+
         {
           path: '/programs',
           redirect: '/programs/lista-programas',
           name: 'programs',
           component: () => import(/* webpackChunkName: "programas" */ '@/views/ApkAdmin/components/Programs.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
           children: [
             {
               path: '/programs/lista-programas',
@@ -230,11 +260,28 @@ export default new Router({
             }
           ]
         },
+
+        {
+          path: '/inicio',
+          name: 'inicio',
+          component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Inicio.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-clientes' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
+        },
+
         {
           path: '/users',
           redirect: '/users/lista-usuarios',
           name: 'users',
           component: () => import(/* webpackChunkName: "users" */ '@/views/ApkAdmin/components/Users.vue'),
+           beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-clientes' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher'})
+            else next()
+          },
           children: [
             {
               path: '/users/lista-usuarios',

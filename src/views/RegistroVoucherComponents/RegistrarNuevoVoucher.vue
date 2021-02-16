@@ -2,9 +2,11 @@
                
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
-            <b-card-title class="text-center text-md-right">
-                CREAR NUEVO VOUCHER
-            </b-card-title>
+            <template #header >
+                <span class="text-center text-muted">
+                    CREAR NUEVO VOUCHER
+                </span>
+            </template>
             <b-form >
                 <b-form-group
                     label="* Concepto del voucher:"
