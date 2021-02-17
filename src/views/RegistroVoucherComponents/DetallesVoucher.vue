@@ -4,9 +4,9 @@
             <!-- PROGRAMAS DE LOS CLIENTES -->
             <div class="accordion"
             >
-                <b-card-header class="apk-soft-shadow">
+                <b-card class="apk-soft-shadow rounded mb-3">
                     Programas :
-                </b-card-header>
+                </b-card>
 
                 <!-- LOADER -->
                 <div class="d-flex justify-content-center  apk-shadow rounded" v-show="dataClientProgramsLoading"
@@ -49,7 +49,7 @@
                     <!-- <b-collapse :id="`accordion-${program.id}`" :visible="index == 0" > -->
                     <b-collapse :id="`accordion-${clientProgram.id}`" >
 
-                        <b-card-body>
+                        <b-card-body >
                         <!-- BTN AGREGAR VOUCHER A UN PROGRAMA DEL CLIENTE -->
                             <b-button 
                                 block
@@ -70,6 +70,7 @@
 
                         <!-- ITERACIÓN DE VOUCHERS POR PROGRAMAS -->
                         <b-card-body 
+                            class="rounded"
                             v-else 
                             v-for="(voucher, index) in  clientProgram.vouchers" 
                             :key="`${voucher.id}-voucher-${index}`"
@@ -104,7 +105,7 @@
 
         <b-col cols="12" lg="5" xl="4" class="mb-5">
             <b-card
-                title="Datos del cliente"
+                title="Datos Personales"
                 class="apk-shadow"
             >   
                 <b-row>

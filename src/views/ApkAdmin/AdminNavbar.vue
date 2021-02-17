@@ -12,7 +12,7 @@
                             <span class="mb-0 text-sm  font-weight-bold">{{data.name }}</span>
                         </div>
                         <span class="avatar avatar-sm rounded-circle rounded-circle apk-employee opacity-8">
-                          <img class="apk-employee-img" alt="employee" src="img/icons/apk/logo-user-262x262.png">
+                          <img class="apk-employee-img" alt="employee" src="/img/icons/apk/logo_social-262x262.png">
                         </span>
                     </div>
 
@@ -128,6 +128,6 @@ import axios from 'axios';
     background-color: rgba(0, 0, 0, .05);
   }
   .apk-employee-img{
-    transform: scale(.6);
+    transform: scale(.95);
   }
 </style>

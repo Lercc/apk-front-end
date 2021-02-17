@@ -33,7 +33,7 @@
         <sidebar-item :link="{name: 'Programas', icon: 'ni ni-tag text-green', path: '/programs'}" 
           v-if="data.rol==='employee' ? true : false" />
 
-        <sidebar-item :link="{name: 'Usuarios', icon: 'ni ni-tag text-green', path: '/users'}" 
+        <sidebar-item :link="{name: 'Usuarios', icon: 'ni ni-single-02 text-green', path: '/users'}" 
           v-if="data.rol==='admin' ? true : false" />
         
       </template>

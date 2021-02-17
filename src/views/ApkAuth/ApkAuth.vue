@@ -32,19 +32,19 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/registro">
-                            <i class="ni ni-planet"></i>
+                            <i class="ni ni-single-copy-04"></i>
                             <span class="nav-link-inner--text">registro</span>
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/login-traveler">
-                            <i class="ni ni-key-25"></i>
+                            <i class="ni ni-world"></i>
                             <span class="nav-link-inner--text">Traveler</span>
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/login">
-                            <i class="ni ni-key-25"></i>
+                            <i class="ni ni-single-02"></i>
                             <span class="nav-link-inner--text">Login</span>
                         </router-link>
                     </li>

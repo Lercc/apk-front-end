@@ -30,7 +30,7 @@
                         <a slot="title" class="nav-link" href="#" role="button">
                             <div class="media align-items-center">
                               <span class="avatar avatar-sm rounded-circle apk-employee opacity-8">
-                                <img class="apk-employee-img" alt="employeee" src="img/icons/apk/logo-user-262x262.png">
+                                <img class="apk-employee-img" alt="employeee" src="/img/icons/apk/logo_social-262x262.png">
                               </span>
                             </div>
                         </a>
@@ -61,7 +61,6 @@
                         <div class="col-6 collapse-brand">
                             <router-link to="/">
                                 <img :src="logo">
-                                <!-- <img :src="require('')"> -->
                             </router-link>
                         </div>
                         <div class="col-6 collapse-close">
@@ -95,7 +94,7 @@
     props: {
       logo: {
         type: String,
-        default: 'img/brand/imagotipo-w&t-524x170.png',
+        default: '/img/brand/imagotipo-w&t-524x170.png',
         description: 'Sidebar app logo'
       },
       autoClose: {
@@ -202,6 +201,6 @@
     background-color: rgba(0, 0, 0, .05);
   }
   .apk-employee-img{
-    transform: scale(.6);
+    transform: scale(.95);
   }
 </style>
