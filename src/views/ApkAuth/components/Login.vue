@@ -140,7 +140,7 @@
                         })
 
                         //redireccionar
-                        if(res.data.attributes.role == 'employee') this.$router.push({ name : 'gestion-de-clientes' })
+                        if(res.data.attributes.role == 'employee') this.$router.push({ name : 'gestion-de-aplicantes' })
                         else if(res.data.attributes.role == 'admin') this.$router.push({ name : 'inicio' })
                     }
                 }).catch( err => {

@@ -2,7 +2,7 @@
                
    <b-container class="col-lg" >
         <b-card   class="apk-shadow">
-            <b-card-title class="text-center text-md-right">
+            <b-card-title class="text-center text-muted">
                EDITAR VOUCHER
             </b-card-title>
             <b-form >
@@ -46,7 +46,7 @@
                 </b-form-group>
 
                 <b-form-group
-                    label="Código del voucher:"
+                    label="Código de operación del voucher:"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -56,7 +56,7 @@
                         v-show="!updateVoucherLoading"
                         v-model="form.code"
                         type="number"
-                        placeholder="Ingrese el código del voucher"
+                        placeholder="Ingrese el código de operación del voucher"
                         :state="codeState"
                     ></b-form-input>
                     <span 
@@ -65,9 +65,9 @@
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
-
                 <b-form-group
                     label="Estado del voucher:"
+                    v-if="data.email == 'saliaga@aupairkids.com.pe' ? true : false"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -97,9 +97,11 @@
                     ></b-form-textarea>
                </b-form-group>
 
-               <div class="btn btn-primary col col-lg-6 text-center"  @click="enviar">
-                   ACTUALIZAR VOUCHER
-               </div>
+                <b-form-row class="d-flex justify-content-center">
+                    <div class="btn btn-primary col col-lg-4 text-center"  @click="enviar">
+                        ACTUALIZAR VOUCHER
+                    </div>
+                </b-form-row>
 
             </b-form>
         </b-card>
@@ -107,6 +109,7 @@
 </template>
 <script>
 import {  getVoucher, updateVoucher } from '@/api/voucher';
+import { mapState } from 'vuex'
 
 export default {
     name:'EditarVoucher',
@@ -140,6 +143,11 @@ export default {
     beforeMount() {
         this.getVoucherData(this.$route.params.voucherId)
     },
+
+    computed: {
+        ...mapState('user', ['data']),
+    },
+
     methods: {
 
         getVoucherData(pVoucherId) {

@@ -501,7 +501,7 @@
                         .then( res => {
                             if(res.status == 204) {
                                 swal('El cliente fue eliminado',{icon:'success'})
-                                this.$router.push({name: 'lista-Clientes'})
+                                this.$router.push({name: 'lista-aplicantes'})
                             }
                         }).catch( err => {
                             if(err.response){
@@ -516,7 +516,7 @@
 
        editarCliente () {
             this.$router.push({
-                name: 'editar-cliente',
+                name: 'editar-aplicante',
                 params: {
                     clientId: this.$route.params.clientId
                 }

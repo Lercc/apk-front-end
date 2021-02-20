@@ -49,7 +49,7 @@
                 </b-form-group>
 
                 <b-form-group
-                    label="* Código del voucher:"
+                    label="* Código de operación del voucher:"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -59,7 +59,7 @@
                         v-show="!updateVoucherLoading"
                         v-model="form.code"
                         type="number"
-                        placeholder="Ingrese el código del voucher"
+                        placeholder="Ingrese el código de operación del voucher"
                         :state="codeState"
                     ></b-form-input>
                     <span 

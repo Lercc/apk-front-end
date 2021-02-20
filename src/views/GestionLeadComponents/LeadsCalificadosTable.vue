@@ -336,12 +336,6 @@
         })
       },
 
-      crearNuevoLead() {
-        this.$router.push({
-          name: 'crear-cliente',
-        })
-      },
-
       recargarDatos() {
         this.cargardatos()
       }

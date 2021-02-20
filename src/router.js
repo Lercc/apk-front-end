@@ -18,7 +18,7 @@ export default new Router({
       redirect: 'login',
       component: ApkAuth,
       beforeEnter(to, from, next) {
-        if (store.state.user.data.rol) next({ name: 'gestion-de-clientes' })
+        if (store.state.user.data.rol) next({ name: 'gestion-de-aplicantes' })
         else next()
       },
       children: [
@@ -42,7 +42,7 @@ export default new Router({
 
     {
       path: '/',
-      redirect: 'gestion-de-clientes',
+      redirect: 'gestion-de-aplicantes',
       component: ApkAdmin,
       beforeEnter(to, from, next) {
         if (store.state.clientAplication.role)  next()
@@ -74,10 +74,10 @@ export default new Router({
         },
 
         {
-          path: '/gestion-clientes',
-          redirect:'/gestion-clientes/lista-clientes',
-          name: 'gestion-de-clientes',
-          component: () => import(/* webpackChunkName: "gestion-de-clientes" */ '@/views/ApkAdmin/components/GestionClientes.vue'),
+          path: '/gestion-aplicantes',
+          redirect:'/gestion-aplicantes/lista-aplicantes',
+          name: 'gestion-de-aplicantes',
+          component: () => import(/* webpackChunkName: "gestion-de-aplicantes" */ '@/views/ApkAdmin/components/GestionClientes.vue'),
           beforeEnter(to, from, next) {
             if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
             else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
@@ -85,34 +85,34 @@ export default new Router({
           },
           children: [
             {
-              path: '/gestion-clientes/lista-clientes',
-              name: 'lista-Clientes',
-              component: () => import(/* webpackChunkName: "lista-Clientes" */ '@/views/GestionClientsComponents/ClientsTable.vue')
+              path: '/gestion-aplicantes/lista-aplicantes',
+              name: 'lista-aplicantes',
+              component: () => import(/* webpackChunkName: "lista-aplicantes" */ '@/views/GestionClientsComponents/ClientsTable.vue')
             },
             {
-              path: '/gestion-clientes/detalles-cliente/:clientId',
-              name: 'detalles-Cliente',
-              component: () => import(/* webpackChunkName: "detalles-Cliente" */ '@/views/GestionClientsComponents/ClientDetails.vue')
+              path: '/gestion-aplicantes/detalles-aplicante/:clientId',
+              name: 'detalles-aplicante',
+              component: () => import(/* webpackChunkName: "detalles-aplicante" */ '@/views/GestionClientsComponents/ClientDetails.vue')
             },
             {
-              path: '/gestion-clientes/crear-voucher/:clientProgramId/:clientId',
+              path: '/gestion-aplicantes/crear-voucher/:clientProgramId/:clientId',
               name: 'crear-voucher',
               component: () => import(/* webpackChunkName: "crear-voucher" */ '@/views/GestionClientsComponents/CrearVoucher.vue')
             },
             {
-              path: '/gestion-clientes/editar-voucher/:voucherId/:clientId',
+              path: '/gestion-aplicantes/editar-voucher/:voucherId/:clientId',
               name: 'editar-voucher',
               component: () => import(/* webpackChunkName: "editar-voucher" */ '@/views/GestionClientsComponents/EditarVoucher.vue')
             },
             {
-              path: '/gestion-clientes/crear-cliente',
-              name: 'crear-cliente',
-              component: () => import(/* webpackChunkName: "crear-cliente" */ '@/views/GestionClientsComponents/CrearCliente.vue')
+              path: '/gestion-aplicantes/crear-aplicante',
+              name: 'crear-aplicante',
+              component: () => import(/* webpackChunkName: "crear-aplicante" */ '@/views/GestionClientsComponents/CrearCliente.vue')
             },
             {
-              path: '/gestion-clientes/editar-cliente/:clientId',
-              name: 'editar-cliente',
-              component: () => import(/* webpackChunkName: "editar-cliente" */ '@/views/GestionClientsComponents/EditarCliente.vue')
+              path: '/gestion-aplicantes/editar-aplicante/:clientId',
+              name: 'editar-aplicante',
+              component: () => import(/* webpackChunkName: "editar-aplicante" */ '@/views/GestionClientsComponents/EditarCliente.vue')
             },
           ]
         },
@@ -266,7 +266,7 @@ export default new Router({
           name: 'inicio',
           component: () => import(/* webpackChunkName: "dashboard-admin" */ '@/views/ApkAdmin/components/Inicio.vue'),
           beforeEnter(to, from, next) {
-            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-clientes' })
+            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-aplicantes' })
             else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
             else next()
           },
@@ -278,7 +278,7 @@ export default new Router({
           name: 'users',
           component: () => import(/* webpackChunkName: "users" */ '@/views/ApkAdmin/components/Users.vue'),
            beforeEnter(to, from, next) {
-            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-clientes' })
+            if (store.state.user.data.rol == 'employee')  next({ name: 'gestion-de-aplicantes' })
             else if (store.state.clientAplication.role) next({ name: 'registro-voucher'})
             else next()
           },

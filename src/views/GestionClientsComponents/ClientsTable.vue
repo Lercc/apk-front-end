@@ -7,7 +7,7 @@
       <div class="row align-items-center">
         <div class="col">
           <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''" c>
-            Tabla de Clientes
+            Tabla de Aplicantes
           </h3>
         </div>
         <div class="col d-flex justify-content-end" >
@@ -146,7 +146,7 @@
       clientDetails(row) {
         this.setClientStoreData(row)
         this.$router.push({
-          name: 'detalles-Cliente',
+          name: 'detalles-aplicante',
           params: {
             clientId: row.id
           }
@@ -155,7 +155,7 @@
 
       crearNuevoCliente() {
         this.$router.push({
-          name: 'crear-cliente',
+          name: 'crear-aplicante',
         })
       },
 

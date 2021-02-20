@@ -1,7 +1,7 @@
 <template>
                
    <b-container class="col-12 col-md-10 col-lg-8" >
-        <b-card   class="apk-shadow" header="EDITAR CLIENTE" header-text-variant="center">
+        <b-card   class="apk-shadow" header="EDITAR APLICANTE" header-text-variant="center">
             <b-form >
                 <b-form-group
                     label="* Nombre:"
@@ -14,7 +14,7 @@
                         v-show="!updateClientLoading"
                         v-model="form.name"
                         type="text"
-                        placeholder="Ingrese el nombre del cliente"
+                        placeholder="Ingrese el nombre del aplicante"
                         :state="nameState"
                     ></b-form-input>
                     <span 
@@ -35,7 +35,7 @@
                         v-show="!updateClientLoading"
                         v-model="form.surnames"
                         type="text"
-                        placeholder="Ingrese los apellidos del cliente"
+                        placeholder="Ingrese los apellidos del aplicante"
                         :state="surnamesState"
                     ></b-form-input>
                     <span 
@@ -56,7 +56,7 @@
                         v-show="!updateClientLoading"
                         v-model="form.dni"
                         type="number"
-                        placeholder="Ingrese el dni del cliente"
+                        placeholder="Ingrese el dni del aplicante"
                         :state="dniState"
                     ></b-form-input>
                     <span 
@@ -77,7 +77,7 @@
                         v-show="!updateClientLoading"
                         v-model="form.mobile"
                         type="number"
-                        placeholder="Ingrese el dni del cliente"
+                        placeholder="Ingrese el dni del aplicante"
                         :state="mobileState"
                     ></b-form-input>
                     <span 
@@ -98,7 +98,7 @@
                         v-show="!updateClientLoading"
                         v-model="form.email"
                         type="email"
-                        placeholder="Ingrese el correo del cliente"
+                        placeholder="Ingrese el correo del aplicante"
                         :state="emailState"
                     ></b-form-input>
                     <span 
@@ -119,7 +119,7 @@
                     <b-form-textarea
                         v-show="!updateClientLoading"
                         v-model="form.profile"
-                        placeholder="Ingrese el perfil del cliente..."
+                        placeholder="Ingrese el perfil del aplicante..."
                         rows="1"
                         max-rows="6"
                         :state="profileState"
@@ -160,7 +160,7 @@
                     @click="enviar"
                     size="lg"
                 >
-                    ACTUALIZAR CLIENTE
+                    ACTUALIZAR APLICANTE
                </b-btn>
             </b-form>
         </b-card>

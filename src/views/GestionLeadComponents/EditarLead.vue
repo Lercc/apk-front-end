@@ -530,7 +530,7 @@ export default {
                             title: 'Actualización correcta!!'
                         })
                         // this.$router.push({
-                        //     name : 'lista-Clientes'
+                        //     name : 'lista-aplicantes'
                         // })
                     }
                 }).catch( err => {

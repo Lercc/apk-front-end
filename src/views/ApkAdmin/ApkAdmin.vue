@@ -18,7 +18,7 @@
         <sidebar-item :link="{name: 'Registro de Vouchers', icon: 'ni ni-folder-17 text-blue', path: '/registro-voucher'}" 
           v-if="role==='clientAplication' ? true : false" />
 
-        <sidebar-item :link="{name: 'Gestión de Clientes', icon: 'ni ni-folder-17 text-blue', path: '/gestion-clientes'}" 
+        <sidebar-item :link="{name: 'Gestión de Aplicantes', icon: 'ni ni-folder-17 text-blue', path: '/gestion-aplicantes'}" 
           v-if="data.rol==='employee' ? true : false" />
 
         <sidebar-item :link="{name: 'Gestión de Leads', icon: 'ni ni-single-02 text-orange', path: '/gestion-leads'}" 
