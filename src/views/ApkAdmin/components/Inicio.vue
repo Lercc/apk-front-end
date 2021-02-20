@@ -10,6 +10,9 @@
                                 icon="ni ni-active-40"
                                 class="mb-4 mb-xl-0"
                     >
+                      <div class="btn primary" @click="descarga">
+                        descarga 
+                      </div>
 
                         <template slot="footer">
                             <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
@@ -63,6 +66,11 @@
             </div>
         </base-header>
 
+
+        <div>
+          {{deow}}
+        </div>
+
         <!--Charts-->
         <div class="container-fluid mt--7">
             <div class="row">
@@ -107,6 +115,7 @@
                     </card>
                 </div>
 
+
                 <div class="col-xl-4">
                     <card header-classes="bg-transparent">
                         <div slot="header" class="row align-items-center">
@@ -142,6 +151,8 @@
     </div>
 </template>
 <script>
+  import axios from 'axios';
+
   // Charts
   import * as chartConfigs from '@/components/Charts/config';
   import LineChart from '@/components/Charts/LineChart';
@@ -160,6 +171,8 @@
     },
     data() {
       return {
+        deow: '',
+
         bigLineChart: {
           allData: [
             [0, 20, 10, 30, 15, 40, 20, 60, 60],
@@ -184,6 +197,24 @@
       };
     },
     methods: {
+      descarga() {
+        axios({
+          method: 'get',
+          url: 'http://127.0.0.1:8000/api/V1/descarga',
+          responseType: 'blob',
+        }). then( res => {
+          // FileDownload(response)
+          const url = window.URL.createObjectURL(new  Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "lercc.xlsx");
+          document.body.appendChild(link);
+          link.click();
+        })
+      },
+
+
+
       initBigChart(index) {
         let chartData = {
           datasets: [
