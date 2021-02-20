@@ -52,7 +52,7 @@
             </template>
         </auth-nav>
         <!-- Header -->
-        <div class="header  py-5 py-lg-7">
+        <div class="header  py-6 py-lg-7">
             <div class="container">
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
