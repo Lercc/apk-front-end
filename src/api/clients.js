@@ -43,7 +43,14 @@ function destroyCliente(pClientId) {
     return axios.delete(`${API_URL}/${REQUEST}`, { headers })
 }
 
-export { getClient, getClients, getClientProgramsData, storeClient, updateClient, destroyCliente }
+function buscarLeadDni(pDni) {
+    const REQUEST = `api/leads/dni/${pDni}`
+    const headers = { Authorization : `Bearer ${store.state.token.token}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
+
+export { getClient, getClients, getClientProgramsData, storeClient, updateClient, destroyCliente ,buscarLeadDni }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy

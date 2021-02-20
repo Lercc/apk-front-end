@@ -1,6 +1,22 @@
 <template>
                
    <b-container class="col-12 col-md-10 col-lg-8" >
+
+       <b-card class="mb-5 apk-shadow col-12 col-xl-8">
+        <b-form-row>
+            <b-col>
+                <b-form-group label="Buscar lead registrado">
+                    <b-form-input type="number" v-model="dniLead"></b-form-input>
+                </b-form-group>
+            </b-col>
+            <b-col >
+                <b-form-group label=".">
+                   <b-button class="col-12" variant="primary" @click="buscarLead">BUSCAR</b-button>
+                </b-form-group>
+            </b-col>
+        </b-form-row>
+       </b-card>
+
         <b-card   class="apk-shadow" header="CREAR NUEVO APLICANTE" header-text-variant="center">
             
             <b-form >
@@ -168,7 +184,7 @@
     </b-container>
 </template>
 <script>
-  import { storeClient } from '@/api/clients';
+  import { storeClient, buscarLeadDni } from '@/api/clients';
 
   export default {
     data() {
@@ -194,6 +210,8 @@
             erroresInputs: [],
             //
             createClientLoading: false,
+            //
+            dniLead: ''
       }
     },
     
@@ -296,6 +314,37 @@
                 }).finally( () => {
                     this.createClientLoading = false
                 })
+        },
+
+        buscarLead () {
+            this.createClientLoading=true
+            buscarLeadDni(this.dniLead)
+                .then(res => {
+                    if(res.status == 200) {
+                        this.form.name = res.data.data.attributes.name
+                        this.form.surnames = res.data.data.attributes.surnames
+                        this.form.dni = res.data.data.attributes.dni
+                        this.form.email = res.data.data.attributes.email
+                        this.form.mobile = res.data.data.attributes.mobile
+                        this.form.profile = res.data.data.attributes.profile
+                        this.form.commentary = res.data.data.attributes.commentary
+
+                        this.$notify({
+                            type: 'success',
+                            title: 'Lead recuperado!'
+                        })
+
+                    } else if( res.status == 203) {
+                            this.$notify({
+                            type: 'danger',
+                            title: res.data.message 
+                        })
+                    }
+                }).catch( err => {
+                    console.log(err)
+                }).finally(() => {
+                    this.createClientLoading=false
+                } )
         }
       
     }
