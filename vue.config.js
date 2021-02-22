@@ -12,10 +12,10 @@ module.exports = {
   },
   pwa: {
     name: 'apk',
-    themeColor: '#172b4d',
-    msTileColor: '#172b4d',
+    themeColor: '#ef4a81',
+    msTileColor: '#ef4a81',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#172b4d'
+    appleMobileWebAppStatusBarStyle: '#ef4a81'
   },
   css: {
     // Enable CSS source maps.

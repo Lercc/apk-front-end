@@ -564,7 +564,7 @@
         border:none;
     }
     .apk-color-sec-1 {
-        background-color: rgb(239,74,129);
+        background-color: rgb(239, 74, 129);
         border:none;
     }
     .apk-color-sec-2 {
