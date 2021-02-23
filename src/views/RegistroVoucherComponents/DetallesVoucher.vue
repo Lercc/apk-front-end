@@ -86,6 +86,7 @@
                                 <b-col lg="12" xl="6">
                                     <b-card-body>
                                         <p class="apk-card-title mb-0">{{voucher.code}}</p>
+                                        <p class="apk-card-subtitle mb-0">MONTO: {{voucher.amount}}</p>
                                         <p class="apk-card-subtitle mb-0">{{voucher.name}}</p>
                                         <p class="apk-card-text mb-0">{{voucher.description}}</p>
                                         <badge class="badge-dot mr-4" :type="voucher.state == 'verificado' ? 'success' : 'danger'">
@@ -312,9 +313,10 @@
     }
     .apk-card-text {
         font-size: 16px;
-        font-weight: bolder;
+        font-weight: normal;
+        font-style: italic;
         text-align: justify;
-        color: rgb(145, 145, 145);
+        color: rgb(173, 173, 173);
     }
     
     .apk-select {

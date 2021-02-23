@@ -44,7 +44,7 @@
                     <span 
                         class="text-danger"
                         v-for="(error, index) in mostrarErroresInput('image')"
-                        :key="`name-${index}`">{{ error }}
+                        :key="`image-${index}`">{{ error }}
                     </span>
                 </b-form-group>
 
@@ -65,7 +65,28 @@
                     <span 
                         class="text-danger"
                         v-for="(error, index) in mostrarErroresInput('code')"
-                        :key="`name-${index}`">{{ error }}
+                        :key="`code-${index}`">{{ error }}
+                    </span>
+                </b-form-group>
+              
+                <b-form-group
+                    label="* Monto:"
+                > 
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!updateVoucherLoading"
+                        v-model="form.amount"
+                        type="number"
+                        placeholder="Ingrese el monto del voucher"
+                        :state="amountState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('amount')"
+                        :key="`amount-${index}`">{{ error }}
                     </span>
                 </b-form-group>
                
@@ -88,7 +109,7 @@
                     <span 
                         class="text-danger"
                         v-for="(error, index) in mostrarErroresInput('description')"
-                        :key="`name-${index}`">{{ error }}
+                        :key="`description-${index}`">{{ error }}
                     </span>
                </b-form-group>
 
@@ -116,6 +137,7 @@
                 client_program_id: null,
                 name: '',
                 code: '',
+                amount: '',
                 state: null,
                 image: null,
                 description: '',
@@ -131,6 +153,7 @@
             nameState: null,
             imageState: null,
             codeState: null,
+            amountState: null,
             descriptionState: null,
             //
             erroresInputs: [],
@@ -154,6 +177,9 @@
                     case 'code':
                         this.codeState = false
                         break;
+                    case 'amount':
+                        this.amountState = false
+                        break;
                     case 'description':
                         this.descriptionState = false
                         break;
@@ -172,12 +198,14 @@
             this.nameState = true
             this.imageState = true
             this.codeState = true
+            this.amountState = true
             this.descriptionState = true
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
             voucherForm.append('name', this.form.name)
             voucherForm.append('code', this.form.code)
+            voucherForm.append('amount', this.form.amount)
             voucherForm.append('state','pendiente')
             voucherForm.append('image', this.form.image)
             voucherForm.append('description', this.form.description)

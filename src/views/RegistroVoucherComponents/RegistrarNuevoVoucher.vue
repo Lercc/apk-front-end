@@ -68,6 +68,27 @@
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
+                
+                <b-form-group
+                    label="* Monto:"
+                > 
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!updateVoucherLoading"
+                        v-model="form.amount"
+                        type="number"
+                        placeholder="Ingrese el monto del voucher"
+                        :state="amountState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('amount')"
+                        :key="`amount-${index}`">{{ error }}
+                    </span>
+                </b-form-group>
                
                 <b-form-row class="d-flex justify-content-center"> 
                     <b-btn
@@ -93,6 +114,7 @@
                 client_program_id: null,
                 name: '',
                 code: '',
+                amount: '',
                 state: null,
                 image: null,
             },
@@ -107,6 +129,7 @@
             nameState: null,
             imageState: null,
             codeState: null,
+            amountState: null,
             //
             erroresInputs: [],
             //
@@ -129,6 +152,9 @@
                     case 'code':
                         this.codeState = false
                         break;
+                    case 'amount':
+                        this.amountState = false
+                        break;
                     default:
                         break;
                 }
@@ -144,11 +170,13 @@
             this.nameState = true
             this.imageState = true
             this.codeState = true
+            this.amountState = true
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
             voucherForm.append('name', this.form.name)
             voucherForm.append('code', this.form.code)
+            voucherForm.append('amount', this.form.amount)
             voucherForm.append('state','pendiente')
             voucherForm.append('image', this.form.image)
 

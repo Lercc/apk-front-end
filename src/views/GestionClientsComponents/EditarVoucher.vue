@@ -65,6 +65,30 @@
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
+               
+                <b-form-group
+                    label="* Monto:"
+                > 
+                    <div class="" v-if="updateVoucherLoading">
+                        <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                    </div>
+
+                    <b-form-input
+                        v-show="!updateVoucherLoading"
+                        v-model="form.amount"
+                        type="number"
+                        placeholder="Ingrese el monto del voucher"
+                        
+                        :state="amountState"
+                    ></b-form-input>
+                    <span 
+                        class="text-danger"
+                        v-for="(error, index) in mostrarErroresInput('amount')"
+                        :key="`amount-${index}`">{{ error }}
+                    </span>
+                </b-form-group>
+
+
                 <b-form-group
                     label="Estado del voucher:"
                     v-if="data.email == 'saliaga@aupairkids.com.pe' ? true : false"
@@ -118,6 +142,7 @@ export default {
             form: {
                 client_program_id: null,
                 code: '',
+                amount: '',
                 description: '',
                 id: '',
                 image: null,
@@ -128,6 +153,7 @@ export default {
             nameState: null,
             imageState: null,
             codeState: null,
+            amountState: null,
             // 
             erroresInputs: [],
             // 
@@ -156,7 +182,6 @@ export default {
                     if (res.status == 200) {
                         [this.form] = [res.data.data.attributes]
                         this.form.image = null
-                        // console.log(res.data.data.attributes)
                         this.$notify({
                             type: 'success',
                             title: 'Datos recuperados!!'
@@ -190,6 +215,9 @@ export default {
                     case 'code':
                         this.codeState = false
                         break;
+                    case 'amount':
+                        this.amountState = false
+                        break;
                     default:
                         break;
                 }
@@ -204,12 +232,14 @@ export default {
             this.nameState = null
             this.nameState = null
             this.nameState = null
+            this.amountState = null
 
             let voucherForm = new FormData()
             voucherForm.append('.method', 'put')
             voucherForm.append('client_program_id', this.form.client_program_id)
             voucherForm.append('name', this.form.name)
             voucherForm.append('code', this.form.code)
+            voucherForm.append('amount', this.form.amount)
             voucherForm.append('state', this.form.state)
             voucherForm.append('image', this.form.image)
             voucherForm.append('description', this.form.description)
@@ -217,7 +247,7 @@ export default {
             updateVoucher(this.$route.params.voucherId, voucherForm)
                 .then( res => {
                     if(res.status == 200) {
-                         this.getVoucherData(this.$route.params.voucherId)
+                        this.getVoucherData(this.$route.params.voucherId)
                         this.$notify({
                             type: 'success',
                             title: 'Actualización correcta!!'
@@ -225,13 +255,6 @@ export default {
                     }
                 }).catch( err => {
                     if (err.response) {
-
-                        console.log('ESTATUS' , err.response.status)
-                        console.log('DATA' , err.response.data)
-                        console.log('headers' , err.response.headers)
-
-
-
                         if (err.response.data.errors) {
                             this.erroresInputs = err.response.data.errors
                         }
@@ -247,9 +270,6 @@ export default {
                             title: err.message
                         })
                     }
-                    console.log('MESSAGE' , err.message)
-                    console.log('CONFIG' , err.config)
-                    console.log('CONFIG.data' , err.config.data)
                 }).finally( () => {
                     this.updateVoucherLoading = false
                 })
