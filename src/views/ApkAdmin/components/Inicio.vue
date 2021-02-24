@@ -14,7 +14,16 @@
                             <b-form-row>
                               <b-col>
                                 <b-form-group label="Descargar desde la fecha:">
-                                  <b-form-input type="date"  v-model="fechaAplicantes" required></b-form-input>
+                                  <!-- <b-form-input type="date"  v-model="fechaAplicantes" required></b-form-input>Ç -->
+                                  <b-form-select v-model="fechaAplicantes">
+                                    <b-form-select-option
+                                      v-for="(season, index) in seasons"
+                                      :key="`${index}-${season}`"
+                                      :value="season"
+                                    >{{season}}
+
+                                    </b-form-select-option>
+                                  </b-form-select>
                                 </b-form-group>
                               </b-col>
                             </b-form-row>
@@ -145,15 +154,34 @@ export default {
         fechaEdad:'',
         fechaIngles:'',
         fechaAceptados:'',
-        pipeline:'todos'
+        pipeline:'todos',
+        //
+        seasons: []
       };
     },
 
-  computed: {
-    ...mapState('api', ['url']),
-  },
+    computed: {
+      ...mapState('api', ['url']),
+      ...mapState('token', ['token'])
+    },
+
+    beforeMount() {
+      this.getYears()
+    },
 
     methods: {
+      getYears () {
+        let date =  new Date();
+        let currentYear = date.getFullYear();
+
+        this.fechaAplicantes = currentYear;
+
+        for(let i = currentYear-3; i <= currentYear+3; i++ ) {
+          this.seasons.push(i)
+        }
+
+      },
+
       descargarAplicantes() {
         axios({
           method: 'get',
@@ -161,6 +189,7 @@ export default {
           responseType: 'blob',
           headers: {
             'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `aplicantes-${this.fechaAplicantes}.xlsx`);
@@ -182,6 +211,7 @@ export default {
           responseType: 'blob',
           headers: {
             'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `leads-calificados-${this.fechaCalificados}.xlsx`);
@@ -195,6 +225,7 @@ export default {
           responseType: 'blob',
           headers: {
             'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `leads-edad-${this.fechaEdad}.xlsx`);
@@ -208,6 +239,7 @@ export default {
           responseType: 'blob',
           headers: {
             'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `leads-ingles-${this.fechaIngles}.xlsx`);
@@ -221,6 +253,7 @@ export default {
           responseType: 'blob',
           headers: {
             'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `leads-aceptados-${this.pipeline}-${this.fechaAceptados}.xlsx`);

@@ -21,7 +21,6 @@ export default {
 
       this.setTokenCliAppStoreData(JSON.parse(localStorage.getItem("cliApp")))
       this.$router.push({ name : 'registro-voucher'})
-      
     }
   },
   computed: {
