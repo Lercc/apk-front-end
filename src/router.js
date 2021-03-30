@@ -36,6 +36,11 @@ export default new Router({
           path: '/registro',
           name: 'registro',
           component: () => import(/* webpackChunkName: "registro" */ '@/views/ApkAuth/components/Registro.vue')
+        },
+        {
+          path: '/registro-webinar',
+          name: 'registro-webinar',
+          component: () => import(/* webpackChunkName: "registro" */ '@/views/ApkAuth/components/RegistroWebinar.vue')
         }
       ]
     },
@@ -232,6 +237,24 @@ export default new Router({
           ]
         },
 
+        {
+          path: '/webinar',
+          redirect: '/webinar/lista-asistentes',
+          name: 'webinar',
+          component: () => import(/* webpackChunkName: "webinar" */ '@/views/ApkAdmin/components/Webinar.vue'),
+          beforeEnter(to, from, next) {
+            if (store.state.user.data.rol == 'admin')  next({ name: 'inicio' })
+            else if (store.state.clientAplication.role) next({ name: 'registro-voucher' })
+            else next()
+          },
+          children: [
+            {
+              path: '/webinar/lista-asistentes',
+              name: 'lista-asistentes',
+              component: () => import(/* webpackChunkName: "listar-asistentes" */ '@/views/AssistantComponents/AssistantsTable.vue'),
+            }
+          ]
+        },
         {
           path: '/programs',
           redirect: '/programs/lista-programas',
