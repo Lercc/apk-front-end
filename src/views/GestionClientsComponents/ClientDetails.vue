@@ -269,6 +269,7 @@
     beforeMount (){
         this.getClientProgramsData()
         this.getYears()
+        localStorage.removeItem('detalleClienteId')
     },
     methods: {
         getYears () {

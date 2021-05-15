@@ -14,7 +14,8 @@ export default {
         this.setUserStoreData( JSON.parse( localStorage.getItem("usuario") ) )
 
         //redireccionar
-        if(this.data.rol == 'employee') this.$router.push({ name : 'gestion-de-aplicantes' })
+        if (localStorage.getItem('detalleClienteId')) this.$router.push({ name: 'detalles-aplicante', params: { clientId: localStorage.getItem('detalleClienteId')} })
+        else if(this.data.rol == 'employee') this.$router.push({ name : 'gestion-de-aplicantes' })
         else if(this.data.rol == 'admin') this.$router.push({ name : 'inicio' })
         
     } else if (JSON.parse(localStorage.getItem("cliApp"))) {
