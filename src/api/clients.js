@@ -2,7 +2,12 @@ import axios from 'axios';
 import store from '@/store'
 
 const API_URL = store.state.api.url;
-// const TOKEN = store.state.token.token
+
+function getFilterClient(pValue) {
+    const REQUEST = `api/filterClients/${pValue }`
+    const headers = { Authorization : `Bearer ${store.state.token.token}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
 
 function getClient(pClientId) {
     const REQUEST = `api/clients/${pClientId}`
@@ -50,7 +55,7 @@ function buscarLeadDni(pDni) {
 }
 
 
-export { getClient, getClients, getClientProgramsData, storeClient, updateClient, destroyCliente ,buscarLeadDni }
+export { getFilterClient, getClient, getClients, getClientProgramsData, storeClient, updateClient, destroyCliente ,buscarLeadDni }
 
 
 // 1|ITycc3P54D1ZyYPXhC9KtwjO24Ug2ACOmTDSOTOy

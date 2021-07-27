@@ -13,8 +13,7 @@
                         <template slot="footer">
                             <b-form-row>
                               <b-col>
-                                <b-form-group label="Descargar desde la fecha:">
-                                  <!-- <b-form-input type="date"  v-model="fechaAplicantes" required></b-form-input>Ç -->
+                                <b-form-group label="Descargar datos del periodo:">
                                   <b-form-select v-model="fechaAplicantes">
                                     <b-form-select-option
                                       v-for="(season, index) in seasons"
@@ -193,14 +192,6 @@ export default {
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `aplicantes-${this.fechaAplicantes}.xlsx`);
-          // const url = window.URL.createObjectURL(new  Blob([res.data]));
-          // const link = document.createElement("a");
-          // link.href = url;
-          // link.setAttribute("download", `aplicantes-${this.fechaAplicantes}.xlsx`);
-          // document.body.appendChild(link);
-          // link.click();
-          // link.remove();
-          // window.URL.revokeObjectURL(url)
         })
       },
 
