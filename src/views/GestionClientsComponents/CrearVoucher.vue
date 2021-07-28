@@ -1,13 +1,30 @@
 <template>
                
-   <b-container class="col-lg" >
+   <b-container fluid class="p-0">
         <b-card   class="apk-shadow">
             <template #header >
                 <span class="text-center text-muted">
                     CREAR NUEVO VOUCHER
                 </span>
             </template>
+
             <b-form >
+                <b-form-group
+                    label="¿Registrar pago realizado por yape?"
+                >
+                    <b-form-checkbox v-model="checked" name="check-button" switch size="sm" class="pt-2">
+                        ({{checked ? 'si' : 'no' }})
+                        <img 
+                            alt="pago por yape"
+                            src="/img/icons/yape/yape-app-logotipo.svg"
+                            height="50px"
+                            class="ml-1"
+                            :class="checked? 'opacity-10' : 'opacity-3'"
+                            style="position:absolute; top:-15px"
+                        >
+                    </b-form-checkbox>
+                </b-form-group>
+
                 <b-form-group
                     label="* Nombre o concepto del voucher:"
                 > 
@@ -50,6 +67,7 @@
 
                 <b-form-group
                     label="* Código de operación del voucher:"
+                    v-show="checked ? false : true"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
@@ -159,6 +177,8 @@
             erroresInputs: [],
             //
             updateVoucherLoading: false,
+            //
+            checked: false
       }
     },
     methods: {

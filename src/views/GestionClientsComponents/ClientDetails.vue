@@ -150,7 +150,7 @@
 
                                 <b-col lg="12" xl="6">
                                     <b-card-body>
-                                        <p class="apk-card-title mb-0">{{voucher.code}}</p>
+                                        <p class="apk-card-title mb-0">{{voucher.code === null ? 'YAPE' : voucher.code}}</p>
                                         <p class="apk-card-subtitle mb-0">MONTO: {{voucher.amount}}</p>
                                         <p class="apk-card-subtitle mb-0">{{voucher.name}}</p>
                                         <p class="apk-card-text mb-0">{{voucher.description}}</p>

@@ -52,8 +52,15 @@
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
+                    <img 
+                        alt="pago por yape"
+                        src="/img/icons/yape/yape-app-logotipo.svg"
+                        height="40px"
+                        v-show="form.code === null ? true : false"
+                    >
+
                     <b-form-input
-                        v-show="!updateVoucherLoading"
+                        v-show="!updateVoucherLoading && !(form.code === null)"
                         v-model="form.code"
                         type="number"
                         placeholder="Ingrese el código de operación del voucher"
@@ -230,15 +237,20 @@ export default {
             this.updateVoucherLoading = true
 
             this.nameState = null
-            this.nameState = null
-            this.nameState = null
+            this.imageState = null
+            this.codeState = null
             this.amountState = null
+
+            this.erroresInputs = {}
 
             let voucherForm = new FormData()
             voucherForm.append('.method', 'put')
             voucherForm.append('client_program_id', this.form.client_program_id)
             voucherForm.append('name', this.form.name)
-            voucherForm.append('code', this.form.code)
+
+            if(this.form.code === null) voucherForm.append('code', '')
+            else voucherForm.append('code', this.form.code)
+
             voucherForm.append('amount', this.form.amount)
             voucherForm.append('state', this.form.state)
             voucherForm.append('image', this.form.image)

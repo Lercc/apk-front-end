@@ -4,12 +4,8 @@
         </base-header>
 
         <!-- CONTENIDO -->
-        <div class="container-fluid mt--7">
-            <div class="row">
-                <div class="col">
-                    <router-view></router-view>
-                </div>
-            </div>
+        <div class="container-fluid mt--7 border">
+            <router-view></router-view>
         </div>
     </div>
 </template>
