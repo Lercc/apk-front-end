@@ -35,6 +35,38 @@
                     </stats-card>
                 </div>
 
+                <div class="col-xl-4  col-lg-10">
+                    <stats-card 
+                                sub-title="RESUMEN- COUTAS"
+                                type="gradient-red"
+                                icon="ni ni-chart-pie-35"
+                                class="mb-4 mb-xl-4"
+                    >
+                        <template slot="footer">
+                            <b-form-row>
+                              <b-col>
+                                <b-form-group label="Descargar datos del periodo:">
+                                  <b-form-select v-model="fechaAplicantesResumeCost">
+                                    <b-form-select-option
+                                      v-for="(season, index) in seasons"
+                                      :key="`${index}-${season}`"
+                                      :value="season"
+                                    >{{season}}
+
+                                    </b-form-select-option>
+                                  </b-form-select>
+                                </b-form-group>
+                              </b-col>
+                            </b-form-row>
+                            <b-form-row>
+                              <b-col>
+                                  <b-button class="col-12" @click="descargarAplicantesResumeCost">DESCARGAR</b-button>
+                              </b-col>
+                            </b-form-row>
+                        </template>
+                    </stats-card>
+                </div>
+
                 <div class="col-xl-4 col-lg-10">
                     <stats-card 
                                 sub-title="LEADS - TABLA CALIFICADOS"
@@ -83,7 +115,7 @@
                     </stats-card>
                 </div>
 
-                <div class="col-xl-4 col-lg-10 mt-lg-3">
+                <div class="col-xl-4 col-lg-10">
                     <stats-card 
                                 sub-title="LEADS - TABLA INGLÉS"
                                 type="gradient-red"
@@ -148,6 +180,7 @@ import FileSaver from 'file-saver';
 export default {
     data() {
       return {
+        fechaAplicantesResumeCost:'',
         fechaAplicantes:'',
         fechaCalificados:'',
         fechaEdad:'',
@@ -174,6 +207,7 @@ export default {
         let currentYear = date.getFullYear();
 
         this.fechaAplicantes = currentYear;
+        this.fechaAplicantesResumeCost = currentYear;
 
         for(let i = currentYear-3; i <= currentYear+3; i++ ) {
           this.seasons.push(i)
@@ -192,6 +226,20 @@ export default {
           }
         }). then( res => {
           FileSaver.saveAs(res.data, `aplicantes-${this.fechaAplicantes}.xlsx`);
+        })
+      },
+      
+      descargarAplicantesResumeCost () {
+        axios({
+          method: 'get',
+          url: `${this.url}/api/download/aplicantes-resume-cost/${this.fechaAplicantesResumeCost}`,
+          responseType: 'blob',
+          headers: {
+            'Cache-Control': 'no-store, no-cache',
+            'Authorization' : `Bearer ${this.token}`
+          }
+        }). then( res => {
+          FileSaver.saveAs(res.data, `aplicantes-resumen-cuotas-${this.fechaAplicantesResumeCost}.xlsx`);
         })
       },
 

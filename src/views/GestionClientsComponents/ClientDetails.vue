@@ -1,20 +1,21 @@
 <template>
     <b-row>
 
-        <b-col cols="12" lg="7" xl="8" order="1" order-lg="0">
-            
+        <b-col cols="12" lg="7" xl="8" class="mb-5">
             <b-card
                 no-body
                 class="mb-5 apk-shadow opacity-9"
-
-            >  
+            >
                 <b-card-header>
                     Crear un programa relacionado al cliente :
                 </b-card-header>
 
                 <b-card-body class="my-0  apk-border-dash apk-color-gray-only">
-                    <b-row class="d-flex justify-content-around">
-                        <span class="d-flex justify-content-center ">
+                    <b-form 
+                        @submit.prevent="createClientProgram" 
+                        class="d-flex flex-column flex-lg-row justify-content-around"
+                    >
+                        <span class="d-flex justify-content-center mb-2 mb-xl-0 ">
                             <select v-model="newProgramData.program_id" class="apk-select">
                                 <option 
                                     v-for="(apkProgram, index) in apkPrograms"
@@ -25,7 +26,7 @@
                             </select>
                         </span>
 
-                        <span class="d-flex justify-content-center">
+                        <span class="d-flex justify-content-center mb-2 mb-xl-0">
                             <select v-model="newProgramData.season" class="apk-select">
                                 <option 
                                     v-for="(year, index) in years"
@@ -35,14 +36,24 @@
                                 >{{year}}</option>
                             </select>
                         </span>
+                    
+                        <span class="d-flex justify-content-center mb-2 mb-xl-0">
+                            <input 
+                                type="number"
+                                v-model="newProgramData.cost"
+                                placeholder="costo"
+                                class="apk-select"
+                                required
+                                style="max-width: 110px"
+                            >
+                        </span>
 
-                        <span class="d-flex justify-content-center md-2">
-                            <b-button variant="primary" size="sm" class="apk-select" @click="createClientProgram">
+                        <span class="d-flex justify-content-center mb-2 mb-xl-0">
+                            <b-button variant="primary" size="sm" class="apk-btn-form" type="submit" >
                                 CREAR
                             </b-button>
                         </span>
-                    </b-row>
-                    
+                    </b-form>
                 </b-card-body>
             </b-card>
 
@@ -94,11 +105,24 @@
                                 }"
                             v-show="!dataClientProgramsLoading"
                         >
-                          <span class="apk-client-programs-data d-sm-none">{{clientProgram.program_name == 'work and travel' ? 'wat' : clientProgram.program_name }}</span>
-                          <span class="apk-client-programs-data d-none d-sm-block">{{clientProgram.program_name}}</span>
-                          <span class="apk-client-programs-data">{{clientProgram.season}}</span>
-                          <span class="apk-client-programs-data">{{clientProgram.state}}</span>
+                            <span class="apk-client-programs-data d-sm-none">{{clientProgram.program_name == 'work and travel' ? 'wat' : clientProgram.program_name }}</span>
+                            <span class="apk-client-programs-data d-none d-sm-block">{{clientProgram.program_name}}</span>
+                            <span class="apk-client-programs-data">{{clientProgram.season}}</span>
+                            <span class="apk-client-programs-data">$. {{clientProgram.cost}}</span>
+                            <span class="apk-client-programs-data"  v-b-modal="`modal-${clientProgram.id}`">editar</span>
                         </b-button>
+
+                        <b-modal :id="`modal-${clientProgram.id}`" title="Actualizar costo del programa" hide-footer >
+                            <b-form @submit.prevent="editClientProgram(clientProgram)" class="d-flex flex-column align-items-center">
+                                <b-form-group label="Ingrese el nuevo costo:">
+                                    <b-form-input type="number"  v-model="clientProgram.cost" required></b-form-input>
+                                </b-form-group>
+                                
+                                <b-form-group>
+                                    <b-button type="sumit" variant="primary">Actualizar</b-button>
+                                </b-form-group>
+                            </b-form>
+                        </b-modal>
                     </b-card-header>
                     
                     <!-- CONTENIDO( VOUCHERS) -->
@@ -244,7 +268,7 @@
 <script>
   import store from '@/store';
   import { getClient, getClientProgramsData, destroyCliente } from '@/api/clients';
-  import { getVouchersProgramData, storeClientProgram, destroyClientProgram } from '@/api/clientPrograms';
+  import { getVouchersProgramData, storeClientProgram, destroyClientProgram, updateClientProgram } from '@/api/clientPrograms';
   import { getAllActivePrograms } from '@/api/apkPrograms';
   import { destroyVoucher } from '@/api/voucher';
   import swal from 'sweetalert';
@@ -258,7 +282,8 @@
             apkPrograms: [],
             newProgramData: {
                 program_id: 1,
-                season: ''
+                season: '',
+                cost: ''
             },
             years: [],
             //
@@ -394,12 +419,31 @@
             })
         },
 
+        editClientProgram (pclientProgram) {
+            this.createProgramLoading = true
+            let clientProgramFormData = new FormData()
+            clientProgramFormData.append('.method', 'put')
+            clientProgramFormData.append('cost', pclientProgram.cost)
+
+            updateClientProgram(pclientProgram.id, clientProgramFormData)
+                .then( () => {
+                    this.$notify({
+                        type: 'success',
+                        title: 'actualizado!'
+                    })
+                })
+                .finally(() => {
+                    this.createProgramLoading = false
+                })
+        },
+
         createClientProgram () {
             this.createProgramLoading = true
             let clientProgram = new FormData()
             clientProgram.append('client_id', this.$route.params.clientId)
             clientProgram.append('program_id', this.newProgramData.program_id)
             clientProgram.append('season', this.newProgramData.season)
+            clientProgram.append('cost', this.newProgramData.cost)
             clientProgram.append('state','activo')
 
             storeClientProgram (clientProgram)
@@ -415,9 +459,11 @@
                     if (err.response){
                         this.$notify({
                             type: 'danger',
-                            title: `Algo salio mal :${err.resposne.status}`
+                            title: `Algo salio mal :${err.response.status}`
                         })
                     } else {
+                        console.log('err.response: ',err.message);
+
                         this.$notify({
                             type: 'danger',
                             title: err.message
@@ -609,6 +655,14 @@
         color: rgb(173, 173, 173);
     }
     
+    .apk-btn-form {
+        appearance: none;
+        border: none;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        padding: 5px 15px;
+        border-radius: 8px;
+    }
     .apk-select {
         appearance: none;
         border: none;
