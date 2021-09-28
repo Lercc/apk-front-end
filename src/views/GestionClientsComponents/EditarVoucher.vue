@@ -46,21 +46,45 @@
                 </b-form-group>
 
                 <b-form-group
+                    label="¿Pago realizado por yape registrado?"
+                >
+                    <b-form-checkbox 
+                        v-model="selected"
+                        name="check-button"
+                        switch
+                        size="sm"
+                        class="pt-2"
+                        @change="switchChanged"
+                    >
+                        ({{selected ? 'si' : 'no' }})
+                        <img 
+                            alt="pago por yape"
+                            src="/img/icons/yape/yape-app-logotipo.svg"
+                            height="50px"
+                            class="ml-1"
+                            :class="selected ? 'opacity-10' : 'opacity-3'"
+                            style="position:absolute; top:-15px"
+                        >
+                    </b-form-checkbox>
+                </b-form-group>
+
+                <b-form-group
                     label="Código de operación del voucher:"
+                    v-show="selected ? false : true"
                 > 
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
-                    <img 
+                    <!-- <img 
                         alt="pago por yape"
                         src="/img/icons/yape/yape-app-logotipo.svg"
                         height="40px"
                         v-show="form.code === null ? true : false"
-                    >
+                    > -->
 
                     <b-form-input
-                        v-show="!updateVoucherLoading && !(form.code === null)"
+                        v-show="!updateVoucherLoading && !selected"
                         v-model="form.code"
                         type="number"
                         placeholder="Ingrese el código de operación del voucher"
@@ -169,8 +193,8 @@ export default {
             states: [
                 {value:'pendiente', text:'pendiente'}, 
                 {value:'verificado', text:'verificado'}
-            ] 
-
+            ],
+            selected: ''
       }
     },
     beforeMount() {
@@ -189,6 +213,8 @@ export default {
                     if (res.status == 200) {
                         [this.form] = [res.data.data.attributes]
                         this.form.image = null
+                        if(this.form.code == null) this.selected = true
+                        else this.selected = false
                         this.$notify({
                             type: 'success',
                             title: 'Datos recuperados!!'
@@ -285,8 +311,10 @@ export default {
                 }).finally( () => {
                     this.updateVoucherLoading = false
                 })
+        },
+        switchChanged (e) {
+            if (e) this.form.code = null
         }
-      
     }
   };
 </script>
