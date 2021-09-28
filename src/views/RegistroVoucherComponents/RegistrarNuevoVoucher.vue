@@ -1,5 +1,4 @@
 <template>
-               
    <b-container fluid class="p-0">
         <b-card   class="apk-shadow">
             <template #header >
@@ -32,8 +31,7 @@
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
-                    
-                    <b-form-select v-model="form.name" :options="conceptosDePago" :state="nameState" v-show="!updateVoucherLoading">
+                    <b-form-select v-model="form.name" @change="voucherNameChange" :options="conceptosDePago" :state="nameState" v-show="!updateVoucherLoading">
                         <template #first>
                             <b-form-select-option value="" disabled>-- Selecione el concepto del voucher --</b-form-select-option>
                         </template>
@@ -54,7 +52,7 @@
                     <b-form-file
                         v-show="!updateVoucherLoading"
                         v-model="form.image"
-                        placeholder="Subir una imagem..."
+                        placeholder="Subir una imagen..."
                         :state="imageState"
                         style="overflow:hidden"
                     ></b-form-file>
@@ -98,6 +96,7 @@
                         v-show="!updateVoucherLoading"
                         v-model="form.amount"
                         type="number"
+                        :disabled="amountInputState"
                         placeholder="Ingrese el monto del voucher"
                         :state="amountState"
                     ></b-form-input>
@@ -128,6 +127,8 @@
   export default {
     data() {
         return {
+            amountInputState: false,
+            //
             form: {
                 client_program_id: null,
                 name: '',
@@ -139,6 +140,7 @@
             //
             conceptosDePago: [
                 { value: 'Entrevista de inglés', text: 'Entrevista de inglés' },
+                { value: 'SEVIS', text: 'SEVIS' },
                 { value: 'Primer pago', text: 'Primer pago' },
                 { value: 'Segundo pago', text: 'Segundo pago' },
                 { value: 'Tercer pago', text: 'Tercer pago' },
@@ -157,7 +159,6 @@
       }
     },
     methods: {
-        
         mostrarErroresInput(pCampo) { 
             let camposIncorrectos = Object.keys(this.erroresInputs);
 
@@ -225,8 +226,17 @@
                 }).finally( () => {
                     this.updateVoucherLoading = false
                 })
+        },
+
+        voucherNameChange () {
+            if (this.form.name === 'SEVIS') {
+                this.form.amount = 35
+                this.amountInputState = true
+            } else {
+                this.form.amount = ''
+                this.amountInputState = false
+            }
         }
-      
     }
   };
 </script>
