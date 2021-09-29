@@ -15,7 +15,10 @@ module.exports = {
     themeColor: '#221d4b',
     msTileColor: '#221d4b',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#221d4b'
+    appleMobileWebAppStatusBarStyle: '#221d4b',
+    workboxOptions: {
+      skipWaiting: true
+  }
   },
   css: {
     // Enable CSS source maps.

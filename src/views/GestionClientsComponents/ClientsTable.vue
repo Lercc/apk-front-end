@@ -55,8 +55,22 @@
           <template slot="columns">
             <th>id</th>
             <th>vouchers</th>
-            <th>dni</th>
             <th>cliente</th>
+            <th
+              style="background:rgba(94,114,228,0.12)"
+            >
+              <b-row
+                style="width:500px"
+              >
+                <b-col cols="3">programa</b-col>
+                <b-col>season</b-col>
+                <b-col class="text-center">Ing.</b-col>
+                <b-col>(C.P.</b-col>
+                <b-col class="text-right">Abo.)</b-col>
+                <b-col class="text-center">Sevis</b-col>
+              </b-row>
+            </th>
+            <th>dni</th>
             <th>celular</th>
             <th>correo</th>
             <th>Comentario</th>
@@ -75,8 +89,24 @@
                 </span>
               </b-button>
             </th>
-            <th scope="row">{{row.dni}}</th>
             <th scope="row">{{row.name}} {{row.surnames}}</th>
+            <!--  -->
+            <!-- <th v-for="(clientProgram, i) in row.clientPrograms" :key="`${i}-cl-pr`"> -->
+            <th>
+              <b-row
+                style="width:500px"
+                v-for="(clientProgram, i) in row.clientPrograms" :key="`${i}-cl-pr`"
+              >
+                <b-col cols="3">{{ clientProgram.program_name }}</b-col>
+                <b-col>{{ clientProgram.season }}</b-col>
+                <b-col class="text-center">{{ clientProgram.vouchers.english_amount_payed }}</b-col>
+                <b-col>( {{ clientProgram.cost }}</b-col>
+                <b-col class="text-right">{{ clientProgram.vouchers.program_amount_payed }} )</b-col>
+                <b-col class="text-center">{{ clientProgram.vouchers.sevis_amount_payed }}</b-col>
+              </b-row>
+            </th>
+            <!--  -->
+            <th scope="row">{{row.dni}}</th>
             <th scope="row">{{row.mobile}}</th>
             <th scope="row">{{row.email}}</th>
             <th scope="row">{{ row.commentary ? row.commentary.substring(0, 50)+'...' : ''}}</th>

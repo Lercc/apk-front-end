@@ -8,18 +8,26 @@
             <b-form >
                 <b-form-group
                     label="Nombre o concepto del voucher:"
-                > 
+                >
                     <div class="" v-if="updateVoucherLoading">
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
-                    <b-form-input
+                    <b-form-select 
+                        v-model="form.name"
+                        @change="voucherNameChange"
+                        :options="conceptosDePago"
+                        :state="nameState"
+                        v-show="!updateVoucherLoading">
+                    </b-form-select>
+
+                    <!-- <b-form-input
                         v-show="!updateVoucherLoading"
                         v-model="form.name"
                         type="text"
                         placeholder="Ingrese el concepto del voucher"
                         :state="nameState"
-                    ></b-form-input>
+                    ></b-form-input> -->
                     <span 
                         class="text-danger"
                         v-for="(error, index) in mostrarErroresInput('name')"
@@ -109,7 +117,7 @@
                         v-model="form.amount"
                         type="number"
                         placeholder="Ingrese el monto del voucher"
-                        
+                        :disabled="amountInputState"
                         :state="amountState"
                     ></b-form-input>
                     <span 
@@ -170,6 +178,8 @@ export default {
     name:'EditarVoucher',
     data() {
         return {
+            amountInputState: false,
+            //
             form: {
                 client_program_id: null,
                 code: '',
@@ -189,6 +199,14 @@ export default {
             erroresInputs: [],
             // 
             updateVoucherLoading: false,
+            //
+            conceptosDePago: [
+                { value: 'Entrevista de inglés', text: 'Entrevista de inglés' },
+                { value: 'SEVIS', text: 'SEVIS' },
+                { value: 'Primer pago', text: 'Primer pago' },
+                { value: 'Segundo pago', text: 'Segundo pago' },
+                { value: 'Tercer pago', text: 'Tercer pago' },
+            ],
             //
             states: [
                 {value:'pendiente', text:'pendiente'}, 
@@ -314,6 +332,16 @@ export default {
         },
         switchChanged (e) {
             if (e) this.form.code = null
+        },
+
+        voucherNameChange () {
+            if (this.form.name === 'SEVIS') {
+                this.form.amount = 35
+                this.amountInputState = true
+            } else {
+                this.form.amount = ''
+                this.amountInputState = false
+            }
         }
     }
   };
