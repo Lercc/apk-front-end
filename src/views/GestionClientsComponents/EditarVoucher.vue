@@ -372,6 +372,9 @@ export default {
             //
             if (this.selectedDateAndTime) voucherForm.append('editarFecha', 'si')
             else voucherForm.append('editarFecha', 'no')
+            //
+            if (this.selected) voucherForm.append('pagoPorAplicativo', 'si')
+            else voucherForm.append('pagoPorAplicativo', 'no')
 
             updateVoucher(this.$route.params.voucherId, voucherForm)
                 .then( res => {
