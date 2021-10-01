@@ -84,7 +84,53 @@
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
-                
+
+                <b-form-row>
+                    <b-col cols="6">
+                        <b-form-group
+                            label="* Fecha:"
+                        >
+                            <div v-if="updateVoucherLoading">
+                                <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                            </div>
+
+                            <b-form-input
+                                v-show="!updateVoucherLoading"
+                                v-model="form.date"
+                                type="date"
+                                :state="dateState"
+                            ></b-form-input>
+                            <span 
+                                class="text-danger"
+                                v-for="(error, index) in mostrarErroresInput('date')"
+                                :key="`date-${index}`">{{ error }}
+                            </span>
+                        </b-form-group>
+                    </b-col>
+
+                    <b-col cols="6">
+                        <b-form-group
+                            label="* Hora:"
+                        >
+                            <div v-if="updateVoucherLoading">
+                                <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                            </div>
+
+                            <b-form-input
+                                v-show="!updateVoucherLoading"
+                                v-model="form.time"
+                                type="time"
+                                :state="timeState"
+                            ></b-form-input>
+                            <span 
+                                class="text-danger"
+                                v-for="(error, index) in mostrarErroresInput('time')"
+                                :key="`time-${index}`">{{ error }}
+                            </span>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+
                 <b-form-group
                     label="* Monto:"
                 > 
@@ -133,6 +179,8 @@
                 client_program_id: null,
                 name: '',
                 code: '',
+                date: '',
+                time: '',
                 amount: '',
                 state: null,
                 image: null,
@@ -149,6 +197,8 @@
             nameState: null,
             imageState: null,
             codeState: null,
+            dateState: null,
+            timeState: null,
             amountState: null,
             //
             erroresInputs: [],
@@ -173,6 +223,12 @@
                     case 'code':
                         this.codeState = false
                         break;
+                    case 'date':
+                        this.dateState = false
+                        break;
+                    case 'time':
+                        this.timeState = false
+                        break;
                     case 'amount':
                         this.amountState = false
                         break;
@@ -191,15 +247,22 @@
             this.nameState = true
             this.imageState = true
             this.codeState = true
+            this.dateState = true
+            this.timeState = true
             this.amountState = true
 
             let voucherForm = new FormData()
             voucherForm.append('client_program_id', this.$route.params.clientProgramId)
             voucherForm.append('name', this.form.name)
             voucherForm.append('code', this.form.code)
+            voucherForm.append('date', this.form.date)
+            voucherForm.append('time', this.form.time)
             voucherForm.append('amount', this.form.amount)
             voucherForm.append('state','pendiente')
             voucherForm.append('image', this.form.image)
+            //
+            if (this.checked) voucherForm.append('pagoPorAplicativo', 'si')
+            else voucherForm.append('pagoPorAplicativo', 'no')
 
             storeVoucherClientProgram(voucherForm)
                 .then( res => {

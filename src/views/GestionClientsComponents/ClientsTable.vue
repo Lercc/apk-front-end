@@ -57,7 +57,7 @@
             <th>vouchers</th>
             <th>cliente</th>
             <th
-              style="background:rgba(94,114,228,0.12)"
+              style="background:rgba(94,114,228,0.09)"
             >
               <b-row
                 style="width:500px"
@@ -65,9 +65,9 @@
                 <b-col cols="3">programa</b-col>
                 <b-col>season</b-col>
                 <b-col class="text-center">Ing.</b-col>
-                <b-col>(C.P.</b-col>
-                <b-col class="text-right">Abo.)</b-col>
-                <b-col class="text-center">Sevis</b-col>
+                <b-col>C.P.</b-col>
+                <b-col class="text-center">abonado</b-col>
+                <b-col class="text-right">saldo</b-col>
               </b-row>
             </th>
             <th>dni</th>
@@ -82,7 +82,7 @@
             <th scope="row">
               <b-button variant="outline-primary" size="sm" @click="clientDetails(row)">
                 <b-icon icon="list-task" ></b-icon>
-                <span>VER DETALLES 
+                <span> 
                   <badge class="badge-dot ml-2"  :type="row.status == 'pendiente' ? 'danger' : row.status == 'verificado' ? 'success' : 'none'">
                     <i :class="`bg-${row.status == 'pendiente' ? 'danger' : row.status == 'verificado' ? 'success' : 'none'}`"></i>
                   </badge>
@@ -90,19 +90,36 @@
               </b-button>
             </th>
             <th scope="row">{{row.name}} {{row.surnames}}</th>
-            <!--  -->
-            <!-- <th v-for="(clientProgram, i) in row.clientPrograms" :key="`${i}-cl-pr`"> -->
+            <!-- voucher -->
             <th>
               <b-row
                 style="width:500px"
                 v-for="(clientProgram, i) in row.clientPrograms" :key="`${i}-cl-pr`"
               >
                 <b-col cols="3">{{ clientProgram.program_name }}</b-col>
+
                 <b-col>{{ clientProgram.season }}</b-col>
+
                 <b-col class="text-center">{{ clientProgram.vouchers.english_amount_payed }}</b-col>
-                <b-col>( {{ clientProgram.cost }}</b-col>
-                <b-col class="text-right">{{ clientProgram.vouchers.program_amount_payed }} )</b-col>
-                <b-col class="text-center">{{ clientProgram.vouchers.sevis_amount_payed }}</b-col>
+
+                <b-col>
+                    <div class="apk-amound">{{ clientProgram.cost + 35 }}</div>
+                    <div class="apk-info">
+                        {{ clientProgram.cost }} + 35
+                    </div>
+                </b-col>
+
+                <b-col class="text-center">
+                    <div class="apk-amound">{{ clientProgram.vouchers.program_amount_payed + clientProgram.vouchers.sevis_amount_payed }}</div>
+                    <div class="apk-info">
+                        PROGRAMA: {{ clientProgram.vouchers.program_amount_payed }} <br>
+                        SEVIS: {{ clientProgram.vouchers.sevis_amount_payed}}
+                    </div>
+                </b-col>
+
+                <b-col class="text-right">
+                    <span class="text-red">{{ (clientProgram.cost + 35) - (clientProgram.vouchers.program_amount_payed + clientProgram.vouchers.sevis_amount_payed) }}</span> 
+                </b-col>
               </b-row>
             </th>
             <!--  -->
@@ -257,5 +274,24 @@
 <style scoped>
 .apk-shadow {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.16);
+}
+.apk-amound {
+    cursor: pointer;
+}
+.apk-info {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform-origin: center bottom;
+    transform: translateX(-50%) scale(0);
+    padding: 5px 12px;
+    color: white;
+    background-color: rgb(55, 45, 70);
+    border-radius: 8px;
+    opacity: .6;
+    transition: .450s ease-in-out;
+}
+.apk-amound:hover ~ .apk-info {
+    transform:translateX(-50%) scale(1);
 }
 </style>

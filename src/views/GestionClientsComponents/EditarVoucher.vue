@@ -84,13 +84,6 @@
                         <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
                     </div>
 
-                    <!-- <img 
-                        alt="pago por yape"
-                        src="/img/icons/yape/yape-app-logotipo.svg"
-                        height="40px"
-                        v-show="form.code === null ? true : false"
-                    > -->
-
                     <b-form-input
                         v-show="!updateVoucherLoading && !selected"
                         v-model="form.code"
@@ -104,7 +97,70 @@
                         :key="`name-${index}`">{{ error }}
                     </span>
                 </b-form-group>
-               
+                
+                <!-- switch date and time -->
+                <b-form-group
+                    label="Editar fecha y hora"
+                >
+                    <b-form-checkbox 
+                        v-model="selectedDateAndTime"
+                        name="check-button"
+                        switch
+                        size="sm"
+                        class="pt-2"
+                    >
+                        ({{selectedDateAndTime ? 'si' : 'no' }})
+                    </b-form-checkbox>
+                </b-form-group>
+
+                <b-form-row>
+                    <b-col cols="6">
+                        <b-form-group
+                            label="* Fecha:"
+                        >
+                            <div v-if="updateVoucherLoading">
+                                <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                            </div>
+
+                            <b-form-input
+                                v-show="!updateVoucherLoading"
+                                v-model="form.date"
+                                type="date"
+                                :state="dateState"
+                                :disabled="!selectedDateAndTime"
+                            ></b-form-input>
+                            <span 
+                                class="text-danger"
+                                v-for="(error, index) in mostrarErroresInput('date')"
+                                :key="`date-${index}`">{{ error }}
+                            </span>
+                        </b-form-group>
+                    </b-col>
+                    
+                    <b-col cols="6">
+                        <b-form-group
+                            label="* Hora:"
+                        >
+                            <div v-if="updateVoucherLoading">
+                                <pulse-loader :loading="updateVoucherLoading" :size="10" :margin="'10px'" :color="'#2B2D64'" />
+                            </div>
+
+                            <b-form-input
+                                v-show="!updateVoucherLoading"
+                                v-model="form.time"
+                                type="time"
+                                :state="timeState"
+                                :disabled="!selectedDateAndTime"
+                            ></b-form-input>
+                            <span 
+                                class="text-danger"
+                                v-for="(error, index) in mostrarErroresInput('time')"
+                                :key="`time-${index}`">{{ error }}
+                            </span>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+
                 <b-form-group
                     label="* Monto:"
                 > 
@@ -183,6 +239,8 @@ export default {
             form: {
                 client_program_id: null,
                 code: '',
+                date: '',
+                time: '',
                 amount: '',
                 description: '',
                 id: '',
@@ -194,6 +252,8 @@ export default {
             nameState: null,
             imageState: null,
             codeState: null,
+            dateState: null,
+            timeState: null,
             amountState: null,
             // 
             erroresInputs: [],
@@ -212,7 +272,8 @@ export default {
                 {value:'pendiente', text:'pendiente'}, 
                 {value:'verificado', text:'verificado'}
             ],
-            selected: ''
+            selected: '',
+            selectedDateAndTime: ''
       }
     },
     beforeMount() {
@@ -224,7 +285,6 @@ export default {
     },
 
     methods: {
-
         getVoucherData(pVoucherId) {
             getVoucher(pVoucherId)
                 .then(res => {
@@ -266,6 +326,12 @@ export default {
                     case 'code':
                         this.codeState = false
                         break;
+                    case 'date':
+                        this.dateState = false
+                        break;
+                    case 'time':
+                        this.timeState = false
+                        break;
                     case 'amount':
                         this.amountState = false
                         break;
@@ -283,6 +349,8 @@ export default {
             this.nameState = null
             this.imageState = null
             this.codeState = null
+            this.dateState = null
+            this.timeState = null
             this.amountState = null
 
             this.erroresInputs = {}
@@ -295,10 +363,15 @@ export default {
             if(this.form.code === null) voucherForm.append('code', '')
             else voucherForm.append('code', this.form.code)
 
+            voucherForm.append('date', this.form.date == null ? '' : this.form.date)
+            voucherForm.append('time', this.form.time == null ? '' : this.form.time)
             voucherForm.append('amount', this.form.amount)
             voucherForm.append('state', this.form.state)
             voucherForm.append('image', this.form.image)
             voucherForm.append('description', this.form.description)
+            //
+            if (this.selectedDateAndTime) voucherForm.append('editarFecha', 'si')
+            else voucherForm.append('editarFecha', 'no')
 
             updateVoucher(this.$route.params.voucherId, voucherForm)
                 .then( res => {
@@ -330,6 +403,7 @@ export default {
                     this.updateVoucherLoading = false
                 })
         },
+
         switchChanged (e) {
             if (e) this.form.code = null
         },

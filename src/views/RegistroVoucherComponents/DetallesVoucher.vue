@@ -88,6 +88,8 @@
                                         <p class="apk-card-title mb-0">{{voucher.code === null ? 'YAPE' : voucher.code}}</p>
                                         <p class="apk-card-subtitle mb-0">MONTO: {{voucher.amount}}</p>
                                         <p class="apk-card-subtitle mb-0">{{voucher.name}}</p>
+                                        <p class="apk-card-subtitle mb-0">{{voucher.date}}</p>
+                                        <p class="apk-card-subtitle mb-0">{{voucher.time}}</p>
                                         <p class="apk-card-text mb-0">{{voucher.description}}</p>
                                         <badge class="badge-dot mr-4" :type="voucher.state == 'verificado' ? 'success' : 'danger'">
                                             <i :class="`bg-${voucher.state == 'verificado' ? 'success' : 'danger'}`"></i>
